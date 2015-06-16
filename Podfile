@@ -1,0 +1,5 @@
+platform :ios, '7.0'
+pod 'ParseUI'
+pod 'ParseFacebookUtilsV4'
+pod 'FastttCamera'
+pod 'ReactiveTableViewBinding'

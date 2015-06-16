@@ -20,5 +20,6 @@
 @property IBOutlet UIButton *nextAction;
 
 @property Challenge *theChallenge;
+@property NSInteger showChallengeRound;
 
 @end

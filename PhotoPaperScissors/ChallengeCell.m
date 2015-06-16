@@ -7,6 +7,7 @@
 //
 
 #import "ChallengeCell.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation ChallengeCell
 
@@ -20,14 +21,18 @@
 {
     switch (challenge.playerIAm) {
         case Challenger:
-            self.opponentImageView.file = challenge.challengee[@"image"];
-            [self.opponentImageView loadInBackground];
+            if (challenge.challengee[@"image"]) {
+                self.opponentImageView.file = challenge.challengee[@"image"];
+                [self.opponentImageView loadInBackground];
+            }
             self.opponentName.text = challenge.challengee.username;
             break;
             
        case Challengee:
-            self.opponentImageView.file = challenge.challenger[@"image"];
-            [self.opponentImageView loadInBackground];
+            if (challenge.challenger[@"image"]) {
+                self.opponentImageView.file = challenge.challenger[@"image"];
+                [self.opponentImageView loadInBackground];
+            }
             self.opponentName.text = challenge.challenger.username;
             break;
         
@@ -37,6 +42,9 @@
     
     self.challengeName.text = challenge.challengeName;
     self.roundNumber.text = [NSString stringWithFormat:@"%lu", (unsigned long)challenge.currentRoundNumber];
+    if (challenge.challengeComplete) {
+        self.roundNumber.text = @"C";
+    }
 }
 
 @end

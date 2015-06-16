@@ -14,25 +14,7 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom the table
-        
-        // The className to query on
-        self.parseClassName = @"User";
-        
-        // The key of the PFObject to display in the label of the default cell style
-        self.textKey = @"username";
-        
-        // Uncomment the following line to specify the key of a PFFile on the PFObject to display in the imageView of the default cell style
-        self.imageKey = @"image";
-        
-        // Whether the built-in pull-to-refresh is enabled
-        self.pullToRefreshEnabled = YES;
-        
-        // Whether the built-in pagination is enabled
-        self.paginationEnabled = YES;
-        
-        // The number of objects to show per page
-        self.objectsPerPage = 25;
+        [self commonInit];
     }
     return self;
 }
@@ -41,23 +23,33 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        // The className to query on
-        self.parseClassName = @"User";
-        
-        // The key of the PFObject to display in the label of the default cell style
-        self.textKey = @"username";
-        
-        // Whether the built-in pull-to-refresh is enabled
-        self.pullToRefreshEnabled = YES;
-        
-        // Whether the built-in pagination is enabled
-        self.paginationEnabled = YES;
-        
-        // The number of objects to show per page
-        self.objectsPerPage = 25;
+        [self commonInit];
     }
     return self;
 }
+
+- (void)commonInit
+{
+    // The className to query on
+    self.parseClassName = @"User";
+    
+    // The key of the PFObject to display in the label of the default cell style
+    self.textKey = @"username";
+    
+    // Whether the built-in pull-to-refresh is enabled
+    self.pullToRefreshEnabled = YES;
+    
+    // Whether the built-in pagination is enabled
+    self.paginationEnabled = YES;
+    
+    // The number of objects to show per page
+    self.objectsPerPage = 25;
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"userLoggedIn" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [self loadObjects];
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];

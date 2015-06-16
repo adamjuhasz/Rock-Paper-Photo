@@ -22,11 +22,17 @@ typedef enum : NSUInteger {
 @property NSMutableArray *imageRounds;
 
 @property NSUInteger currentRoundNumber;
+@property NSUInteger maxRounds;
+
 @property NSString *challengeName;
 @property PFUser *challenger;
 @property PFUser *challengee;
 
 @property PlayerType playerIAm;
+@property PlayerType otherPlayerIs;
+
+@property BOOL photoSent;
+@property BOOL challengeComplete;
 
 - (id)initWithParseObject:(PFObject*)object;
 - (void)setImage:(UIImage*)image ForPlayer:(PlayerType)player forRound:(NSUInteger)roundNumber;

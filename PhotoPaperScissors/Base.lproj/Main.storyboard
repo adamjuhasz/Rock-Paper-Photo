@@ -34,6 +34,36 @@
             </objects>
             <point key="canvasLocation" x="1648" y="1197"/>
         </scene>
+        <!--You-->
+        <scene sceneID="yMs-Lb-KOc">
+            <objects>
+                <viewController id="4CH-gH-TDm" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vrm-yS-Xe0"/>
+                        <viewControllerLayoutGuide type="bottom" id="Jyt-tN-EyW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZEe-on-CGU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JIR-EN-tIa">
+                                <rect key="frame" x="81" y="28" width="253" height="239"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSF-V2-JzU">
+                                <rect key="frame" x="186" y="285" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="You" id="bdf-Kr-bbC"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oRb-3V-eYF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1648" y="1999"/>
+        </scene>
         <!--Camera Controller-->
         <scene sceneID="4Tc-t6-S0a">
             <objects>
@@ -122,9 +152,10 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <segue destination="Tmc-c7-8dZ" kind="relationship" relationship="viewControllers" id="mgf-cM-uva"/>
                         <segue destination="Wpm-XH-Wwk" kind="relationship" relationship="viewControllers" id="GXg-5K-1JA"/>
                         <segue destination="yW1-Nz-htr" kind="relationship" relationship="viewControllers" id="vwC-SU-sFo"/>
-                        <segue destination="Tmc-c7-8dZ" kind="relationship" relationship="viewControllers" id="mgf-cM-uva"/>
+                        <segue destination="4CH-gH-TDm" kind="relationship" relationship="viewControllers" id="QNo-1b-3sc"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oot-Ja-SSd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -164,6 +195,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RGo-xl-M5O">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="368"/>
+                                <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7kk-fc-nlV">
                                 <rect key="frame" x="0.0" y="368" width="414" height="368"/>
@@ -388,7 +420,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="k3X-K1-IDS"/>
         <segue reference="cAy-Ds-t3X"/>
+        <segue reference="cfT-fH-ZNT"/>
     </inferredMetricsTieBreakers>
 </document>

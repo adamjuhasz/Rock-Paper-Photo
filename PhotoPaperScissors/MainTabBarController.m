@@ -40,6 +40,7 @@
                                     //| PFSignUpFieldsDismissButton;
         
         [self presentViewController:logInViewController animated:YES completion:nil];
+
     } else {
         NSLog(@"logged in as \"%@\"", [[PFUser currentUser] username]);
     }
@@ -55,6 +56,7 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"userLoggedIn" object:nil];
 }
 
 @end

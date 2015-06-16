@@ -17,25 +17,7 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom the table
-        
-        // The className to query on
-        self.parseClassName = @"Challenge";
-        
-        // The key of the PFObject to display in the label of the default cell style
-        self.textKey = @"text";
-        
-        // Uncomment the following line to specify the key of a PFFile on the PFObject to display in the imageView of the default cell style
-        self.imageKey = @"image";
-        
-        // Whether the built-in pull-to-refresh is enabled
-        self.pullToRefreshEnabled = YES;
-        
-        // Whether the built-in pagination is enabled
-        self.paginationEnabled = YES;
-        
-        // The number of objects to show per page
-        self.objectsPerPage = 25;
+        [self commonInit];
     }
     return self;
 }
@@ -44,23 +26,30 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        // The className to query on
-        self.parseClassName = @"Challenge";
-        
-        // The key of the PFObject to display in the label of the default cell style
-        self.textKey = @"text";
-        
-        // Whether the built-in pull-to-refresh is enabled
-        self.pullToRefreshEnabled = YES;
-        
-        // Whether the built-in pagination is enabled
-        self.paginationEnabled = YES;
-        
-        // The number of objects to show per page
-        self.objectsPerPage = 25;
+        [self commonInit];
     }
     return self;
 }
+
+- (void)commonInit
+{
+    // The className to query on
+    self.parseClassName = @"Challenge";
+    
+    // Whether the built-in pull-to-refresh is enabled
+    self.pullToRefreshEnabled = YES;
+    
+    // Whether the built-in pagination is enabled
+    self.paginationEnabled = YES;
+    
+    // The number of objects to show per page
+    self.objectsPerPage = 25;
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"userLoggedIn" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [self loadObjects];
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -129,6 +118,11 @@
 // Override to customize what kind of query to perform on the class. The default is to query for
 // all objects ordered by createdAt descending.
 - (PFQuery *)queryForTable {
+    if ([PFUser currentUser] == nil) {
+        NSLog(@"no logged in user");
+        return nil;
+    }
+    
     PFQuery *challengeeQuery = [PFQuery queryWithClassName:self.parseClassName];
     [challengeeQuery whereKey:@"challengee" equalTo:[PFUser currentUser]];
     
@@ -136,7 +130,20 @@
     [challengerQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
     
     PFQuery *fullQuery = [PFQuery orQueryWithSubqueries:@[challengerQuery, challengeeQuery]];
-    [fullQuery orderByAscending:@"createdAt"];
+    [fullQuery includeKey:@"challengee"];
+    [fullQuery includeKey:@"createdBy"];
+    [fullQuery orderByAscending:@"updatedAt"];
+    
+    // If Pull To Refresh is enabled, query against the network by default.
+    if (self.pullToRefreshEnabled) {
+        fullQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+    }
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        fullQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
     
     return fullQuery;
 }
@@ -154,6 +161,8 @@
     // Configure the cell
     Challenge *newChallenge = [Challenge challengeForParseObject:object];
     [cell loadWithChallenge:newChallenge];
+    
+    NSLog(@"%@", newChallenge);
     
     return cell;
 }
@@ -228,7 +237,7 @@
     PFObject *object = [self.objects objectAtIndex:indexPath.row];
     Challenge *newChallenge = [Challenge challengeForParseObject:object];
     
-    if (newChallenge.currentRoundNumber == 1 && newChallenge.playerIAm != Challenger) {
+    if (newChallenge.currentRoundNumber == 1 && newChallenge.playerIAm != Challenger && newChallenge.photoSent == NO) {
         [self performSegueWithIdentifier:@"showCamera" sender:newChallenge];
     } else {
         [self performSegueWithIdentifier:@"showPhotos" sender:newChallenge];
