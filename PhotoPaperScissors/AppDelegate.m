@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import <Parse/Parse.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +20,28 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    // [Optional] Power your app with Local Datastore. For more info, go to
+    // https://parse.com/docs/ios_guide#localdatastore/iOS
+    [Parse enableLocalDatastore];
+    
+    // Initialize Parse.
+    [Parse setApplicationId:@"0QyTxtWAQ1ZS8vEGGb3igejidgXHsB5WgAb48ojL"
+                  clientKey:@"iwRyJje13olG5OgZpXcXN0Xj4QxYJ4JmgOiEdhoD"];
+    
+    // [Optional] Track statistics around application opens.
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    [FBSDKAppEvents activateApp];
+    
+    [PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
+        if (error) {
+            NSLog(@"Failed to fetch. Using Cached Config.");
+        }
+    }];
+    
+    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+    [PFTwitterUtils initializeWithConsumerKey:@"MswULT6L6nMik6uyIszhgZ6C8" consumerSecret:@"zmrMnAIbt5v6vZHaOb87GxDDjnVM7uZk2luIuXTGVZM1okMzwm"];
     return YES;
 }
 
