@@ -48,6 +48,10 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:@"userLoggedIn" object:nil queue:nil usingBlock:^(NSNotification *note) {
         [self loadObjects];
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"updateChallanges" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [self loadObjects];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,9 +71,6 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 44);
-    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
 }
 
 - (void)viewDidUnload {
@@ -161,8 +162,6 @@
     // Configure the cell
     Challenge *newChallenge = [Challenge challengeForParseObject:object];
     [cell loadWithChallenge:newChallenge];
-    
-    NSLog(@"%@", newChallenge);
     
     return cell;
 }

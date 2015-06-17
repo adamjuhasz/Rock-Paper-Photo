@@ -29,6 +29,9 @@ NSMutableDictionary *cachedChallenges;
     }
     
     Challenge *newChallenge = [[Challenge alloc] initWithParseObject:object];
+    if ([cachedChallenges objectForKey:object.objectId]) {
+        NSLog(@"replacing challenge with new one");
+    }
     [cachedChallenges setObject:newChallenge forKey:object.objectId];
     return newChallenge;
 }
@@ -55,23 +58,35 @@ NSMutableDictionary *cachedChallenges;
         [[RACObserve(self, challenger) filter:^BOOL(id value) {
             return (value != nil);
         }] subscribeNext:^(PFUser *challenger) {
+            self.parseObject[@"createdBy"] = challenger;
+            self.parseObject[@"createdById"] = challenger.objectId;
+            
             if ([challenger.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
                 self.playerIAm = Challenger;
                 self.otherPlayerIs = Challengee;
+                if (self.parseObject[@"challengee"]) {
+                    self.otherUser = self.parseObject[@"challengee"];
+                }
+            } else {
+                self.otherUser = self.parseObject[@"createdBy"];
             }
-            self.parseObject[@"createdBy"] = challenger;
-            self.parseObject[@"createdById"] = challenger.objectId;
         }];
         
         [[RACObserve(self, challengee) filter:^BOOL(id value) {
             return (value != nil);
         }] subscribeNext:^(PFUser *challengee) {
+            self.parseObject[@"challengee"] = challengee;
+            self.parseObject[@"challengeeId"] = challengee.objectId;
+            
             if ([challengee.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
                 self.playerIAm = Challengee;
                 self.otherPlayerIs = Challenger;
+                if (self.parseObject[@"createdBy"]) {
+                    self.otherUser = self.parseObject[@"createdBy"];
+                }
+            } else {
+                self.otherUser = self.parseObject[@"challengee"];
             }
-            self.parseObject[@"challengee"] = challengee;
-            self.parseObject[@"challengeeId"] = challengee.objectId;
         }];
         
         [[RACObserve(self, challengeName) filter:^BOOL(id value) {
@@ -129,7 +144,6 @@ NSMutableDictionary *cachedChallenges;
                         return;
                     }
                     
-                    NSLog(@"Downloaded image for Round %d for %@", i+1, @"Challenger");
                     UIImage *image = [UIImage imageWithData:data];
                     [roundDict setObject:image forKey:@"Challenger"];
                 }];
@@ -143,7 +157,6 @@ NSMutableDictionary *cachedChallenges;
                         return;
                     }
                     
-                    NSLog(@"Downloaded image for Round %d for %@", i+1, @"Challengee");
                     UIImage *image = [UIImage imageWithData:data];
                     [roundDict setObject:image forKey:@"Challengee"];
                 }];
@@ -282,6 +295,31 @@ NSMutableDictionary *cachedChallenges;
             return;
         }
         
+        PFUser *otherUser = self.otherUser;
+        if ([otherUser.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
+            
+        }
+        PFQuery *userQuery = [PFInstallation query];
+        [userQuery whereKey:@"user" equalTo:otherUser];
+        NSMutableDictionary *data = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     @"alert", @"A new round has started",
+                                     @"badge", @"Increment",
+                                     nil];
+        if (self.currentRoundNumber == 1 && self.playerIAm == Challenger) {
+            [data setObject:@"You've been challanged!" forKey:@"alert"];
+        }
+        if (self.currentRoundNumber == self.maxRounds && [self imageForPlayer:self.otherPlayerIs forRound:self.currentRoundNumber]) {
+            [data setObject:@"Challenge complete!" forKey:@"alert"];
+        }
+        PFPush *push = [[PFPush alloc] init];
+        [push setData:data];
+        [push setQuery:userQuery];
+        [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError * __nullable error) {
+            if (error) {
+                NSLog(@"Error with push: %@", error);
+                [PFAnalytics trackErrorIn:@"send" withComment:@"sendPushInBackgroundWithBlock" withError:error];
+            }
+        }];
     }];
 }
 

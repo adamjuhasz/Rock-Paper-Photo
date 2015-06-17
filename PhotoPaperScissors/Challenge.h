@@ -27,6 +27,7 @@ typedef enum : NSUInteger {
 @property NSString *challengeName;
 @property PFUser *challenger;
 @property PFUser *challengee;
+@property PFUser *otherUser;
 
 @property PlayerType playerIAm;
 @property PlayerType otherPlayerIs;

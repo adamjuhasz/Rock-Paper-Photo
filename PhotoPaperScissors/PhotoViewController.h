@@ -22,4 +22,6 @@
 @property Challenge *theChallenge;
 @property NSInteger showChallengeRound;
 
+@property IBOutletCollection(UIView) NSArray *drawingControls;
+
 @end

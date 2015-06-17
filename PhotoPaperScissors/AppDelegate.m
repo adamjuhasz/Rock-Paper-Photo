@@ -10,6 +10,9 @@
 #import <Parse/Parse.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 @interface AppDelegate ()
 
@@ -24,6 +27,8 @@
     // [Optional] Power your app with Local Datastore. For more info, go to
     // https://parse.com/docs/ios_guide#localdatastore/iOS
     //[Parse enableLocalDatastore];
+    
+    [Fabric with:@[CrashlyticsKit]];
     
     // Initialize Parse.
     [Parse setApplicationId:@"0QyTxtWAQ1ZS8vEGGb3igejidgXHsB5WgAb48ojL"
@@ -65,6 +70,57 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Store the deviceToken in the current Installation and save it to Parse
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    currentInstallation[@"user"] = [PFUser currentUser];
+    [currentInstallation saveInBackground];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    if ([userInfo objectForKey:@"badge"]) {
+        NSInteger badgeNumber = [[userInfo objectForKey:@"badge"] integerValue];
+        [application setApplicationIconBadgeNumber:badgeNumber];
+    }
+    
+    if (application.applicationState == UIApplicationStateActive) {
+        //show a notification
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
+    }
+    
+    if (application.applicationState == UIApplicationStateInactive) {
+        [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+    }
+    
+    // Create empty photo object
+    /*
+     NSString *photoId = [userInfo objectForKey:@"p"];
+     PFObject *targetPhoto = [PFObject objectWithoutDataWithClassName:@"Photo"   objectId:photoId];
+     */
+    // Fetch photo object
+    /*[targetPhoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        // Show photo view controller
+        if (error) {
+            handler(UIBackgroundFetchResultFailed);
+        } else if ([PFUser currentUser]) {
+            PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];
+            [self.navController pushViewController:viewController animated:YES];
+            handler(UIBackgroundFetchResultNewData);
+        } else {
+            handler(UIBackgroundModeNoData);
+        }
+    }];*/
+    
+    completionHandler(UIBackgroundFetchResultNoData);
 }
 
 @end
