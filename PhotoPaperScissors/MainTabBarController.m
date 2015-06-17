@@ -26,6 +26,7 @@
     [super viewDidAppear:animated];
     
     if ([PFUser currentUser] == nil) {
+        /*
         PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
         logInViewController.fields = (PFLogInFieldsUsernameAndPassword
                                   | PFLogInFieldsLogInButton
@@ -38,8 +39,10 @@
         signup.fields = PFSignUpFieldsUsernameAndPassword |
         PFSignUpFieldsSignUpButton;
                                     //| PFSignUpFieldsDismissButton;
+         [self presentViewController:logInViewController animated:YES completion:nil];
+        */
+        [self performSegueWithIdentifier:@"presentSignUp" sender:self];
         
-        [self presentViewController:logInViewController animated:YES completion:nil];
 
     } else {
         NSLog(@"logged in as \"%@\"", [[PFUser currentUser] username]);

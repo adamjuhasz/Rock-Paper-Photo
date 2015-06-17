@@ -12,7 +12,6 @@
 		2E116E301B2E985800A0D77F /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E116E2F1B2E985800A0D77F /* MainTabBarController.m */; };
 		2E116E331B2E985800A0D77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E116E311B2E985800A0D77F /* Main.storyboard */; };
 		2E116E351B2E985800A0D77F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E116E341B2E985800A0D77F /* Images.xcassets */; };
-		2E116E381B2E985800A0D77F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E116E361B2E985800A0D77F /* LaunchScreen.xib */; };
 		2E116E441B2E985800A0D77F /* PhotoPaperScissorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E116E431B2E985800A0D77F /* PhotoPaperScissorsTests.m */; };
 		2E6EFF511B2FC914006FEFC4 /* FriendListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF501B2FC914006FEFC4 /* FriendListController.m */; };
 		2E6EFF541B2FD1F9006FEFC4 /* UserListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */; };
@@ -57,6 +56,8 @@
 		2E6EFFF51B3118E0006FEFC4 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFFF41B3118E0006FEFC4 /* ProfileViewController.m */; };
 		2E6EFFF91B31EA26006FEFC4 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6EFFF71B31EA26006FEFC4 /* Fabric.framework */; };
 		2E6EFFFA1B31EA26006FEFC4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6EFFF81B31EA26006FEFC4 /* Crashlytics.framework */; };
+		2E7E069E1B32079D00A796CE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E7E069D1B32079D00A796CE /* LaunchScreen.xib */; };
+		2E7E06A11B321F3700A796CE /* SignUpController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E7E06A01B321F3700A796CE /* SignUpController.m */; };
 		2E8242AC1B2FBB9700746842 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8242AB1B2FBB9700746842 /* AudioToolbox.framework */; };
 		2E8242AE1B2FBB9C00746842 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8242AD1B2FBB9C00746842 /* CFNetwork.framework */; };
 		2E8242B01B2FBBA500746842 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8242AF1B2FBBA500746842 /* CoreGraphics.framework */; };
@@ -93,7 +94,6 @@
 		2E116E2F1B2E985800A0D77F /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		2E116E321B2E985800A0D77F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E116E341B2E985800A0D77F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		2E116E371B2E985800A0D77F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		2E116E3D1B2E985800A0D77F /* PhotoPaperScissorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPaperScissorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E116E421B2E985800A0D77F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E116E431B2E985800A0D77F /* PhotoPaperScissorsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPaperScissorsTests.m; sourceTree = "<group>"; };
@@ -178,6 +178,9 @@
 		2E6EFFF41B3118E0006FEFC4 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		2E6EFFF71B31EA26006FEFC4 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		2E6EFFF81B31EA26006FEFC4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		2E7E069D1B32079D00A796CE /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		2E7E069F1B321F3700A796CE /* SignUpController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpController.h; sourceTree = "<group>"; };
+		2E7E06A01B321F3700A796CE /* SignUpController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpController.m; sourceTree = "<group>"; };
 		2E8242AB1B2FBB9700746842 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2E8242AD1B2FBB9C00746842 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		2E8242AF1B2FBBA500746842 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -262,6 +265,8 @@
 				2E6EFF621B2FFF5C006FEFC4 /* Challenge.m */,
 				2E116E2E1B2E985800A0D77F /* MainTabBarController.h */,
 				2E116E2F1B2E985800A0D77F /* MainTabBarController.m */,
+				2E7E069F1B321F3700A796CE /* SignUpController.h */,
+				2E7E06A01B321F3700A796CE /* SignUpController.m */,
 				2E116E311B2E985800A0D77F /* Main.storyboard */,
 				2E6EFFF01B30F415006FEFC4 /* PushPermissionController.h */,
 				2E6EFFF11B30F415006FEFC4 /* PushPermissionController.m */,
@@ -283,8 +288,8 @@
 				2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */,
 				2E6EFFF31B3118E0006FEFC4 /* ProfileViewController.h */,
 				2E6EFFF41B3118E0006FEFC4 /* ProfileViewController.m */,
+				2E7E069D1B32079D00A796CE /* LaunchScreen.xib */,
 				2E116E341B2E985800A0D77F /* Images.xcassets */,
-				2E116E361B2E985800A0D77F /* LaunchScreen.xib */,
 				2E116E271B2E985800A0D77F /* Supporting Files */,
 				2E6EFF6A1B30B3E7006FEFC4 /* PFAnalytics+PFAnalytics_TrackError.h */,
 				2E6EFF6B1B30B3E7006FEFC4 /* PFAnalytics+PFAnalytics_TrackError.m */,
@@ -576,7 +581,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E116E331B2E985800A0D77F /* Main.storyboard in Resources */,
-				2E116E381B2E985800A0D77F /* LaunchScreen.xib in Resources */,
+				2E7E069E1B32079D00A796CE /* LaunchScreen.xib in Resources */,
 				2E116E351B2E985800A0D77F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -693,6 +698,7 @@
 				2E6EFFA91B30C1CA006FEFC4 /* ANGifGraphicControlExt.m in Sources */,
 				2E6EFFE51B30C42A006FEFC4 /* BitmapDrawManipulator.m in Sources */,
 				2E6EFF571B2FDCC1006FEFC4 /* ChallengeOptionsController.m in Sources */,
+				2E7E06A11B321F3700A796CE /* SignUpController.m in Sources */,
 				2E6EFFB11B30C1CA006FEFC4 /* ANGifDataSubblock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -722,14 +728,6 @@
 				2E116E321B2E985800A0D77F /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		2E116E361B2E985800A0D77F /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2E116E371B2E985800A0D77F /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -820,6 +818,7 @@
 			baseConfigurationReference = F44628D4B31533E82D399F9C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -828,10 +827,10 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PhotoPaperScissors/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c25ae19f-c979-4435-ab6b-78ac46d58ed8";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -840,6 +839,7 @@
 			baseConfigurationReference = 0F6D42BFA169299327AE6200 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -848,10 +848,10 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PhotoPaperScissors/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c25ae19f-c979-4435-ab6b-78ac46d58ed8";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

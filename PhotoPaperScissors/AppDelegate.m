@@ -38,6 +38,7 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     [FBSDKAppEvents activateApp];
+    [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
     
     [PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
         if (error) {
@@ -66,6 +67,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [FBSDKAppEvents activateApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -121,6 +123,16 @@
     }];*/
     
     completionHandler(UIBackgroundFetchResultNoData);
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
 }
 
 @end

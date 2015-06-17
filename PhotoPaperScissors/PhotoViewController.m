@@ -111,6 +111,8 @@
 
 - (void)loadChallenge:(Challenge*)aChallenge
 {
+    self.title = aChallenge.challengeName;
+    
     [self.nextAction removeTarget:self action:NULL forControlEvents:UIControlEventAllEvents];
     self.jotViewController.state = JotViewStateDefault;
     self.jotViewController.view.userInteractionEnabled = NO;

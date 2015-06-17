@@ -24,7 +24,8 @@
     
     PFUser *currentUser = [PFUser currentUser];
     self.profileImage.file = currentUser[@"image"];
-    self.username.text = currentUser[@"username"];
+    [self.profileImage loadInBackground];
+    self.username.text = currentUser[@"nickname"];
 }
 
 - (IBAction)getNewImage:(id)sender
