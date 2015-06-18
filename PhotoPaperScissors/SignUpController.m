@@ -48,6 +48,7 @@
                 PFUser *current = [PFUser currentUser];
                 current[@"image"] = file;
                 [current saveInBackground];
+                [self dismissViewControllerAnimated:YES completion:nil];
             }
         } onFail:^(NSError *error, NSInteger statusCode) {
             NSLog(@"%@", error);
@@ -129,7 +130,9 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 }
                 [current saveInBackground];
             }
-            [self dismissViewControllerAnimated:YES completion:nil];
+            if (self.nickname.text.length > 0 && self.profileImage) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
         } else {
             NSLog(@"User logged in through Facebook!");
             [self dismissViewControllerAnimated:YES completion:nil];

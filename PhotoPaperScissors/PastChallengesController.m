@@ -1,60 +1,14 @@
 //
-//  FriendListController.m
+//  PastChallengesController.m
 //  PhotoPaperScissors
 //
-//  Created by Adam Juhasz on 6/15/15.
+//  Created by Adam Juhasz on 6/18/15.
 //  Copyright (c) 2015 Adam Juhasz. All rights reserved.
 //
 
-#import "FriendListController.h"
-#import <Parse/Parse.h>
-#import "FriendCell.h"
-#import "ChallengeThemeController.h"
+#import "PastChallengesController.h"
 
-@implementation FriendListController
-
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if (self) {
-        [self commonInit];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self commonInit];
-    }
-    return self;
-}
-
-- (void)commonInit
-{
-    // The className to query on
-    self.parseClassName = @"Relationship";
-    
-    // The key of the PFObject to display in the label of the default cell style
-    self.textKey = @"text";
-    
-    // Whether the built-in pull-to-refresh is enabled
-    self.pullToRefreshEnabled = YES;
-    
-    // Whether the built-in pagination is enabled
-    self.paginationEnabled = YES;
-    
-    // The number of objects to show per page
-    self.objectsPerPage = 25;
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"userLoggedIn" object:nil queue:nil usingBlock:^(NSNotification *note) {
-        [self loadObjects];
-    }];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"newFriendsip" object:nil queue:nil usingBlock:^(NSNotification *note) {
-        [self loadObjects];
-    }];
-}
+@implementation PastChallengesController
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -73,6 +27,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.title = @"Completed Challenges";
 }
 
 - (void)viewDidUnload {
@@ -118,51 +73,12 @@
 }
 
 
- // Override to customize what kind of query to perform on the class. The default is to query for
- // all objects ordered by createdAt descending.
- - (PFQuery *)queryForTable {
-     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-
-    // If Pull To Refresh is enabled, query against the network by default.
-    if (self.pullToRefreshEnabled) {
-        query.cachePolicy = kPFCachePolicyNetworkOnly;
-    }
-
-    // If no objects are loaded in memory, we look to the cache first to fill the table
-    // and then subsequently do a query against the network.
-    if (self.objects.count == 0) {
-        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    }
-
-    [query orderByDescending:@"nickname"];
-     if ([PFUser currentUser]) {
-         [query whereKey:@"user" equalTo:[PFUser currentUser]];
-     } else {
-         [query whereKey:@"user" equalTo:[NSNull null]];
-     }
-    [query includeKey:@"friendsWith"];
-     
-    return query;
- }
-
-
-
- // Override to customize the look of a cell representing an object. The default is to display
- // a UITableViewCellStyleDefault style cell with the label being the textKey in the object,
- // and the imageView being the imageKey in the object.
- - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-     static NSString *CellIdentifier = @"friendCell";
- 
-     FriendCell *cell = (FriendCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
- 
-     // Configure the cell
-     PFUser *friend = object[@"friendsWith"];
-     
-     cell.friendName.text = friend[@"nickname"];
-     cell.friendPhoto.file = friend[@"image"];
-     [cell.friendPhoto loadInBackground];
-     
-     return cell;
+// Override to customize what kind of query to perform on the class. The default is to query for
+// all objects ordered by createdAt descending.
+- (PFQuery *)queryForTable {    
+     PFQuery *fullQuery = [super queryForTable];
+     [fullQuery whereKey:@"completed" equalTo:@(YES)];
+     return fullQuery;
 }
 
 
@@ -197,8 +113,8 @@
 
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
+     // Return NO if you do not want the specified item to be editable.
+     return YES;
  }
 
 
@@ -207,14 +123,14 @@
  - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
      if (editingStyle == UITableViewCellEditingStyleDelete) {
          // Delete the object from Parse and reload the table view
-         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Delete this friendship?"
-                                                                                  message:@"Do you no longer want to be friends?"
+         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Delete this challenge?"
+                                                                                  message:@"This can not be undone."
                                                                            preferredStyle:UIAlertControllerStyleAlert];
          
          [alertController addAction:[UIAlertAction actionWithTitle:@"Delete"
                                                              style:UIAlertActionStyleDestructive
                                                            handler:^(UIAlertAction *action) {
-                                                                [self removeObjectAtIndexPath:indexPath];
+                                                               [self removeObjectAtIndexPath:indexPath];
                                                            }]];
          
          [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
@@ -226,9 +142,6 @@
          [self presentViewController:alertController animated:YES completion:nil];
      } else if (editingStyle == UITableViewCellEditingStyleInsert) {
          // Create a new instance of the appropriate class, and save it to Parse
-
-
-         
      }
  }
 
@@ -249,21 +162,5 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    
-    [self performSegueWithIdentifier:@"showChallanges" sender:self.objects[[indexPath indexAtPosition:1]]];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"showChallanges"]) {
-        PFObject *object = (PFObject*)sender;
-        ChallengeThemeController *controller = (ChallengeThemeController*)segue.destinationViewController;
-        
-        PFUser *friend = object[@"friendsWith"];
-        controller.challengee = friend;
-    }
-}
 
 @end

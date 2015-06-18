@@ -15,7 +15,6 @@
 		2E116E441B2E985800A0D77F /* PhotoPaperScissorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E116E431B2E985800A0D77F /* PhotoPaperScissorsTests.m */; };
 		2E6EFF511B2FC914006FEFC4 /* FriendListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF501B2FC914006FEFC4 /* FriendListController.m */; };
 		2E6EFF541B2FD1F9006FEFC4 /* UserListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */; };
-		2E6EFF571B2FDCC1006FEFC4 /* ChallengeOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF561B2FDCC1006FEFC4 /* ChallengeOptionsController.m */; };
 		2E6EFF5A1B2FDFC9006FEFC4 /* CameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */; };
 		2E6EFF5D1B2FEBDF006FEFC4 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF5C1B2FEBDF006FEFC4 /* PhotoViewController.m */; };
 		2E6EFF601B2FF38D006FEFC4 /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF5F1B2FF38D006FEFC4 /* FriendCell.m */; };
@@ -70,6 +69,9 @@
 		2E8242C01B2FBBE400746842 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8242BF1B2FBBE400746842 /* libsqlite3.dylib */; };
 		2E8242C21B2FBBEB00746842 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8242C11B2FBBEB00746842 /* Accounts.framework */; };
 		2E8242C41B2FBBF200746842 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8242C31B2FBBF200746842 /* Social.framework */; };
+		2EC7CA401B32A86900FCA38A /* PastChallengesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA3F1B32A86900FCA38A /* PastChallengesController.m */; };
+		2EC7CA431B32B09E00FCA38A /* ChallengeThemeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA421B32B09E00FCA38A /* ChallengeThemeController.m */; };
+		2EC7CA461B32BAF400FCA38A /* ChallengeTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA451B32BAF400FCA38A /* ChallengeTheme.m */; };
 		69AE1E1916C656BEF14E5FD9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAEE433A730252B92CF17403 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -101,8 +103,6 @@
 		2E6EFF501B2FC914006FEFC4 /* FriendListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListController.m; sourceTree = "<group>"; };
 		2E6EFF521B2FD1F9006FEFC4 /* UserListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListController.h; path = ../UserListController.h; sourceTree = "<group>"; };
 		2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListController.m; path = ../UserListController.m; sourceTree = "<group>"; };
-		2E6EFF551B2FDCC1006FEFC4 /* ChallengeOptionsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengeOptionsController.h; sourceTree = "<group>"; };
-		2E6EFF561B2FDCC1006FEFC4 /* ChallengeOptionsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengeOptionsController.m; sourceTree = "<group>"; };
 		2E6EFF581B2FDFC9006FEFC4 /* CameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraController.h; sourceTree = "<group>"; };
 		2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraController.m; sourceTree = "<group>"; };
 		2E6EFF5B1B2FEBDF006FEFC4 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
@@ -193,6 +193,12 @@
 		2E8242BF1B2FBBE400746842 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		2E8242C11B2FBBEB00746842 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		2E8242C31B2FBBF200746842 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		2EC7CA3E1B32A86900FCA38A /* PastChallengesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PastChallengesController.h; sourceTree = "<group>"; };
+		2EC7CA3F1B32A86900FCA38A /* PastChallengesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PastChallengesController.m; sourceTree = "<group>"; };
+		2EC7CA411B32B09E00FCA38A /* ChallengeThemeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengeThemeController.h; sourceTree = "<group>"; };
+		2EC7CA421B32B09E00FCA38A /* ChallengeThemeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengeThemeController.m; sourceTree = "<group>"; };
+		2EC7CA441B32BAF400FCA38A /* ChallengeTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengeTheme.h; sourceTree = "<group>"; };
+		2EC7CA451B32BAF400FCA38A /* ChallengeTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengeTheme.m; sourceTree = "<group>"; };
 		BAEE433A730252B92CF17403 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44628D4B31533E82D399F9C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -263,6 +269,8 @@
 				2E116E2C1B2E985800A0D77F /* AppDelegate.m */,
 				2E6EFF611B2FFF5C006FEFC4 /* Challenge.h */,
 				2E6EFF621B2FFF5C006FEFC4 /* Challenge.m */,
+				2EC7CA441B32BAF400FCA38A /* ChallengeTheme.h */,
+				2EC7CA451B32BAF400FCA38A /* ChallengeTheme.m */,
 				2E116E2E1B2E985800A0D77F /* MainTabBarController.h */,
 				2E116E2F1B2E985800A0D77F /* MainTabBarController.m */,
 				2E7E069F1B321F3700A796CE /* SignUpController.h */,
@@ -270,20 +278,14 @@
 				2E116E311B2E985800A0D77F /* Main.storyboard */,
 				2E6EFFF01B30F415006FEFC4 /* PushPermissionController.h */,
 				2E6EFFF11B30F415006FEFC4 /* PushPermissionController.m */,
-				2E6EFF4F1B2FC914006FEFC4 /* FriendListController.h */,
-				2E6EFF501B2FC914006FEFC4 /* FriendListController.m */,
-				2E6EFF641B301586006FEFC4 /* ChallengeCell.h */,
-				2E6EFF651B301586006FEFC4 /* ChallengeCell.m */,
-				2E6EFF5E1B2FF38D006FEFC4 /* FriendCell.h */,
-				2E6EFF5F1B2FF38D006FEFC4 /* FriendCell.m */,
-				2E6EFF551B2FDCC1006FEFC4 /* ChallengeOptionsController.h */,
-				2E6EFF561B2FDCC1006FEFC4 /* ChallengeOptionsController.m */,
+				2E7E06A31B32752800A796CE /* Friend Page */,
+				2E7E06A21B32750B00A796CE /* Challenge Page */,
+				2EC7CA411B32B09E00FCA38A /* ChallengeThemeController.h */,
+				2EC7CA421B32B09E00FCA38A /* ChallengeThemeController.m */,
 				2E6EFF581B2FDFC9006FEFC4 /* CameraController.h */,
 				2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */,
 				2E6EFF5B1B2FEBDF006FEFC4 /* PhotoViewController.h */,
 				2E6EFF5C1B2FEBDF006FEFC4 /* PhotoViewController.m */,
-				2E6EFF671B3015E8006FEFC4 /* CurrentChallengesController.h */,
-				2E6EFF681B3015E8006FEFC4 /* CurrentChallengesController.m */,
 				2E6EFF521B2FD1F9006FEFC4 /* UserListController.h */,
 				2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */,
 				2E6EFFF31B3118E0006FEFC4 /* ProfileViewController.h */,
@@ -450,6 +452,30 @@
 				2E6EFFDB1B30C42A006FEFC4 /* BitmapScaleManipulator.m */,
 			);
 			path = Manipulators;
+			sourceTree = "<group>";
+		};
+		2E7E06A21B32750B00A796CE /* Challenge Page */ = {
+			isa = PBXGroup;
+			children = (
+				2E6EFF641B301586006FEFC4 /* ChallengeCell.h */,
+				2E6EFF651B301586006FEFC4 /* ChallengeCell.m */,
+				2E6EFF671B3015E8006FEFC4 /* CurrentChallengesController.h */,
+				2E6EFF681B3015E8006FEFC4 /* CurrentChallengesController.m */,
+				2EC7CA3E1B32A86900FCA38A /* PastChallengesController.h */,
+				2EC7CA3F1B32A86900FCA38A /* PastChallengesController.m */,
+			);
+			name = "Challenge Page";
+			sourceTree = "<group>";
+		};
+		2E7E06A31B32752800A796CE /* Friend Page */ = {
+			isa = PBXGroup;
+			children = (
+				2E6EFF4F1B2FC914006FEFC4 /* FriendListController.h */,
+				2E6EFF501B2FC914006FEFC4 /* FriendListController.m */,
+				2E6EFF5E1B2FF38D006FEFC4 /* FriendCell.h */,
+				2E6EFF5F1B2FF38D006FEFC4 /* FriendCell.m */,
+			);
+			name = "Friend Page";
 			sourceTree = "<group>";
 		};
 		FB17E8C75092181537F9439A /* Pods */ = {
@@ -670,6 +696,7 @@
 				2E6EFFAD1B30C1CA006FEFC4 /* ANAvgColorTable.m in Sources */,
 				2E6EFF631B2FFF5C006FEFC4 /* Challenge.m in Sources */,
 				2E6EFFE01B30C42A006FEFC4 /* UIImage+ANImageBitmapRep.m in Sources */,
+				2EC7CA401B32A86900FCA38A /* PastChallengesController.m in Sources */,
 				2E6EFFB21B30C1CA006FEFC4 /* ANGifImageDescriptor.m in Sources */,
 				2E6EFFDD1B30C42A006FEFC4 /* BitmapContextRep.m in Sources */,
 				2E6EFFE11B30C42A006FEFC4 /* CGContextCreator.m in Sources */,
@@ -683,6 +710,7 @@
 				2E6EFF541B2FD1F9006FEFC4 /* UserListController.m in Sources */,
 				2E6EFF661B301586006FEFC4 /* ChallengeCell.m in Sources */,
 				2E6EFFB31B30C1CA006FEFC4 /* ANGifImageFrame.m in Sources */,
+				2EC7CA461B32BAF400FCA38A /* ChallengeTheme.m in Sources */,
 				2E6EFFAC1B30C1CA006FEFC4 /* ANGifNetscapeAppExtension.m in Sources */,
 				2E6EFFE21B30C42A006FEFC4 /* CGImageContainer.m in Sources */,
 				2E6EFFDE1B30C42A006FEFC4 /* NSImage+ANImageBitmapRep.m in Sources */,
@@ -691,13 +719,13 @@
 				2E6EFFE61B30C42A006FEFC4 /* BitmapRotationManipulator.m in Sources */,
 				2E6EFFE71B30C42A006FEFC4 /* BitmapScaleManipulator.m in Sources */,
 				2E6EFFF21B30F415006FEFC4 /* PushPermissionController.m in Sources */,
+				2EC7CA431B32B09E00FCA38A /* ChallengeThemeController.m in Sources */,
 				2E6EFF691B3015E8006FEFC4 /* CurrentChallengesController.m in Sources */,
 				2E116E2A1B2E985800A0D77F /* main.m in Sources */,
 				2E6EFFF51B3118E0006FEFC4 /* ProfileViewController.m in Sources */,
 				2E6EFFDC1B30C42A006FEFC4 /* ANImageBitmapRep.m in Sources */,
 				2E6EFFA91B30C1CA006FEFC4 /* ANGifGraphicControlExt.m in Sources */,
 				2E6EFFE51B30C42A006FEFC4 /* BitmapDrawManipulator.m in Sources */,
-				2E6EFF571B2FDCC1006FEFC4 /* ChallengeOptionsController.m in Sources */,
 				2E7E06A11B321F3700A796CE /* SignUpController.m in Sources */,
 				2E6EFFB11B30C1CA006FEFC4 /* ANGifDataSubblock.m in Sources */,
 			);

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "ChallengeTheme.h"
 
 typedef enum : NSUInteger {
     Challenger,
@@ -34,6 +35,9 @@ typedef enum : NSUInteger {
 
 @property BOOL photoSent;
 @property BOOL challengeComplete;
+
+@property ChallengeTheme *theme;
+@property PFObject *themObject;
 
 - (id)initWithParseObject:(PFObject*)object;
 - (void)setImage:(UIImage*)image ForPlayer:(PlayerType)player forRound:(NSUInteger)roundNumber;

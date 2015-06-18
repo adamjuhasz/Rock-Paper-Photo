@@ -103,6 +103,18 @@ NSMutableDictionary *cachedChallenges;
                 self.photoSent = NO;
             }
         }];
+        
+        [[RACObserve(self, challengeComplete) filter:^BOOL(id value) {
+            return (value != nil);
+        }] subscribeNext:^(NSNumber *isComplete) {
+            self.parseObject[@"completed"] = isComplete;
+        }];
+        
+        [[RACObserve(self, themObject) filter:^BOOL(id value) {
+            return (value != nil);
+        }] subscribeNext:^(PFObject *theme) {
+            self.parseObject[@"theme"] = theme;
+        }];
     }
     return self;
 }
@@ -112,21 +124,25 @@ NSMutableDictionary *cachedChallenges;
     self = [self init];
     if (self) {
         [self.parseObject unpinInBackground];
-        self.parseObject = object;
         [object pinInBackgroundWithName:@"Challenge"];
-        self.challengeName = object[@"challengeName"];
-        self.currentRoundNumber = [object[@"roundNumber"] unsignedIntegerValue];
-        self.maxRounds = [object[@"maxRounds"] unsignedIntegerValue];
-        self.challengee = object[@"challengee"];
-        self.challenger = object[@"createdBy"];
+        
+        _challengeName = object[@"challengeName"];
+        _currentRoundNumber = [object[@"roundNumber"] unsignedIntegerValue];
+        _maxRounds = [object[@"maxRounds"] unsignedIntegerValue];
+        _challengee = object[@"challengee"];
+        _challenger = object[@"createdBy"];
+        _themObject = object[@"theme"];
+        if (self.themObject) {
+            self.theme = [[ChallengeTheme alloc] initWithParseObject:self.themObject];
+        }
         
         if ([self.challenger.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
-            self.playerIAm = Challenger;
+            _playerIAm = Challenger;
         } else if ([self.challengee.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
-            self.playerIAm = Challengee;
+            _playerIAm = Challengee;
         } else {
-            self.playerIAm = Unknown;
-            self.photoSent = YES;
+            _playerIAm = Unknown;
+            _photoSent = YES;
         }
         
         for (int i=0; i<self.currentRoundNumber; i++) {
@@ -165,19 +181,16 @@ NSMutableDictionary *cachedChallenges;
             if ((self.currentRoundNumber - 1) == i) {
                 //current round
                 if (self.playerIAm == Challenger && fileChallenger) {
-                    self.photoSent = YES;
+                    _photoSent = YES;
                 }
                 if (self.playerIAm == Challengee && fileChallengee) {
-                    self.photoSent = YES;
+                    _photoSent = YES;
                 }
             }
             
-            if ((self.currentRoundNumber == self.maxRounds) && (i == (self.currentRoundNumber-1))) {
-                if (fileChallenger && fileChallengee) {
-                    self.challengeComplete = YES;
-                }
-            }
+            _challengeComplete = [object[@"completed"] boolValue];
         }
+        _parseObject = object;
     }
     return self;
 }
@@ -287,6 +300,10 @@ NSMutableDictionary *cachedChallenges;
         if (currentChallengerImage && currentChallengeeImage) {
             self.challengeComplete = YES;
         }
+    }
+    
+    if (self.currentRoundNumber > self.maxRounds) {
+        self.challengeComplete = YES;
     }
     
     [self.parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *PF_NULLABLE_S error){

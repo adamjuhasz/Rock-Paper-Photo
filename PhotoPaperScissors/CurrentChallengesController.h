@@ -7,6 +7,7 @@
 //
 
 #import <ParseUI/ParseUI.h>
+#import <Parse/Parse.h>
 
 @interface CurrentChallengesController : PFQueryTableViewController
 

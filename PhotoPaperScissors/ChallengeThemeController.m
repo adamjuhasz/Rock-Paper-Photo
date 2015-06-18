@@ -1,15 +1,22 @@
 //
-//  UserListController.m
+//  ChallengeThemeController.m
 //  PhotoPaperScissors
 //
-//  Created by Adam Juhasz on 6/15/15.
+//  Created by Adam Juhasz on 6/18/15.
 //  Copyright (c) 2015 Adam Juhasz. All rights reserved.
 //
 
-#import "UserListController.h"
-#import <Parse/Parse.h>
+#import "ChallengeThemeController.h"
+#import "Challenge.h"
+#import "CameraController.h"
 
-@implementation UserListController
+@interface ChallengeThemeController ()
+
+@property PFObject *selectedTheme;
+
+@end
+
+@implementation ChallengeThemeController
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
@@ -31,10 +38,7 @@
 - (void)commonInit
 {
     // The className to query on
-    self.parseClassName = @"User";
-    
-    // The key of the PFObject to display in the label of the default cell style
-    self.textKey = @"username";
+    self.parseClassName = @"Theme";
     
     // Whether the built-in pull-to-refresh is enabled
     self.pullToRefreshEnabled = YES;
@@ -46,6 +50,10 @@
     self.objectsPerPage = 25;
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"userLoggedIn" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [self loadObjects];
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"updateChallanges" object:nil queue:nil usingBlock:^(NSNotification *note) {
         [self loadObjects];
     }];
 }
@@ -67,8 +75,11 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
+    self.title = @"Challenges";
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
+                                                                             style:self.navigationItem.backBarButtonItem.style
+                                                                            target:nil
+                                                                            action:nil];
 }
 
 - (void)viewDidUnload {
@@ -117,34 +128,36 @@
 // Override to customize what kind of query to perform on the class. The default is to query for
 // all objects ordered by createdAt descending.
 - (PFQuery *)queryForTable {
-    PFQuery *relationships = [PFQuery queryWithClassName:@"Relationship"];
-    [relationships whereKey:@"createdBy" equalTo:[PFUser currentUser]];
     
-    PFQuery *query = [PFUser query];
-    [query orderByDescending:@"createdAt"];
-    [query whereKey:@"objectId" notEqualTo:[[PFUser currentUser] objectId]];
-    [query whereKey:@"objectId" doesNotMatchKey:@"friendsWithId" inQuery:relationships];
+    PFQuery *challengeQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [challengeQuery orderByDescending:@"updatedAt"];
     
-    return query;
+    // If Pull To Refresh is enabled, query against the network by default.
+    if (self.pullToRefreshEnabled) {
+        challengeQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+    }
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        challengeQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    
+    return challengeQuery;
 }
-
 
 
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the textKey in the object,
 // and the imageView being the imageKey in the object.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"cell";
     
     PFTableViewCell *cell = (PFTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
     
-    // Configure the cell
-    cell.textLabel.text = [object objectForKey:@"username"];
-    cell.imageView.file = [object objectForKey:@"image"];
-    
+    cell.textLabel.text = object[@"Text"];
+    cell.imageView.file = object[@"thumbnail"];
+    [cell.imageView loadInBackground];
     return cell;
 }
 
@@ -178,23 +191,23 @@
 #pragma mark - UITableViewDataSource
 
 /*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+*/
 
 /*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the object from Parse and reload the table view
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, and save it to Parse
- }
- }
- */
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the object from Parse and reload the table view
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, and save it to Parse
+    }
+}
+*/
 
 /*
  // Override to support rearranging the table view.
@@ -215,18 +228,26 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     
-    PFObject *friendhsip = [PFObject objectWithClassName:@"Relationship"];
-    friendhsip[@"createdBy"] = [PFUser currentUser];
-    friendhsip[@"user"] = [PFUser currentUser];
-    friendhsip[@"userId"] = [[PFUser currentUser] objectId];
-    
-    PFUser *theOtherUser = [self.objects objectAtIndex:[indexPath indexAtPosition:1]];
-    friendhsip[@"friendsWith"] = theOtherUser;
-    friendhsip[@"friendsWithId"] = theOtherUser.objectId;
-    [friendhsip saveInBackgroundWithBlock:^(BOOL succeeded, NSError *PF_NULLABLE_S error){
-        [self loadObjects];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"newFriendsip" object:friendhsip];
-    }];
+    PFObject *object = [self.objects objectAtIndex:indexPath.row];
+    self.selectedTheme = object;
+    [self performSegueWithIdentifier:@"showCamera" sender:object];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showCamera"]) {
+        CameraController *controller = (CameraController*)segue.destinationViewController;
+        
+        ChallengeTheme *theme = [[ChallengeTheme alloc] initWithParseObject:self.selectedTheme];
+        
+        Challenge *newChallenge = [[Challenge alloc] init];
+        newChallenge.challengeName = theme.name;
+        newChallenge.challenger = [PFUser currentUser];
+        newChallenge.challengee = self.challengee;
+        newChallenge.currentRoundNumber = 1;
+        newChallenge.themObject = self.selectedTheme;
+        newChallenge.theme = theme;
+        controller.theChallenge = newChallenge;
+    }
+}
 @end

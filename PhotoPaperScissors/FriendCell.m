@@ -10,6 +10,12 @@
 
 @implementation FriendCell
 
-
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    self.friendPhoto.image = nil;
+    self.friendPhoto.file = nil;
+    self.friendName.text = @"";
+}
 
 @end

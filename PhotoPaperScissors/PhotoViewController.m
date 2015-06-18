@@ -15,16 +15,11 @@
 #import <CoreMedia/CoreMedia.h>
 #import <AVFoundation/AVFoundation.h>
 #import <ClusterPrePermissions/ClusterPrePermissions.h>
-#import <jot/jot.h>
+#import <NYXImagesKit/NYXImagesKit.h>
 
 #import "PhotoViewController.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
 
-@interface PhotoViewController () <JotViewControllerDelegate>
-
-@property JotViewController *jotViewController;
-
-@end
 
 @implementation PhotoViewController
 
@@ -57,27 +52,12 @@
 
 - (void)commonInit
 {
-    self.nextAction = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.nextAction.layer.cornerRadius = 6.0;
-    self.nextAction.backgroundColor = [UIColor blackColor];
-    [self.nextAction setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.nextAction.bounds = CGRectMake(0, 0, 200, 66);
-    self.nextAction.center = CGPointMake(self.view.bounds.size.width/2.0, self.view.bounds.size.height/2.0);
-    [self.view addSubview:self.nextAction];
-    
-    _jotViewController = [JotViewController new];
-    self.jotViewController.delegate = self;
-    
-    [self addChildViewController:self.jotViewController];
-    [self.view addSubview:self.jotViewController.view];
-    [self.jotViewController didMoveToParentViewController:self];
-    self.jotViewController.view.frame = self.myPhoto.frame;
     
     RAC(self.otherUserPhoto, image) = [RACObserve(self, otherUserImage) filter:^BOOL(id value) {
         return (value != nil);
@@ -89,6 +69,11 @@
     }] subscribeNext:^(Challenge *aChallenge) {
         [self loadChallenge:aChallenge];
     }];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
+                                                                             style:self.navigationItem.backBarButtonItem.style
+                                                                            target:nil
+                                                                            action:nil];
 }
 
 - (void)showImageForOtherPlayerIfIAm:(PlayerType)playerType fromChallenge:(Challenge*)aChallenge withRound:(NSUInteger)roundNumberToShow
@@ -111,61 +96,66 @@
 
 - (void)loadChallenge:(Challenge*)aChallenge
 {
+    ClusterPrePermissions *permission = [ClusterPrePermissions sharedPermissions];
+    [permission showPushNotificationPermissionsWithType:ClusterPushNotificationTypeAlert
+                                                  title:@"Keep you in the loop?"
+                                                message:@"Want us to let you know when someone challenges you or a new round starts?"
+                                        denyButtonTitle:@"Not now"
+                                       grantButtonTitle:@"Yes!"
+                                      completionHandler:^(BOOL hasPermission, ClusterDialogResult userDialogResult, ClusterDialogResult systemDialogResult) {
+                                      }];
+    
     self.title = aChallenge.challengeName;
     
-    [self.nextAction removeTarget:self action:NULL forControlEvents:UIControlEventAllEvents];
-    self.jotViewController.state = JotViewStateDefault;
-    self.jotViewController.view.userInteractionEnabled = NO;
-    for (UIView *aView in self.drawingControls) {
-        aView.hidden = YES;
-        aView.userInteractionEnabled = NO;
-    }
-    
     self.myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:aChallenge.currentRoundNumber];
+    
     if (aChallenge.currentRoundNumber > 1 && self.myImage == nil) {
         //show previous round
         NSUInteger roundNumberToShow = (aChallenge.currentRoundNumber-1);
         self.myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:roundNumberToShow];
         [self showImageForOtherPlayerIfIAm:aChallenge.playerIAm fromChallenge:aChallenge withRound:roundNumberToShow];
-        [self.nextAction setTitle:@"Next Round" forState:UIControlStateNormal];
-        [self.nextAction addTarget:self action:@selector(showCamera:) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Take Photo"
+                                                                                  style:self.editButtonItem.style
+                                                                                 target:self
+                                                                                 action:@selector(showCamera:)];
         return;
     }
     
     if (aChallenge.photoSent == NO) {
-        self.jotViewController.state = JotViewStateDrawing;
-        self.jotViewController.view.userInteractionEnabled = YES;
-        for (UIView *aView in self.drawingControls) {
-            aView.hidden = NO;
-            aView.userInteractionEnabled = YES;
-        }
-        //dont't show other photo, we can only send it
-        [self.nextAction setTitle:@"Send" forState:UIControlStateNormal];
-        [self.nextAction addTarget:self action:@selector(send:) forControlEvents:UIControlEventTouchUpInside];
+        
         return;
     }
     
     [self showImageForOtherPlayerIfIAm:aChallenge.playerIAm fromChallenge:aChallenge withRound:aChallenge.currentRoundNumber];
     
     if (aChallenge.playerIAm == Unknown) {
-        [self.nextAction setTitle:@"" forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = nil;
         return;
     }
     
     if (self.otherUserImage) {
         if (aChallenge.challengeComplete) {
             //all rounds complete
-            [self.nextAction setTitle:@"Save & Share" forState:UIControlStateNormal];
-            [self.nextAction addTarget:self action:@selector(makeAnimatedGif) forControlEvents:UIControlEventTouchUpInside];
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save & Share"
+                                                                                      style:self.editButtonItem.style
+                                                                                     target:self
+                                                                                     action:@selector(makeAnimatedGif)];
         } else {
             //Round is complete
-            [self.nextAction setTitle:@"Next Round" forState:UIControlStateNormal];
-            [self.nextAction addTarget:self action:@selector(nextRound:) forControlEvents:UIControlEventTouchUpInside];
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next Round"
+                                                                                      style:self.editButtonItem.style
+                                                                                     target:self
+                                                                                     action:@selector(nextRound:)];
         }
     } else {
         //no image from other user for this round, show photo
-        [self.nextAction setTitle:@"Waiting..." forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = nil;
     }
+    
+    NSMutableArray *controllers = [self.navigationController.viewControllers mutableCopy];
+    NSRange range = {1, controllers.count-2};
+    [controllers removeObjectsInRange:range];
+    [self.navigationController setViewControllers:controllers];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -175,7 +165,6 @@
     //self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     //self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    
     self.tabBarController.tabBar.hidden = YES;
 }
 
@@ -198,86 +187,6 @@
 - (IBAction)showCamera:(id)sender
 {
     [self performSegueWithIdentifier:@"showCamera" sender:self];
-}
-
-- (IBAction)send:(id)sender
-{
-    ClusterPrePermissions *permission = [ClusterPrePermissions sharedPermissions];
-    [permission showPushNotificationPermissionsWithType:ClusterPushNotificationTypeAlert
-                                                  title:@"Keep you in the loop?"
-                                                message:@"Want us to let you know when someone challenges you or a new round starts?"
-                                        denyButtonTitle:@"Not now"
-                                       grantButtonTitle:@"Yes!"
-                                      completionHandler:^(BOOL hasPermission, ClusterDialogResult userDialogResult, ClusterDialogResult systemDialogResult) {
-                                          
-                                      }];
-
-    [self.theChallenge setImage:[self imageWithDrawing] ForPlayer:self.theChallenge.playerIAm forRound:self.theChallenge.currentRoundNumber];
-    [self.theChallenge save];
-    //if we are completing a challenge round, show both photos
-    if ([self.theChallenge imageForPlayer:self.theChallenge.playerIAm forRound:self.theChallenge.currentRoundNumber] != nil &&
-        [self.theChallenge imageForPlayer:self.theChallenge.otherPlayerIs forRound:self.theChallenge.currentRoundNumber] != nil) {
-        [self loadChallenge:self.theChallenge];
-    } else {
-        //we have to wait for other player to respond to this new photo
-        self.tabBarController.tabBar.hidden = NO;
-        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-}
-
-#pragma mark Drawing Code
-
-- (UIImage *)imageWithDrawing
-{
-    UIImage *myImage = self.myPhoto.image;
-    return [self.jotViewController drawOnImage:myImage];
-}
-
-- (IBAction)changeDrawColorToBackgroundOf:(id)sender
-{
-    UIColor *colorToBe = nil;
-    
-    if ([sender isKindOfClass:[UIView class]]) {
-        UIView *sending = (UIView*)sender;
-        colorToBe = sending.backgroundColor;
-    }
-    
-    if ([sender isKindOfClass:[UITapGestureRecognizer class]]) {
-        UIGestureRecognizer *recognizer = (UIGestureRecognizer*)sender;
-        UIView *sending = recognizer.view;
-        colorToBe = sending.backgroundColor;
-    }
-    
-    if (colorToBe == nil)
-        return;
-    
-    switch (self.jotViewController.state) {
-        case JotViewStateDrawing:
-            self.jotViewController.drawingColor = colorToBe;
-            break;
-            
-        case JotViewStateDefault:
-        case JotViewStateEditingText:
-        case JotViewStateText:
-            self.jotViewController.textColor = colorToBe;
-            break;
-    }
-}
-
-- (IBAction)switchToDrawing:(id)sender
-{
-    self.jotViewController.state = JotViewStateDrawing;
-}
-
-- (IBAction)switchToTexting:(id)sender
-{
-    self.jotViewController.state = JotViewStateEditingText;
-}
-
-- (IBAction)clearDrawing:(id)sender
-{
-    [self.jotViewController clearAll];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -311,19 +220,22 @@
                                               }
                                       };
     
-    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-    NSURL *fileURL = [documentsDirectoryURL URLByAppendingPathComponent:@"animated.gif"];
-    
     NSMutableArray *images = [NSMutableArray array];
     CFMutableDataRef gifData = CFDataCreateMutable(kCFAllocatorDefault, 0);
     
-    //CGImageDestinationRef destination = CGImageDestinationCreateWithURL((__bridge CFURLRef)fileURL, kUTTypeGIF, kFrameCount+1, NULL);
     CGImageDestinationRef destination = CGImageDestinationCreateWithData(gifData, kUTTypeGIF, kFrameCount+1, NULL);
     CGImageDestinationSetProperties(destination, (__bridge CFDictionaryRef)fileProperties);
     
-    UIImage *challengeName = [self drawText:self.theChallenge.challengeName intoSize:finalSize];
-    CGImageDestinationAddImage(destination, challengeName.CGImage, (__bridge CFDictionaryRef)frameProperties);
-    [images addObject:challengeName];
+    
+    UIImage *challengeCover = [self.theChallenge.theme coverphoto];
+    if (challengeCover == nil) {
+        challengeCover = [self drawText:self.theChallenge.challengeName intoSize:finalSize];
+    } else {
+        challengeCover = [[challengeCover scaleToCoverSize:finalSize] cropToSize:finalSize usingMode:NYXCropModeCenter];
+    }
+    CGImageDestinationAddImage(destination, challengeCover.CGImage, (__bridge CFDictionaryRef)frameProperties);
+    [images addObject:challengeCover];
+    
     for (NSUInteger i = 0; i < kFrameCount; i++) {
         UIImage *image = [self drawTop:[self.theChallenge imageForPlayer:Challenger forRound:(i+1)]
                             drawBottom:[self.theChallenge imageForPlayer:Challengee forRound:(i+1)]

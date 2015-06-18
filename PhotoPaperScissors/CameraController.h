@@ -16,6 +16,8 @@
 @property IBOutlet UIButton *shutterButton;
 @property UIImage *takenPhoto;
 
+@property IBOutletCollection(UIView) NSArray *colorSelectors;
+
 @property Challenge *theChallenge;
 
 @end

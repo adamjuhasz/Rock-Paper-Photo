@@ -7,7 +7,6 @@
 //
 
 #import "CurrentChallengesController.h"
-#import <Parse/Parse.h>
 #import "ChallengeCell.h"
 #import "CameraController.h"
 #import "PhotoViewController.h"
@@ -45,6 +44,11 @@
     // The number of objects to show per page
     self.objectsPerPage = 25;
     
+    [self setUpNotifications];
+}
+
+- (void)setUpNotifications
+{
     [[NSNotificationCenter defaultCenter] addObserverForName:@"userLoggedIn" object:nil queue:nil usingBlock:^(NSNotification *note) {
         [self loadObjects];
     }];
@@ -71,6 +75,11 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.title = @"Current Challenges";
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
+                                                                             style:self.navigationItem.backBarButtonItem.style
+                                                                            target:nil
+                                                                            action:nil];
 }
 
 - (void)viewDidUnload {
@@ -133,6 +142,8 @@
     PFQuery *fullQuery = [PFQuery orQueryWithSubqueries:@[challengerQuery, challengeeQuery]];
     [fullQuery includeKey:@"challengee"];
     [fullQuery includeKey:@"createdBy"];
+    [fullQuery includeKey:@"theme"];
+    [fullQuery whereKey:@"completed" equalTo:@(NO)];
     [fullQuery orderByAscending:@"updatedAt"];
     
     // If Pull To Refresh is enabled, query against the network by default.
@@ -195,24 +206,41 @@
 
 #pragma mark - UITableViewDataSource
 
-/*
+
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
+     // Return NO if you do not want the specified item to be editable.
+     return YES;
  }
- */
 
-/*
+
+
  // Override to support editing the table view.
  - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the object from Parse and reload the table view
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, and save it to Parse
+     if (editingStyle == UITableViewCellEditingStyleDelete) {
+         // Delete the object from Parse and reload the table view
+         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Delete this challenge?"
+                                                                                  message:@"Do you want to stop playing this challenge? This will delete the challenge and can not be undone."
+                                                                           preferredStyle:UIAlertControllerStyleAlert];
+         
+         [alertController addAction:[UIAlertAction actionWithTitle:@"Delete"
+                                                             style:UIAlertActionStyleDestructive
+                                                           handler:^(UIAlertAction *action) {
+                                                               [self removeObjectAtIndexPath:indexPath];
+                                                           }]];
+         
+         [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:^(UIAlertAction *action) {
+                                                               [self setEditing:NO animated:YES];
+                                                           }]];
+         
+         [self presentViewController:alertController animated:YES completion:nil];
+     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+         // Create a new instance of the appropriate class, and save it to Parse
+     }
  }
- }
- */
+
 
 /*
  // Override to support rearranging the table view.

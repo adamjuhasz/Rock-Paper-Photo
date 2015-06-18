@@ -17,11 +17,7 @@
 @property UIImage *otherUserImage;
 @property UIImage *myImage;
 
-@property IBOutlet UIButton *nextAction;
-
 @property Challenge *theChallenge;
 @property NSInteger showChallengeRound;
-
-@property IBOutletCollection(UIView) NSArray *drawingControls;
 
 @end
