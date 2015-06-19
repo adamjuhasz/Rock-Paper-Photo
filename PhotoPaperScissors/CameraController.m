@@ -48,6 +48,9 @@
     
     _jotViewController = [JotViewController new];
     self.jotViewController.delegate = self;
+    self.jotViewController.state = JotViewStateDrawing;
+    self.jotViewController.drawingColor = self.blackColorSwatch.backgroundColor;
+    self.jotViewController.textColor = self.blackColorSwatch.backgroundColor;
     
     [self addChildViewController:self.jotViewController];
     self.jotViewController.view.frame = self.cameraContainer.bounds;
@@ -82,6 +85,7 @@
                                                                              style:self.navigationItem.backBarButtonItem.style
                                                                             target:nil
                                                                             action:nil];
+    self.blackColorSwatch.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8);
 }
 
 - (void)viewWillLayoutSubviews
@@ -202,20 +206,29 @@
 - (IBAction)changeDrawColorToBackgroundOf:(id)sender
 {
     UIColor *colorToBe = nil;
+    UIView *viewToScale = nil;
     
     if ([sender isKindOfClass:[UIView class]]) {
         UIView *sending = (UIView*)sender;
         colorToBe = sending.backgroundColor;
+        viewToScale = sender;
     }
     
     if ([sender isKindOfClass:[UITapGestureRecognizer class]]) {
         UIGestureRecognizer *recognizer = (UIGestureRecognizer*)sender;
         UIView *sending = recognizer.view;
         colorToBe = sending.backgroundColor;
+        viewToScale = sending;
     }
     
     if (colorToBe == nil)
         return;
+    
+    for (UIView *view in self.colorSelectors) {
+        view.layer.affineTransform = CGAffineTransformIdentity;
+    }
+    
+    viewToScale.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8);
     
     switch (self.jotViewController.state) {
         case JotViewStateDrawing:

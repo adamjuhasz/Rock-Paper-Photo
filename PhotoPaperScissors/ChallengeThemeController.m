@@ -238,7 +238,7 @@
     if ([segue.identifier isEqualToString:@"showCamera"]) {
         CameraController *controller = (CameraController*)segue.destinationViewController;
         
-        ChallengeTheme *theme = [[ChallengeTheme alloc] initWithParseObject:self.selectedTheme];
+        ChallengeTheme *theme = [ChallengeTheme challengeThemeForParseObject:self.selectedTheme];
         
         Challenge *newChallenge = [[Challenge alloc] init];
         newChallenge.challengeName = theme.name;

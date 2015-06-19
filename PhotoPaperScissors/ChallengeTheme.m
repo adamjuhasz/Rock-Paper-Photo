@@ -8,12 +8,38 @@
 
 #import "ChallengeTheme.h"
 
+NSMutableDictionary *cachedChallengeThemes;
+
 @implementation ChallengeTheme
+
++ (id)challengeThemeForParseObject:(PFObject*)object
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cachedChallengeThemes = [NSMutableDictionary dictionary];
+    });
+    ChallengeTheme *potentialCachedChallengeTheme = [cachedChallengeThemes objectForKey:object.objectId];
+    if (potentialCachedChallengeTheme) {
+        NSComparisonResult updatedComparison = [potentialCachedChallengeTheme.parseObject.updatedAt compare:object.updatedAt];
+        if (updatedComparison != NSOrderedAscending) {
+            return [cachedChallengeThemes objectForKey:object.objectId];
+        }
+    }
+    
+    ChallengeTheme *newChallengeTheme = [[ChallengeTheme alloc] initWithParseObject:object];
+    if ([cachedChallengeThemes objectForKey:object.objectId]) {
+        NSLog(@"replacing challenge with new one");
+    }
+    [cachedChallengeThemes setObject:newChallengeTheme forKey:object.objectId];
+    return newChallengeTheme;
+}
 
 - (id)initWithParseObject:(PFObject*)object
 {
     self = [self init];
     if (self) {
+        _parseObject = object;
+        
         self.name = object[@"Text"];
         
         self.coverphotoFile = object[@"coverPhoto"];

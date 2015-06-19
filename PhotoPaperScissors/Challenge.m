@@ -107,7 +107,7 @@ NSMutableDictionary *cachedChallenges;
         [[RACObserve(self, challengeComplete) filter:^BOOL(id value) {
             return (value != nil);
         }] subscribeNext:^(NSNumber *isComplete) {
-            self.parseObject[@"completed"] = isComplete;
+            self.parseObject[@"completed"] = [NSNumber numberWithBool:[isComplete boolValue]];
         }];
         
         [[RACObserve(self, themObject) filter:^BOOL(id value) {
@@ -180,20 +180,41 @@ NSMutableDictionary *cachedChallenges;
             
             if ((self.currentRoundNumber - 1) == i) {
                 //current round
-                if (self.playerIAm == Challenger && fileChallenger) {
-                    _photoSent = YES;
+                _whosTurn = noonesTurn;
+                
+                if (self.playerIAm == Challenger) {
+                    if (fileChallenger) {
+                        _photoSent = YES;
+                        if (fileChallengee == nil) {
+                            _whosTurn = theirTurn;
+                        }
+                    } else {
+                        _whosTurn = myTurn;
+                    }
                 }
-                if (self.playerIAm == Challengee && fileChallengee) {
-                    _photoSent = YES;
+                
+                if (self.playerIAm == Challengee) {
+                    if (fileChallengee) {
+                        _photoSent = YES;
+                        if (fileChallenger == nil) {
+                            _whosTurn = theirTurn;
+                        }
+                    } else {
+                        _whosTurn = myTurn;
+                    }
                 }
             }
             
             _challengeComplete = [object[@"completed"] boolValue];
+            if (_challengeComplete) {
+                _whosTurn = noonesTurn;
+            }
         }
         _parseObject = object;
     }
     return self;
 }
+
 - (void)setImage:(UIImage*)image ForPlayer:(PlayerType)player forRound:(NSUInteger)roundNumber
 {
     if (player == Unknown) {
@@ -243,6 +264,19 @@ NSMutableDictionary *cachedChallenges;
             
         default:
             break;
+    }
+    
+    
+    if (self.otherPlayerIs == Challengee && [roundDictionary objectForKey:@"Challengee"]) {
+        self.whosTurn = noonesTurn;
+    } else {
+        self.whosTurn = theirTurn;
+    }
+    
+    if (self.otherPlayerIs == Challenger && [roundDictionary objectForKey:@"Challenger"]) {
+        self.whosTurn = noonesTurn;
+    } else {
+        self.whosTurn = theirTurn;
     }
     
     [file saveInBackground];
@@ -312,6 +346,9 @@ NSMutableDictionary *cachedChallenges;
             return;
         }
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
+        
+        //PUSH
         PFUser *otherUser = self.otherUser;
         if ([otherUser.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
             
@@ -335,6 +372,7 @@ NSMutableDictionary *cachedChallenges;
             if (error) {
                 NSLog(@"Error with push: %@", error);
                 [PFAnalytics trackErrorIn:@"send" withComment:@"sendPushInBackgroundWithBlock" withError:error];
+                return;
             }
         }];
     }];

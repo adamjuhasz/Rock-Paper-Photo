@@ -270,7 +270,7 @@ static ClusterPrePermissions *__sharedInstance;
          UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)self.requestedPushNotificationTypes
                                                                                   categories:nil];
          [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-         [[UIApplication sharedApplication] registerForRemoteNotifications];
+
      } else {
          [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationType)self.requestedPushNotificationTypes];
      }

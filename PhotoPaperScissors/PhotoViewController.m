@@ -97,15 +97,22 @@
 - (void)loadChallenge:(Challenge*)aChallenge
 {
     ClusterPrePermissions *permission = [ClusterPrePermissions sharedPermissions];
-    [permission showPushNotificationPermissionsWithType:ClusterPushNotificationTypeAlert
+    [permission showPushNotificationPermissionsWithType:UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge
                                                   title:@"Keep you in the loop?"
                                                 message:@"Want us to let you know when someone challenges you or a new round starts?"
                                         denyButtonTitle:@"Not now"
                                        grantButtonTitle:@"Yes!"
                                       completionHandler:^(BOOL hasPermission, ClusterDialogResult userDialogResult, ClusterDialogResult systemDialogResult) {
+                                          
                                       }];
     
     self.title = aChallenge.challengeName;
+    
+    //delete stack between this and challenge screen
+    NSMutableArray *controllers = [self.navigationController.viewControllers mutableCopy];
+    NSRange range = {1, controllers.count-2};
+    [controllers removeObjectsInRange:range];
+    [self.navigationController setViewControllers:controllers];
     
     self.myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:aChallenge.currentRoundNumber];
     
@@ -114,48 +121,35 @@
         NSUInteger roundNumberToShow = (aChallenge.currentRoundNumber-1);
         self.myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:roundNumberToShow];
         [self showImageForOtherPlayerIfIAm:aChallenge.playerIAm fromChallenge:aChallenge withRound:roundNumberToShow];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Take Photo"
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Start next Round"
                                                                                   style:self.editButtonItem.style
                                                                                  target:self
                                                                                  action:@selector(showCamera:)];
         return;
     }
     
-    if (aChallenge.photoSent == NO) {
-        
-        return;
-    }
-    
+    //will load self.otherUserImage
     [self showImageForOtherPlayerIfIAm:aChallenge.playerIAm fromChallenge:aChallenge withRound:aChallenge.currentRoundNumber];
     
-    if (aChallenge.playerIAm == Unknown) {
-        self.navigationItem.rightBarButtonItem = nil;
+    if (aChallenge.challengeComplete) {
+        //all rounds complete
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save to library"
+                                                                                  style:self.editButtonItem.style
+                                                                                 target:self
+                                                                                 action:@selector(makeAnimatedGif)];
         return;
     }
     
-    if (self.otherUserImage) {
-        if (aChallenge.challengeComplete) {
-            //all rounds complete
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save & Share"
-                                                                                      style:self.editButtonItem.style
-                                                                                     target:self
-                                                                                     action:@selector(makeAnimatedGif)];
-        } else {
-            //Round is complete
+    if (self.otherUserImage && aChallenge.currentRoundNumber < aChallenge.maxRounds) {
+            //Current round is complete
             self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next Round"
                                                                                       style:self.editButtonItem.style
                                                                                      target:self
                                                                                      action:@selector(nextRound:)];
-        }
-    } else {
-        //no image from other user for this round, show photo
-        self.navigationItem.rightBarButtonItem = nil;
+        return;
     }
-    
-    NSMutableArray *controllers = [self.navigationController.viewControllers mutableCopy];
-    NSRange range = {1, controllers.count-2};
-    [controllers removeObjectsInRange:range];
-    [self.navigationController setViewControllers:controllers];
+
+     self.navigationItem.rightBarButtonItem = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated

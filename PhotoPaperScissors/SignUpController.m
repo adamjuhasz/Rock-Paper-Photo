@@ -27,6 +27,7 @@
         self.nickname.text = currentProfile.name;
         
         if ([PFUser currentUser]) {
+            NSLog(@"Saving nickname from facebook callback");
             PFUser *current = [PFUser currentUser];
             current[@"nickname"] = currentProfile.name;
             [current saveInBackground];
@@ -44,6 +45,7 @@
             self.profileImage = image;
             
             if ([PFUser currentUser]) {
+                NSLog(@"Saving image from facebook callback");
                 PFFile *file = [PFFile fileWithName:@"profile.jpg" data:UIImageJPEGRepresentation(image, 0.9)];
                 PFUser *current = [PFUser currentUser];
                 current[@"image"] = file;
@@ -130,7 +132,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 }
                 [current saveInBackground];
             }
-            if (self.nickname.text.length > 0 && self.profileImage) {
+            if (self.nickname.text.length > 0 && self.profileImage != nil) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
         } else {

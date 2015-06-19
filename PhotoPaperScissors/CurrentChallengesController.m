@@ -75,6 +75,8 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
+    
     self.title = @"Current Challenges";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
                                                                              style:self.navigationItem.backBarButtonItem.style
@@ -121,6 +123,10 @@
 - (void)objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     
+    if (self.objects.count == 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ZeroChallenges" object:nil];
+    }
+    
     // This method is called every time objects are loaded from Parse via the PFQuery
 }
 
@@ -149,12 +155,6 @@
     // If Pull To Refresh is enabled, query against the network by default.
     if (self.pullToRefreshEnabled) {
         fullQuery.cachePolicy = kPFCachePolicyNetworkOnly;
-    }
-    
-    // If no objects are loaded in memory, we look to the cache first to fill the table
-    // and then subsequently do a query against the network.
-    if ([self.objects count] == 0) {
-        fullQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
     
     return fullQuery;

@@ -47,7 +47,7 @@ PODS:
 
 DEPENDENCIES:
   - AFDropdownNotification
-  - ClusterPrePermissions (from `https://github.com/adamjuhasz/ClusterPrePermissions.git`)
+  - ClusterPrePermissions (from `../ClusterPrePermissions`)
   - FastttCamera
   - jot
   - NSURLConnection-Blocks
@@ -58,12 +58,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   ClusterPrePermissions:
-    :git: https://github.com/adamjuhasz/ClusterPrePermissions.git
-
-CHECKOUT OPTIONS:
-  ClusterPrePermissions:
-    :commit: 71ccd0cb131d770e872065337d23962afb6415cf
-    :git: https://github.com/adamjuhasz/ClusterPrePermissions.git
+    :path: ../ClusterPrePermissions
 
 SPEC CHECKSUMS:
   AFDropdownNotification: 4125b132cd03a8d6293e09ce000aeef55ced1364

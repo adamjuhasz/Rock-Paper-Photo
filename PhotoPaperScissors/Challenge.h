@@ -17,6 +17,12 @@ typedef enum : NSUInteger {
     Unknown
 } PlayerType;
 
+typedef enum : NSUInteger {
+    myTurn,
+    theirTurn,
+    noonesTurn
+} WhosTurn;
+
 @interface Challenge : NSObject
 
 @property PFObject *parseObject;
@@ -38,6 +44,8 @@ typedef enum : NSUInteger {
 
 @property ChallengeTheme *theme;
 @property PFObject *themObject;
+
+@property WhosTurn whosTurn;
 
 - (id)initWithParseObject:(PFObject*)object;
 - (void)setImage:(UIImage*)image ForPlayer:(PlayerType)player forRound:(NSUInteger)roundNumber;

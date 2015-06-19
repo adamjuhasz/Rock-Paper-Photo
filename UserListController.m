@@ -142,7 +142,7 @@
     }
     
     // Configure the cell
-    cell.textLabel.text = [object objectForKey:@"username"];
+    cell.textLabel.text = [object objectForKey:@"nickname"];
     cell.imageView.file = [object objectForKey:@"image"];
     
     return cell;

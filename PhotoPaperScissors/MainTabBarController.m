@@ -9,6 +9,8 @@
 #import "MainTabBarController.h"
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
+#import "CurrentChallengesController.h"
+#import "FriendListController.h"
 
 @interface MainTabBarController () <PFLogInViewControllerDelegate>
 
@@ -19,6 +21,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"ZeroChallenges" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        UIViewController *selectedController = self.selectedViewController;
+        if ([selectedController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController *nav = (UINavigationController*)selectedController;
+            selectedController = nav.topViewController;
+        }
+        if ([selectedController isMemberOfClass:[CurrentChallengesController class]]) {
+            for (UIViewController *controller in self.viewControllers) {
+                UIViewController *potentialController = controller;
+                if ([controller isKindOfClass:[UINavigationController class]]) {
+                    UINavigationController *nav = (UINavigationController*)controller;
+                    potentialController = nav.topViewController;
+                }
+                if ([potentialController isMemberOfClass:[FriendListController class]]) {
+                    [self setSelectedViewController:controller];
+                    break;
+                }
+            }
+        }
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated

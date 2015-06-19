@@ -16,6 +16,10 @@
 @property IBOutlet UILabel *opponentName;
 @property IBOutlet UILabel *roundNumber;
 
+@property IBOutlet UIView *innerRectangle;
+@property IBOutlet UIView *roundContainer;
+@property IBOutlet UILabel *timeIndicator;
+
 - (void)loadWithChallenge:(Challenge*)challenge;
 
 @end

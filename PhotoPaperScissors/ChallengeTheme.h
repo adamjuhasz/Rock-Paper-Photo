@@ -12,6 +12,8 @@
 
 @interface ChallengeTheme : NSObject
 
+@property PFObject *parseObject;
+
 @property NSString *name;
 
 @property UIImage *coverphoto;
@@ -30,5 +32,6 @@
 @property PFFile *template3File;
 
 - (id)initWithParseObject:(PFObject*)object;
++ (id)challengeThemeForParseObject:(PFObject*)object;
 
 @end

@@ -15,17 +15,44 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.roundNumber.clipsToBounds = YES;
-        self.roundNumber.layer.cornerRadius = self.roundNumber.bounds.size.width/2.0;
+        
     }
     return self;
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self setRadius];
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    [self setRadius];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    [self setRadius];
+}
+
+- (void)setRadius
+{
+    self.innerRectangle.clipsToBounds = YES;
+    self.innerRectangle.layer.cornerRadius = 3;
+    
+    self.opponentImageView.clipsToBounds = YES;
+    self.opponentImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.opponentImageView.layer.cornerRadius = self.opponentImageView.bounds.size.width/2.0;
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
     self.opponentImageView.image = nil;
-    self.roundNumber.backgroundColor = [UIColor greenColor];
+    self.roundContainer.backgroundColor = [UIColor clearColor];
 }
 
 - (void)loadWithChallenge:(Challenge*)challenge
@@ -36,7 +63,7 @@
                 self.opponentImageView.file = challenge.challengee[@"image"];
                 [self.opponentImageView loadInBackground];
             }
-            self.opponentName.text = challenge.challengee.username;
+            self.opponentName.text = challenge.challengee[@"nickname"];
             break;
             
        case Challengee:
@@ -57,17 +84,17 @@
         self.roundNumber.text = @"C";
     }
     
-    if ([challenge imageForPlayer:challenge.playerIAm forRound:challenge.currentRoundNumber] == nil) {
-        self.roundNumber.backgroundColor = [UIColor yellowColor];
-    }
-    if ([challenge imageForPlayer:challenge.playerIAm forRound:challenge.currentRoundNumber] &&
-        [challenge imageForPlayer:challenge.otherPlayerIs forRound:challenge.currentRoundNumber] &&
-        challenge.currentRoundNumber < challenge.maxRounds) {
-        self.roundNumber.backgroundColor = [UIColor yellowColor];
-    }
     if (challenge.challengeComplete) {
-        self.roundNumber.backgroundColor = [UIColor blackColor];
+        //challenge complete
+        self.roundContainer.backgroundColor = [UIColor blackColor];
+    } else if (challenge.whosTurn == theirTurn) {
+        //waiting for my turn
+        self.roundContainer.backgroundColor = [UIColor colorWithRed:251/255.0 green:234/255.0 blue:153/255.0 alpha:1.0];
+    } else if (challenge.whosTurn == myTurn) {
+        //ready for next round
+        self.roundContainer.backgroundColor = [UIColor colorWithRed:182/255.0 green:224/255.0 blue:148/255.0 alpha:1.0];
     }
+    
 }
 
 @end
