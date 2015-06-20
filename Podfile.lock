@@ -7,6 +7,7 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.2.0)
   - ClusterPrePermissions (0.5.0)
+  - Colours (5.6.2)
   - FastttCamera (0.3.1):
     - FastttCamera/Default (= 0.3.1)
   - FastttCamera/Default (0.3.1)
@@ -21,6 +22,7 @@ PODS:
     - FBSDKCoreKit/arc
   - FBSDKLoginKit (4.2.0):
     - FBSDKCoreKit
+  - Flow (1.6.3)
   - jot (0.1.3):
     - Masonry (~> 0.6.1)
   - Masonry (0.6.1)
@@ -48,7 +50,9 @@ PODS:
 DEPENDENCIES:
   - AFDropdownNotification
   - ClusterPrePermissions (from `../ClusterPrePermissions`)
+  - Colours (from `https://github.com/adamjuhasz/Colours.git`)
   - FastttCamera
+  - Flow
   - jot
   - NSURLConnection-Blocks
   - NYXImagesKit
@@ -59,14 +63,23 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   ClusterPrePermissions:
     :path: ../ClusterPrePermissions
+  Colours:
+    :git: https://github.com/adamjuhasz/Colours.git
+
+CHECKOUT OPTIONS:
+  Colours:
+    :commit: 54d4389117d9d5984516a4959813177d3732ba40
+    :git: https://github.com/adamjuhasz/Colours.git
 
 SPEC CHECKSUMS:
   AFDropdownNotification: 4125b132cd03a8d6293e09ce000aeef55ced1364
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
   ClusterPrePermissions: f7c18aed36022662a05048fffb44b24b9e796cff
+  Colours: 0afd4c3429656880fd4cff350ca3bf0ab86ca348
   FastttCamera: dfcec6e490be93130123309fdecc7cf444081470
   FBSDKCoreKit: 84b3616a361801f190e43a9909caead7bb6087c7
   FBSDKLoginKit: 57e37106af12c9e264e473dcb75d7decdbb07fe4
+  Flow: e93229ef5331fd4f61522507a6bbc254ca6310b6
   jot: 86da410a8bd544860166d5617707f3b2a8f0e4a1
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   NSURLConnection-Blocks: 921a21aa8e472527d6c29b7741a7c78b346ea7f0

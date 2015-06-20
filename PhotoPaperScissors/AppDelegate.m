@@ -54,11 +54,11 @@
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     [PFTwitterUtils initializeWithConsumerKey:@"MswULT6L6nMik6uyIszhgZ6C8" consumerSecret:@"zmrMnAIbt5v6vZHaOb87GxDDjnVM7uZk2luIuXTGVZM1okMzwm"];
     
-    [[PFUser currentUser] fetch];
+    //[[PFUser currentUser] fetch];
     
-    if ([PFUser currentUser]) {
+    /*if ([PFUser currentUser]) {
         [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }
+    }*/
     
     return YES;
 }

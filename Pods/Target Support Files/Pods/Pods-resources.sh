@@ -58,9 +58,17 @@ install_resource()
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "Flow/Resources/FLWProgressCheckmark.png"
+  install_resource "Flow/Resources/FLWProgressCheckmark@2x.png"
+  install_resource "Flow/Resources/FLWProgressViewClose.png"
+  install_resource "Flow/Resources/FLWProgressViewClose@2x.png"
   install_resource "ParseUI/ParseUI/Resources/Localization/en.lproj"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "Flow/Resources/FLWProgressCheckmark.png"
+  install_resource "Flow/Resources/FLWProgressCheckmark@2x.png"
+  install_resource "Flow/Resources/FLWProgressViewClose.png"
+  install_resource "Flow/Resources/FLWProgressViewClose@2x.png"
   install_resource "ParseUI/ParseUI/Resources/Localization/en.lproj"
 fi
 

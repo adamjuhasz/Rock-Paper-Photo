@@ -7,7 +7,10 @@
 //
 
 #import "FriendListController.h"
+
 #import <Parse/Parse.h>
+#import <Flow/Flow.h>
+
 #import "FriendCell.h"
 #import "ChallengeThemeController.h"
 #import "PFUser+findFacebookFriends.h"

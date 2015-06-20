@@ -7,14 +7,25 @@
 //
 
 #import "SignUpController.h"
+
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <Parse/Parse.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <NSURLConnection-Blocks/NSURLConnection+Blocks.h>
+#import <Flow/Flow.h>
+
 #import "PFAnalytics+PFAnalytics_TrackError.h"
 #import "UIImage+fixOrientation.h"
+
+static NSString * const SignUpNicknameTutorialString = @"io.ajuhasz.signup.nickname";
+static NSString * const SignUpPhotoTutorialString = @"io.ajuhasz.signup.photo";
+static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.complete";
+
+@interface SignUpController () <UITextFieldDelegate>
+
+@end
 
 @implementation SignUpController
 
@@ -24,44 +35,7 @@
     self.signUp.enabled = NO;
     self.profileImageView.clipsToBounds = YES;
     self.profileImageView.layer.cornerRadius = self.profileImageView.bounds.size.width/2.0;
-    /*
-    __block __weak id observer;
-    observer = [[NSNotificationCenter defaultCenter] addObserverForName:FBSDKProfileDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        [[NSNotificationCenter defaultCenter] removeObserver:observer];
-        FBSDKProfile *currentProfile = [FBSDKProfile currentProfile];
-        self.nickname.text = currentProfile.name;
-        
-        if ([PFUser currentUser]) {
-            NSLog(@"Saving nickname from facebook callback");
-            PFUser *current = [PFUser currentUser];
-            current[@"nickname"] = currentProfile.name;
-            [current saveInBackground];
-        }
-        
-        NSString *path = [currentProfile imagePathForPictureMode:FBSDKProfilePictureModeSquare size:CGSizeMake(300, 300)];
-        NSURL *url = [NSURL URLWithString:path relativeToURL:[NSURL URLWithString:@"http://graph.facebook.com/"]];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        [NSURLConnection connectionWithRequest:request onCompletion:^(NSData *data, NSInteger statusCode) {
-            UIImage *image = [UIImage imageWithData:data];
-            if (!image) {
-                return;
-            }
-    
-            self.profileImage = image;
-            
-            if ([PFUser currentUser]) {
-                NSLog(@"Saving image from facebook callback");
-                PFFile *file = [PFFile fileWithName:@"profile.jpg" data:UIImageJPEGRepresentation(image, 0.9)];
-                PFUser *current = [PFUser currentUser];
-                current[@"image"] = file;
-                [current saveInBackground];
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }
-        } onFail:^(NSError *error, NSInteger statusCode) {
-            NSLog(@"%@", error);
-        }];
-    }];
-    */
+
     RAC(self.profileImageView, image) = [RACObserve(self, profileImage) filter:^BOOL(id value) {
         return (value != nil);
     }];
@@ -78,6 +52,9 @@
                       reduce:^id(NSNumber *usernameValid, NSNumber *photoValid) {
                           return @([usernameValid boolValue] && [photoValid boolValue]);
                       }];
+
+    self.nickname.delegate = self;
+    
     [signUpActiveSignal subscribeNext:^(NSNumber *signupActive) {
         BOOL isActive = [signupActive boolValue];
         self.signUp.enabled = isActive;
@@ -88,6 +65,39 @@
         }
         
     }];
+    
+    __weak typeof(self) weakSelf = self;
+    [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpNicknameTutorialString
+                                                                afterDelay:2.0
+                                                             withPredicate:^BOOL{
+                                                                 __strong typeof(self) strongSelf = weakSelf;
+                                                                 return strongSelf.nickname.text.length == 0;
+                                                             }
+                                                         constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                             tutorial.title = @"Welcome to Rock Paper Photo!\nTo start please choose a nickname.";
+                                                             tutorial.successMessage = @"That's a great name";
+                                                             tutorial.speechSynthesisesDisabled = NO;
+    }];
+    
+    [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpPhotoTutorialString
+                                                                afterDelay:2.0
+                                                             withPredicate:NULL
+                                                         constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                             tutorial.title = @"Now let's pick a photo from your library or take a new photo.";
+                                                             tutorial.successMessage = @"You look great.";
+                                                             tutorial.speechSynthesisesDisabled = NO;
+                                                             tutorial.dependentTutorialIdentifiers = @[SignUpNicknameTutorialString];
+                                                         }];
+    
+    [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpCompleteTutorialString
+                                                                afterDelay:2.0
+                                                             withPredicate:NULL
+                                                         constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                             tutorial.title = @"You're all done!\nIf you're ready, click sign up.";
+                                                             tutorial.speechSynthesisesDisabled = NO;
+                                                             tutorial.dependentTutorialIdentifiers = @[SignUpNicknameTutorialString, SignUpPhotoTutorialString];
+                                                         }];
+
 }
 
 - (IBAction)signUp:(id)sender
@@ -184,8 +194,13 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     self.profileImage = normalized;
     
     [picker dismissViewControllerAnimated:YES completion:^{
-        
+        [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpPhotoTutorialString];
     }];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpNicknameTutorialString];
 }
 
 

@@ -36,6 +36,12 @@
 #define COCOAPODS_VERSION_MINOR_ClusterPrePermissions 5
 #define COCOAPODS_VERSION_PATCH_ClusterPrePermissions 0
 
+// Colours
+#define COCOAPODS_POD_AVAILABLE_Colours
+#define COCOAPODS_VERSION_MAJOR_Colours 5
+#define COCOAPODS_VERSION_MINOR_Colours 6
+#define COCOAPODS_VERSION_PATCH_Colours 2
+
 // FBSDKCoreKit
 #define COCOAPODS_POD_AVAILABLE_FBSDKCoreKit
 #define COCOAPODS_VERSION_MAJOR_FBSDKCoreKit 4
@@ -71,6 +77,12 @@
 #define COCOAPODS_VERSION_MAJOR_FastttCamera_Default 0
 #define COCOAPODS_VERSION_MINOR_FastttCamera_Default 3
 #define COCOAPODS_VERSION_PATCH_FastttCamera_Default 1
+
+// Flow
+#define COCOAPODS_POD_AVAILABLE_Flow
+#define COCOAPODS_VERSION_MAJOR_Flow 1
+#define COCOAPODS_VERSION_MINOR_Flow 6
+#define COCOAPODS_VERSION_PATCH_Flow 3
 
 // Masonry
 #define COCOAPODS_POD_AVAILABLE_Masonry

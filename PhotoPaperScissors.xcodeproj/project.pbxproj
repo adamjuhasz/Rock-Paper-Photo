@@ -69,6 +69,7 @@
 		2E8242C01B2FBBE400746842 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8242BF1B2FBBE400746842 /* libsqlite3.dylib */; };
 		2E8242C21B2FBBEB00746842 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8242C11B2FBBEB00746842 /* Accounts.framework */; };
 		2E8242C41B2FBBF200746842 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8242C31B2FBBF200746842 /* Social.framework */; };
+		2E83BB431B3532E3003A6FF0 /* ChallengeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E83BB421B3532E3003A6FF0 /* ChallengeCell.xib */; };
 		2EC7CA401B32A86900FCA38A /* PastChallengesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA3F1B32A86900FCA38A /* PastChallengesController.m */; };
 		2EC7CA431B32B09E00FCA38A /* ChallengeThemeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA421B32B09E00FCA38A /* ChallengeThemeController.m */; };
 		2EC7CA461B32BAF400FCA38A /* ChallengeTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA451B32BAF400FCA38A /* ChallengeTheme.m */; };
@@ -198,6 +199,7 @@
 		2E8242BF1B2FBBE400746842 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		2E8242C11B2FBBEB00746842 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		2E8242C31B2FBBF200746842 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		2E83BB421B3532E3003A6FF0 /* ChallengeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChallengeCell.xib; sourceTree = "<group>"; };
 		2EC7CA3E1B32A86900FCA38A /* PastChallengesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PastChallengesController.h; sourceTree = "<group>"; };
 		2EC7CA3F1B32A86900FCA38A /* PastChallengesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PastChallengesController.m; sourceTree = "<group>"; };
 		2EC7CA411B32B09E00FCA38A /* ChallengeThemeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengeThemeController.h; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 			children = (
 				2E6EFF641B301586006FEFC4 /* ChallengeCell.h */,
 				2E6EFF651B301586006FEFC4 /* ChallengeCell.m */,
+				2E83BB421B3532E3003A6FF0 /* ChallengeCell.xib */,
 				2E6EFF671B3015E8006FEFC4 /* CurrentChallengesController.h */,
 				2E6EFF681B3015E8006FEFC4 /* CurrentChallengesController.m */,
 				2EC7CA3E1B32A86900FCA38A /* PastChallengesController.h */,
@@ -644,6 +647,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EF6C22E1B34EA9600616F17 /* DigitsKitResources.bundle in Resources */,
+				2E83BB431B3532E3003A6FF0 /* ChallengeCell.xib in Resources */,
 				2E116E331B2E985800A0D77F /* Main.storyboard in Resources */,
 				2E7E069E1B32079D00A796CE /* LaunchScreen.xib in Resources */,
 				2E116E351B2E985800A0D77F /* Images.xcassets in Resources */,
