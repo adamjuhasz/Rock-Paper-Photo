@@ -11,6 +11,7 @@
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Fabric/Fabric.h>
+#import <DigitsKit/DigitsKit.h>
 #import <Crashlytics/Crashlytics.h>
 
 
@@ -28,7 +29,11 @@
     // https://parse.com/docs/ios_guide#localdatastore/iOS
     //[Parse enableLocalDatastore];
     
-    [Fabric with:@[CrashlyticsKit]];
+#ifdef DEBUG
+    [Fabric with:@[DigitsKit]];
+#else
+    [Fabric with:@[CrashlyticsKit, DigitsKit]];
+#endif
     
     // Initialize Parse.
     [Parse setApplicationId:@"0QyTxtWAQ1ZS8vEGGb3igejidgXHsB5WgAb48ojL"
@@ -48,6 +53,8 @@
     
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     [PFTwitterUtils initializeWithConsumerKey:@"MswULT6L6nMik6uyIszhgZ6C8" consumerSecret:@"zmrMnAIbt5v6vZHaOb87GxDDjnVM7uZk2luIuXTGVZM1okMzwm"];
+    
+    [[PFUser currentUser] fetch];
     
     if ([PFUser currentUser]) {
         [[UIApplication sharedApplication] registerForRemoteNotifications];

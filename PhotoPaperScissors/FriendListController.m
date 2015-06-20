@@ -10,6 +10,11 @@
 #import <Parse/Parse.h>
 #import "FriendCell.h"
 #import "ChallengeThemeController.h"
+#import "PFUser+findFacebookFriends.h"
+
+@interface FriendListController () <UIActionSheetDelegate>
+
+@end
 
 @implementation FriendListController
 
@@ -74,6 +79,10 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.title = @"Friends";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Find Friends"
+                                                                              style:self.editButtonItem.style
+                                                                             target:self
+                                                                             action:@selector(showSheet)];
 }
 
 - (void)viewDidUnload {
@@ -122,28 +131,36 @@
  // Override to customize what kind of query to perform on the class. The default is to query for
  // all objects ordered by createdAt descending.
  - (PFQuery *)queryForTable {
-     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-
+     if ([PFUser currentUser] == nil)
+     {
+         return nil;
+     }
+     
+     PFQuery *meQuery = [PFQuery queryWithClassName:self.parseClassName];
+     [meQuery whereKey:@"user" equalTo:[PFUser currentUser]];
+     
+     PFQuery *themQuery = [PFQuery queryWithClassName:self.parseClassName];
+     [themQuery whereKey:@"friendsWith" equalTo:[PFUser currentUser]];
+     
+     PFQuery *fullQuery = [PFQuery orQueryWithSubqueries:@[meQuery, themQuery]];
+     
+     
     // If Pull To Refresh is enabled, query against the network by default.
     if (self.pullToRefreshEnabled) {
-        query.cachePolicy = kPFCachePolicyNetworkOnly;
+        fullQuery.cachePolicy = kPFCachePolicyNetworkOnly;
     }
 
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
     if (self.objects.count == 0) {
-        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        fullQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
-
-    [query orderByDescending:@"nickname"];
-     if ([PFUser currentUser]) {
-         [query whereKey:@"user" equalTo:[PFUser currentUser]];
-     } else {
-         [query whereKey:@"user" equalTo:[NSNull null]];
-     }
-    [query includeKey:@"friendsWith"];
+    
+     [fullQuery includeKey:@"friendsWith"];
+     [fullQuery includeKey:@"user"];
+     [fullQuery orderByDescending:@"nickname"];
      
-    return query;
+    return fullQuery;
  }
 
 
@@ -157,7 +174,16 @@
      FriendCell *cell = (FriendCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
  
      // Configure the cell
-     PFUser *friend = object[@"friendsWith"];
+     PFUser *user = object[@"user"];
+     PFUser *friendsWith = object[@"friendsWith"];
+     
+     PFUser *current = [PFUser currentUser];
+     PFUser *friend = nil;
+     if ([current.objectId isEqualToString:user.objectId]) {
+         friend = friendsWith;
+     } else {
+         friend = user;
+     }
      
      cell.friendName.text = friend[@"nickname"];
      cell.friendPhoto.file = friend[@"image"];
@@ -264,6 +290,25 @@
         
         PFUser *friend = object[@"friendsWith"];
         controller.challengee = friend;
+    }
+}
+
+- (void)showSheet
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Find friends through"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Facebook", @"Contacts", nil];
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [PFUser findFacebookFriends];
     }
 }
 

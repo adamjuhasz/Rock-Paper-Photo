@@ -14,6 +14,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <NSURLConnection-Blocks/NSURLConnection+Blocks.h>
 #import "PFAnalytics+PFAnalytics_TrackError.h"
+#import "UIImage+fixOrientation.h"
 
 @implementation SignUpController
 
@@ -21,8 +22,12 @@
 {
     [super viewDidLoad];
     self.signUp.enabled = NO;
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:FBSDKProfileDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+    self.profileImageView.clipsToBounds = YES;
+    self.profileImageView.layer.cornerRadius = self.profileImageView.bounds.size.width/2.0;
+    /*
+    __block __weak id observer;
+    observer = [[NSNotificationCenter defaultCenter] addObserverForName:FBSDKProfileDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
         FBSDKProfile *currentProfile = [FBSDKProfile currentProfile];
         self.nickname.text = currentProfile.name;
         
@@ -56,7 +61,7 @@
             NSLog(@"%@", error);
         }];
     }];
-    
+    */
     RAC(self.profileImageView, image) = [RACObserve(self, profileImage) filter:^BOOL(id value) {
         return (value != nil);
     }];
@@ -74,7 +79,14 @@
                           return @([usernameValid boolValue] && [photoValid boolValue]);
                       }];
     [signUpActiveSignal subscribeNext:^(NSNumber *signupActive) {
-        self.signUp.enabled = [signupActive boolValue];
+        BOOL isActive = [signupActive boolValue];
+        self.signUp.enabled = isActive;
+        if (isActive) {
+            [self.signUp setTitleColor:[UIColor colorWithWhite:1.0 alpha:1.0] forState:UIControlStateNormal];
+        } else {
+            [self.signUp setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
+        }
+        
     }];
 }
 
@@ -148,14 +160,27 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePickerController.delegate = (id)self;
     [self presentViewController:imagePickerController animated:YES completion:nil];
-    
+}
+
+- (IBAction)getNewPhoto:(id)sender
+{
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) {
+        imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+    }
+    imagePickerController.delegate = (id)self;
+    [self presentViewController:imagePickerController animated:YES completion:nil];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     //You can retrieve the actual UIImage
     UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    UIImage *normalized = [[image scaleToCoverSize:CGSizeMake(300, 300)] cropToSize:CGSizeMake(300, 300) usingMode:NYXCropModeBottomCenter];
+    UIImage *rotated = [image fixOrientation];
+    UIImage *scaled = [rotated scaleToSize:CGSizeMake(300, 300) usingMode:NYXResizeModeAspectFill];
+    UIImage *cropped = [scaled cropToSize:CGSizeMake(300, 300) usingMode:NYXCropModeBottomCenter];
+    UIImage *normalized = cropped;
     self.profileImage = normalized;
     
     [picker dismissViewControllerAnimated:YES completion:^{

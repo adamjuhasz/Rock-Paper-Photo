@@ -72,6 +72,11 @@
 		2EC7CA401B32A86900FCA38A /* PastChallengesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA3F1B32A86900FCA38A /* PastChallengesController.m */; };
 		2EC7CA431B32B09E00FCA38A /* ChallengeThemeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA421B32B09E00FCA38A /* ChallengeThemeController.m */; };
 		2EC7CA461B32BAF400FCA38A /* ChallengeTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA451B32BAF400FCA38A /* ChallengeTheme.m */; };
+		2EC7CA491B33D95600FCA38A /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA481B33D95600FCA38A /* UIImage+fixOrientation.m */; };
+		2EC7CA4D1B34921600FCA38A /* PFUser+findFacebookFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA4C1B34921600FCA38A /* PFUser+findFacebookFriends.m */; };
+		2EF6C22D1B34EA9600616F17 /* DigitsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */; };
+		2EF6C22E1B34EA9600616F17 /* DigitsKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */; };
+		2EF6C22F1B34EA9600616F17 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF6C22C1B34EA9600616F17 /* TwitterCore.framework */; };
 		69AE1E1916C656BEF14E5FD9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAEE433A730252B92CF17403 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -199,6 +204,13 @@
 		2EC7CA421B32B09E00FCA38A /* ChallengeThemeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengeThemeController.m; sourceTree = "<group>"; };
 		2EC7CA441B32BAF400FCA38A /* ChallengeTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengeTheme.h; sourceTree = "<group>"; };
 		2EC7CA451B32BAF400FCA38A /* ChallengeTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengeTheme.m; sourceTree = "<group>"; };
+		2EC7CA471B33D95600FCA38A /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
+		2EC7CA481B33D95600FCA38A /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
+		2EC7CA4B1B34921600FCA38A /* PFUser+findFacebookFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFUser+findFacebookFriends.h"; sourceTree = "<group>"; };
+		2EC7CA4C1B34921600FCA38A /* PFUser+findFacebookFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFUser+findFacebookFriends.m"; sourceTree = "<group>"; };
+		2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DigitsKit.framework; sourceTree = "<group>"; };
+		2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DigitsKitResources.bundle; path = DigitsKit.framework/Versions/A/Resources/DigitsKitResources.bundle; sourceTree = "<group>"; };
+		2EF6C22C1B34EA9600616F17 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
 		BAEE433A730252B92CF17403 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44628D4B31533E82D399F9C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -224,9 +236,11 @@
 				2E8242B41B2FBBB700746842 /* MobileCoreServices.framework in Frameworks */,
 				2E8242B21B2FBBAF00746842 /* CoreLocation.framework in Frameworks */,
 				2E8242B01B2FBBA500746842 /* CoreGraphics.framework in Frameworks */,
+				2EF6C22F1B34EA9600616F17 /* TwitterCore.framework in Frameworks */,
 				2E8242AE1B2FBB9C00746842 /* CFNetwork.framework in Frameworks */,
 				2E8242AC1B2FBB9700746842 /* AudioToolbox.framework in Frameworks */,
 				69AE1E1916C656BEF14E5FD9 /* libPods.a in Frameworks */,
+				2EF6C22D1B34EA9600616F17 /* DigitsKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,28 +287,22 @@
 				2EC7CA451B32BAF400FCA38A /* ChallengeTheme.m */,
 				2E116E2E1B2E985800A0D77F /* MainTabBarController.h */,
 				2E116E2F1B2E985800A0D77F /* MainTabBarController.m */,
-				2E7E069F1B321F3700A796CE /* SignUpController.h */,
-				2E7E06A01B321F3700A796CE /* SignUpController.m */,
+				2EC7CA4A1B33E3BD00FCA38A /* Profile */,
 				2E116E311B2E985800A0D77F /* Main.storyboard */,
 				2E6EFFF01B30F415006FEFC4 /* PushPermissionController.h */,
 				2E6EFFF11B30F415006FEFC4 /* PushPermissionController.m */,
 				2E7E06A31B32752800A796CE /* Friend Page */,
 				2E7E06A21B32750B00A796CE /* Challenge Page */,
-				2EC7CA411B32B09E00FCA38A /* ChallengeThemeController.h */,
-				2EC7CA421B32B09E00FCA38A /* ChallengeThemeController.m */,
-				2E6EFF581B2FDFC9006FEFC4 /* CameraController.h */,
-				2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */,
-				2E6EFF5B1B2FEBDF006FEFC4 /* PhotoViewController.h */,
-				2E6EFF5C1B2FEBDF006FEFC4 /* PhotoViewController.m */,
+				2EF6C2291B349CAC00616F17 /* Challenges */,
 				2E6EFF521B2FD1F9006FEFC4 /* UserListController.h */,
 				2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */,
-				2E6EFFF31B3118E0006FEFC4 /* ProfileViewController.h */,
-				2E6EFFF41B3118E0006FEFC4 /* ProfileViewController.m */,
 				2E7E069D1B32079D00A796CE /* LaunchScreen.xib */,
 				2E116E341B2E985800A0D77F /* Images.xcassets */,
 				2E116E271B2E985800A0D77F /* Supporting Files */,
 				2E6EFF6A1B30B3E7006FEFC4 /* PFAnalytics+PFAnalytics_TrackError.h */,
 				2E6EFF6B1B30B3E7006FEFC4 /* PFAnalytics+PFAnalytics_TrackError.m */,
+				2EC7CA4B1B34921600FCA38A /* PFUser+findFacebookFriends.h */,
+				2EC7CA4C1B34921600FCA38A /* PFUser+findFacebookFriends.m */,
 			);
 			path = PhotoPaperScissors;
 			sourceTree = "<group>";
@@ -463,6 +471,8 @@
 				2E6EFF681B3015E8006FEFC4 /* CurrentChallengesController.m */,
 				2EC7CA3E1B32A86900FCA38A /* PastChallengesController.h */,
 				2EC7CA3F1B32A86900FCA38A /* PastChallengesController.m */,
+				2EC7CA411B32B09E00FCA38A /* ChallengeThemeController.h */,
+				2EC7CA421B32B09E00FCA38A /* ChallengeThemeController.m */,
 			);
 			name = "Challenge Page";
 			sourceTree = "<group>";
@@ -478,6 +488,30 @@
 			name = "Friend Page";
 			sourceTree = "<group>";
 		};
+		2EC7CA4A1B33E3BD00FCA38A /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				2E7E069F1B321F3700A796CE /* SignUpController.h */,
+				2E7E06A01B321F3700A796CE /* SignUpController.m */,
+				2EC7CA471B33D95600FCA38A /* UIImage+fixOrientation.h */,
+				2EC7CA481B33D95600FCA38A /* UIImage+fixOrientation.m */,
+				2E6EFFF31B3118E0006FEFC4 /* ProfileViewController.h */,
+				2E6EFFF41B3118E0006FEFC4 /* ProfileViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		2EF6C2291B349CAC00616F17 /* Challenges */ = {
+			isa = PBXGroup;
+			children = (
+				2E6EFF581B2FDFC9006FEFC4 /* CameraController.h */,
+				2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */,
+				2E6EFF5B1B2FEBDF006FEFC4 /* PhotoViewController.h */,
+				2E6EFF5C1B2FEBDF006FEFC4 /* PhotoViewController.m */,
+			);
+			name = Challenges;
+			sourceTree = "<group>";
+		};
 		FB17E8C75092181537F9439A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -490,6 +524,9 @@
 		FC324F0128DAA72F4142E76B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */,
+				2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */,
+				2EF6C22C1B34EA9600616F17 /* TwitterCore.framework */,
 				2E6EFFF71B31EA26006FEFC4 /* Fabric.framework */,
 				2E6EFFF81B31EA26006FEFC4 /* Crashlytics.framework */,
 				2E6EFFEE1B30EEA6006FEFC4 /* AVFoundation.framework */,
@@ -606,6 +643,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EF6C22E1B34EA9600616F17 /* DigitsKitResources.bundle in Resources */,
 				2E116E331B2E985800A0D77F /* Main.storyboard in Resources */,
 				2E7E069E1B32079D00A796CE /* LaunchScreen.xib in Resources */,
 				2E116E351B2E985800A0D77F /* Images.xcassets in Resources */,
@@ -685,6 +723,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EC7CA4D1B34921600FCA38A /* PFUser+findFacebookFriends.m in Sources */,
 				2E6EFFAB1B30C1CA006FEFC4 /* ANGifAppExtension.m in Sources */,
 				2E6EFFB41B30C1CA006FEFC4 /* LZWSpoof.m in Sources */,
 				2E6EFF6C1B30B3E7006FEFC4 /* PFAnalytics+PFAnalytics_TrackError.m in Sources */,
@@ -707,6 +746,7 @@
 				2E6EFFA81B30C1CA006FEFC4 /* ANGifEncoder.m in Sources */,
 				2E6EFF511B2FC914006FEFC4 /* FriendListController.m in Sources */,
 				2E6EFFB01B30C1CA006FEFC4 /* ANMutableColorArray.m in Sources */,
+				2EC7CA491B33D95600FCA38A /* UIImage+fixOrientation.m in Sources */,
 				2E6EFF541B2FD1F9006FEFC4 /* UserListController.m in Sources */,
 				2E6EFF661B301586006FEFC4 /* ChallengeCell.m in Sources */,
 				2E6EFFB31B30C1CA006FEFC4 /* ANGifImageFrame.m in Sources */,

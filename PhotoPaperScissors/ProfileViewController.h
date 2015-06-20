@@ -12,7 +12,7 @@
 @interface ProfileViewController : UIViewController
 
 @property IBOutlet PFImageView *profileImage;
-@property IBOutlet UILabel *username;
-
+@property IBOutlet UITextField *nickname;
+@property UIImage *aNewProfileImage;
 
 @end
