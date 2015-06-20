@@ -14,5 +14,6 @@
 @property IBOutlet PFImageView *profileImage;
 @property IBOutlet UITextField *nickname;
 @property UIImage *aNewProfileImage;
+@property IBOutlet UIButton *saveButton;
 
 @end

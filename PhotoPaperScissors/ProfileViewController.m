@@ -7,8 +7,10 @@
 //
 
 #import "ProfileViewController.h"
+
 #import <NYXImagesKit/UIImage+Resizing.h>
 #import <Parse/Parse.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 #import "UIImage+fixOrientation.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
@@ -25,6 +27,23 @@
     self.profileImage.contentMode = UIViewContentModeScaleAspectFill;
     self.profileImage.layer.cornerRadius = self.profileImage.bounds.size.width/2.0;
     self.profileImage.clipsToBounds = YES;
+    
+    
+    RACSignal *validNickname = [self.nickname.rac_textSignal map:^id(NSString *text) {
+        return @(text.length > 0);
+    }];
+    
+    [validNickname subscribeNext:^(NSNumber *signupActive) {
+        BOOL isActive = [signupActive boolValue];
+        self.saveButton.enabled = isActive;
+        if (isActive) {
+            [self.saveButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:1.0] forState:UIControlStateNormal];
+        } else {
+            [self.saveButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
+        }
+        
+    }];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated

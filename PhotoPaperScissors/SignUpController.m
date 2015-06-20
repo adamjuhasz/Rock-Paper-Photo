@@ -66,6 +66,10 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
         
     }];
     
+    [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpNicknameTutorialString];
+    [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpPhotoTutorialString];
+    [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpCompleteTutorialString];
+    
     __weak typeof(self) weakSelf = self;
     [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpNicknameTutorialString
                                                                 afterDelay:2.0
@@ -175,10 +179,15 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 - (IBAction)getNewPhoto:(id)sender
 {
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
+        return;
+    }
+    
     imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) {
         imagePickerController.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     }
+    
     imagePickerController.delegate = (id)self;
     [self presentViewController:imagePickerController animated:YES completion:nil];
 }

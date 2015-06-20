@@ -371,7 +371,7 @@ NSMutableDictionary *cachedChallenges;
         [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError * __nullable error) {
             if (error) {
                 NSLog(@"Error with push: %@", error);
-                [PFAnalytics trackErrorIn:@"send" withComment:@"sendPushInBackgroundWithBlock" withError:error];
+                [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"sendPushInBackgroundWithBlock" withError:error];
                 return;
             }
         }];

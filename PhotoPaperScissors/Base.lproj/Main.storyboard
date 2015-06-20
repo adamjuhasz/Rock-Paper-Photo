@@ -189,7 +189,7 @@
             <objects>
                 <tableViewController id="yW1-Nz-htr" customClass="UserListController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="5Do-37-pUI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -372,13 +372,12 @@
                             <constraint firstItem="Eqf-uo-UuM" firstAttribute="top" secondItem="vrm-yS-Xe0" secondAttribute="bottom" priority="750" constant="20" id="yDL-yt-kOy"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="You" image="You" id="bdf-Kr-bbC">
-                        <inset key="imageInsets" minX="6" minY="6" maxX="6" maxY="6"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="You" image="You" id="bdf-Kr-bbC"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="nickname" destination="cVi-Jz-OaN" id="HAs-GR-LYl"/>
                         <outlet property="profileImage" destination="Eqf-uo-UuM" id="qD6-dr-ATK"/>
+                        <outlet property="saveButton" destination="gTb-Hn-oQr" id="U9H-ak-KEd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oRb-3V-eYF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -784,13 +783,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="selectedImageTintColor" red="0.27450980390000002" green="0.87843137250000003" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="qNY-AW-9Ic" kind="presentation" identifier="presentSignUp" id="EO1-dy-nYK"/>
                         <segue destination="Tmc-c7-8dZ" kind="relationship" relationship="viewControllers" id="mgf-cM-uva"/>
                         <segue destination="Wpm-XH-Wwk" kind="relationship" relationship="viewControllers" id="GXg-5K-1JA"/>
                         <segue destination="HV8-Wd-kwr" kind="relationship" relationship="viewControllers" id="zKo-Y2-u9l"/>
-                        <segue destination="yW1-Nz-htr" kind="relationship" relationship="viewControllers" id="vwC-SU-sFo"/>
                         <segue destination="4CH-gH-TDm" kind="relationship" relationship="viewControllers" id="QNo-1b-3sc"/>
                     </connections>
                 </tabBarController>
@@ -885,9 +884,7 @@
         <scene sceneID="qGZ-9r-8Fb">
             <objects>
                 <navigationController id="Wpm-XH-Wwk" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friends" image="Friends" id="nMK-Fb-ycL">
-                        <inset key="imageInsets" minX="13" minY="7" maxX="13" maxY="7"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Friends" image="Friends" id="nMK-Fb-ycL"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="QIb-sM-loe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -901,13 +898,11 @@
             </objects>
             <point key="canvasLocation" x="1648" y="-427"/>
         </scene>
-        <!--Challenges-->
+        <!--Active-->
         <scene sceneID="kSn-wv-Dgu">
             <objects>
                 <navigationController id="Tmc-c7-8dZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Challenges" image="Challenges" id="6G3-J3-Px4">
-                        <inset key="imageInsets" minX="6" minY="6" maxX="6" maxY="4"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Active" image="Challenges" id="6G3-J3-Px4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3BY-YA-yC2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -920,7 +915,7 @@
             </objects>
             <point key="canvasLocation" x="1648" y="365"/>
         </scene>
-        <!--Challenges-->
+        <!--Active-->
         <scene sceneID="q3X-39-kHP">
             <objects>
                 <tableViewController id="6fY-nP-AmP" customClass="CurrentChallengesController" sceneMemberID="viewController">
@@ -1064,7 +1059,7 @@
                             <outlet property="delegate" destination="6fY-nP-AmP" id="BxW-VZ-ZyR"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Challenges" id="ymE-zK-2D0"/>
+                    <tabBarItem key="tabBarItem" title="Active" image="Challenges" id="ymE-zK-2D0"/>
                     <navigationItem key="navigationItem" id="cUR-jD-eWH"/>
                     <connections>
                         <segue destination="OWq-Zf-1Js" kind="show" identifier="showPhotos" id="cAy-Ds-t3X"/>
@@ -1165,13 +1160,11 @@
             </objects>
             <point key="canvasLocation" x="2654" y="-427"/>
         </scene>
-        <!--Past-->
+        <!--Completed-->
         <scene sceneID="PqI-NJ-Z00">
             <objects>
                 <navigationController id="HV8-Wd-kwr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Past" image="Challenges" id="K6Z-i0-oRz">
-                        <inset key="imageInsets" minX="6" minY="6" maxX="6" maxY="4"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Completed" image="Completed" id="K6Z-i0-oRz"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wU5-Ze-bmm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1185,7 +1178,7 @@
             </objects>
             <point key="canvasLocation" x="1656" y="1046"/>
         </scene>
-        <!--Challenges-->
+        <!--Completed-->
         <scene sceneID="IgR-ph-tJL">
             <objects>
                 <tableViewController id="68d-Pf-yYy" customClass="PastChallengesController" sceneMemberID="viewController">
@@ -1287,7 +1280,7 @@
                             <outlet property="delegate" destination="68d-Pf-yYy" id="Kmx-mq-tw7"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Challenges" id="ohV-uN-02T"/>
+                    <tabBarItem key="tabBarItem" title="Completed" image="Completed" id="ohV-uN-02T"/>
                     <navigationItem key="navigationItem" id="7C2-Ip-hw1"/>
                     <connections>
                         <segue destination="Fb3-y9-jWG" kind="show" identifier="showCamera" id="U6c-vU-7w2"/>
@@ -1300,12 +1293,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Challenges" width="54" height="52"/>
-        <image name="Friends" width="94" height="60"/>
-        <image name="You" width="61" height="55"/>
+        <image name="Challenges" width="26" height="18"/>
+        <image name="Completed" width="22" height="27"/>
+        <image name="Friends" width="26" height="26"/>
+        <image name="You" width="20" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="k3X-K1-IDS"/>
         <segue reference="cAy-Ds-t3X"/>
+        <segue reference="k3X-K1-IDS"/>
     </inferredMetricsTieBreakers>
 </document>

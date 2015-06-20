@@ -13,6 +13,8 @@
 		2E116E331B2E985800A0D77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E116E311B2E985800A0D77F /* Main.storyboard */; };
 		2E116E351B2E985800A0D77F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E116E341B2E985800A0D77F /* Images.xcassets */; };
 		2E116E441B2E985800A0D77F /* PhotoPaperScissorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E116E431B2E985800A0D77F /* PhotoPaperScissorsTests.m */; };
+		2E18C5611B3618AB00F621B2 /* PFUser+MakeFriendships.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C5601B3618AB00F621B2 /* PFUser+MakeFriendships.m */; };
+		2E18C5631B361B2700F621B2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E18C5621B361B2700F621B2 /* MessageUI.framework */; };
 		2E6EFF511B2FC914006FEFC4 /* FriendListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF501B2FC914006FEFC4 /* FriendListController.m */; };
 		2E6EFF541B2FD1F9006FEFC4 /* UserListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */; };
 		2E6EFF5A1B2FDFC9006FEFC4 /* CameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */; };
@@ -105,6 +107,9 @@
 		2E116E3D1B2E985800A0D77F /* PhotoPaperScissorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPaperScissorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E116E421B2E985800A0D77F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E116E431B2E985800A0D77F /* PhotoPaperScissorsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPaperScissorsTests.m; sourceTree = "<group>"; };
+		2E18C55F1B3618AB00F621B2 /* PFUser+MakeFriendships.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFUser+MakeFriendships.h"; sourceTree = "<group>"; };
+		2E18C5601B3618AB00F621B2 /* PFUser+MakeFriendships.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFUser+MakeFriendships.m"; sourceTree = "<group>"; };
+		2E18C5621B361B2700F621B2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		2E6EFF4F1B2FC914006FEFC4 /* FriendListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListController.h; sourceTree = "<group>"; };
 		2E6EFF501B2FC914006FEFC4 /* FriendListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListController.m; sourceTree = "<group>"; };
 		2E6EFF521B2FD1F9006FEFC4 /* UserListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListController.h; path = ../UserListController.h; sourceTree = "<group>"; };
@@ -222,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E18C5631B361B2700F621B2 /* MessageUI.framework in Frameworks */,
 				2E6EFFEF1B30EEA6006FEFC4 /* AVFoundation.framework in Frameworks */,
 				2E6EFFED1B30EE7F006FEFC4 /* CoreMedia.framework in Frameworks */,
 				2E6EFFFA1B31EA26006FEFC4 /* Crashlytics.framework in Frameworks */,
@@ -305,6 +311,8 @@
 				2E6EFF6B1B30B3E7006FEFC4 /* PFAnalytics+PFAnalytics_TrackError.m */,
 				2EC7CA4B1B34921600FCA38A /* PFUser+findFacebookFriends.h */,
 				2EC7CA4C1B34921600FCA38A /* PFUser+findFacebookFriends.m */,
+				2E18C55F1B3618AB00F621B2 /* PFUser+MakeFriendships.h */,
+				2E18C5601B3618AB00F621B2 /* PFUser+MakeFriendships.m */,
 			);
 			path = PhotoPaperScissors;
 			sourceTree = "<group>";
@@ -527,6 +535,7 @@
 		FC324F0128DAA72F4142E76B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E18C5621B361B2700F621B2 /* MessageUI.framework */,
 				2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */,
 				2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */,
 				2EF6C22C1B34EA9600616F17 /* TwitterCore.framework */,
@@ -743,6 +752,7 @@
 				2E6EFFB21B30C1CA006FEFC4 /* ANGifImageDescriptor.m in Sources */,
 				2E6EFFDD1B30C42A006FEFC4 /* BitmapContextRep.m in Sources */,
 				2E6EFFE11B30C42A006FEFC4 /* CGContextCreator.m in Sources */,
+				2E18C5611B3618AB00F621B2 /* PFUser+MakeFriendships.m in Sources */,
 				2E6EFFE41B30C42A006FEFC4 /* BitmapCropManipulator.m in Sources */,
 				2E6EFF5A1B2FDFC9006FEFC4 /* CameraController.m in Sources */,
 				2E6EFF5D1B2FEBDF006FEFC4 /* PhotoViewController.m in Sources */,

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4C1714BEE4CF2360135AA6B2"
+               BlueprintIdentifier = "0C26B9E249CC4FBD744E75C1"
                BuildableName = "libPods-ClusterPrePermissions.a"
                BlueprintName = "Pods-ClusterPrePermissions"
                ReferencedContainer = "container:Pods.xcodeproj">

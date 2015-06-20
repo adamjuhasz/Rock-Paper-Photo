@@ -32,6 +32,8 @@ typedef enum : NSUInteger {
 @property NSUInteger maxRounds;
 
 @property NSString *challengeName;
+@property BOOL useBackCamera;
+
 @property PFUser *challenger;
 @property PFUser *challengee;
 @property PFUser *otherUser;

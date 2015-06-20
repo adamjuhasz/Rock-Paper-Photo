@@ -10,13 +10,22 @@
 
 #import <Parse/Parse.h>
 #import <Flow/Flow.h>
+#import <DigitsKit/DigitsKit.h>
+#import <MessageUI/MessageUI.h>
 
 #import "FriendCell.h"
 #import "ChallengeThemeController.h"
 #import "PFUser+findFacebookFriends.h"
+#import "PFAnalytics+PFAnalytics_TrackError.h"
+#import "PFUser+MakeFriendships.h"
 
-@interface FriendListController () <UIActionSheetDelegate>
+#define FriendsTutorial_ZerCount @"io.ajuhasz.friends.find"
 
+@interface FriendListController () <UIActionSheetDelegate, UIAlertViewDelegate, MFMessageComposeViewControllerDelegate>
+{
+    UIBarButtonItem *find;
+    UIBarButtonItem *search;
+}
 @end
 
 @implementation FriendListController
@@ -82,10 +91,17 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.title = @"Friends";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Find Friends"
-                                                                              style:self.editButtonItem.style
-                                                                             target:self
-                                                                             action:@selector(showSheet)];
+    find = [[UIBarButtonItem alloc] initWithTitle:@"Find"
+                                                             style:self.editButtonItem.style
+                                                            target:self
+                                                            action:@selector(showSheet)];
+    search = [[UIBarButtonItem alloc] initWithTitle:@"Search"
+                                                             style:UIBarButtonItemStylePlain
+                                                            target:self
+                                                            action:@selector(showSheet)];
+    search.enabled = NO;
+    self.navigationItem.rightBarButtonItems = @[find];
+    self.navigationItem.leftBarButtonItems = @[search];
 }
 
 - (void)viewDidUnload {
@@ -125,15 +141,32 @@
 }
 
 - (void)objectsDidLoad:(NSError *)error {
-    [super objectsDidLoad:error];
-    
     // This method is called every time objects are loaded from Parse via the PFQuery
+    if (self.objects.count == 0) {
+        __weak typeof(self) weakSelf = self;
+        [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:FriendsTutorial_ZerCount
+                                                                    afterDelay:2.0
+                                                                 withPredicate:NULL
+                                                             constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                                 __strong typeof(self) strongSelf = weakSelf;
+                                                                 tutorial.title = @"Now lets find which of your friends are already playing. Click Find.";
+                                                                 tutorial.successMessage = @"Great!";
+                                                                 tutorial.speechSynthesisesDisabled = NO;
+                                                                 tutorial.position = FLWTutorialPositionBottom;
+                                                                 //self.navigationController.navigationBar.topItem.rightBarButtonItems[0].
+                                                                 //tutorial.gesture = [[FLWTapGesture alloc] initWithTouchPoint:CGPointMake(CGRectGetMidX(find.bounds), CGRectGetMidY(find.bounds)) inView:find];
+                                                             }];
+    }
+    
+    [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:FriendsTutorial_ZerCount];
+    
+    [super objectsDidLoad:error];
 }
 
 
  // Override to customize what kind of query to perform on the class. The default is to query for
  // all objects ordered by createdAt descending.
- - (PFQuery *)queryForTable {
+- (PFQuery *)queryForTable {
      if ([PFUser currentUser] == nil)
      {
          return nil;
@@ -312,7 +345,94 @@
 {
     if (buttonIndex == 0) {
         [PFUser findFacebookFriends];
+        return;
+    } else if (buttonIndex == 1) {
+        if ([[Digits sharedInstance] session]) {
+            [self loadContactsWithDigitsSession:[[Digits sharedInstance] session]];
+            return;
+        }
+        
+        [[Digits sharedInstance] authenticateWithTitle:@"Rock Paper Photo" completion:^(DGTSession *session, NSError *error) {
+            if (error) {
+                NSLog(@"Error with authenticate: %@", error);
+                [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"authenticateWithTitle" withError:error];
+                return;
+            }
+            
+            if (session) {
+                [[PFUser currentUser] setObject:session.phoneNumber forKey:@"phoneNumber"];
+                [[PFUser currentUser] setObject:session.userID forKey:@"DigitID"];
+                [[PFUser currentUser] setObject:session.authToken forKey:@"DigitAuthToken"];
+                [[PFUser currentUser] setObject:session.authTokenSecret forKey:@"DigitAuthTokenSecret"];
+                [[PFUser currentUser] saveInBackground];
+                
+                [self loadContactsWithDigitsSession:session];
+            }
+        }];
     }
 }
+
+- (void)loadContactsWithDigitsSession:(DGTSession*)session
+{
+    DGTContacts *friendFinder = [[DGTContacts alloc] initWithUserSession:session];
+    [friendFinder startContactsUploadWithTitle:@"Rock Paper Photo" completion:^(DGTContactsUploadResult *result, NSError *error) {
+        if (error) {
+            NSLog(@"Error with startContactsUploadWithTitle: %@", error);
+            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"startContactsUploadWithTitle" withError:error];
+            return;
+        }
+        
+        [friendFinder lookupContactMatchesWithCursor:nil completion:^(NSArray *matches, NSString *nextCursor, NSError *error) {
+            if (error) {
+                NSLog(@"Error with lookupContactMatchesWithCurso: %@", error);
+                [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"lookupContactMatchesWithCursor" withError:error];
+                return;
+            }
+            
+            NSLog(@"matches: %@", matches);
+            PFQuery *userQuery = [PFUser query];
+            [userQuery whereKey:@"DigitID" containedIn:matches];
+            [PFUser AJMakeFriendsWithUsersWithQuery:userQuery
+                                     withCompletion:^(NSNumber *count) {
+                                         [self alertToDigitsCount:count.integerValue];
+            }];
+        }];
+    }];
+}
+
+- (void)alertToDigitsCount:(NSInteger)count
+{
+    NSString *string = [NSString stringWithFormat:@"Found %ld new friends through Facebook", (long)count];
+    UIAlertView *alerting = [[UIAlertView alloc] initWithTitle:@"Contacts"
+                                                       message:string
+                                                      delegate:self
+                                             cancelButtonTitle:@"OK"
+                                             otherButtonTitles:@"Invite More", nil];
+    [alerting show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        if(![MFMessageComposeViewController canSendText]) {
+            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warningAlert show];
+            return;
+        }
+        
+        MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+        NSString *mesageString = [NSString stringWithFormat:@"Try out Rock Paper Photos! %@", @"http://appstore.link"];
+        [messageController setBody:mesageString];
+        
+        messageController.messageComposeDelegate = self;
+        [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:messageController animated:YES completion:nil];
+    }
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end

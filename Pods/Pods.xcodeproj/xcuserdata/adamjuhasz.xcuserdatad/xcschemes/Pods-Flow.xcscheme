@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "43B3B76EDD29D54BBB760006"
+               BlueprintIdentifier = "40F0C91EA88F5029B47926C7"
                BuildableName = "libPods-Flow.a"
                BlueprintName = "Pods-Flow"
                ReferencedContainer = "container:Pods.xcodeproj">

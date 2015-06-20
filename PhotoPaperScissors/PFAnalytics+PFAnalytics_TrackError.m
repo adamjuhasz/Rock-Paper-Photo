@@ -12,12 +12,24 @@
 
 + (void)trackErrorIn:(NSString*)functionName withComment:(NSString*)comment withError:(NSError*)error
 {
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                          functionName, @"Source",
-                          comment, @"info",
-                          error, @"error", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
-    [PFAnalytics trackEventInBackground:@"Error" dimensions:dict block:nil];
+    if (functionName) {
+        [dict setObject:functionName forKey:@"Source"];
+    }
+    if (comment) {
+        [dict setObject:comment forKey:@"info"];
+    }
+    if (error) {
+        [dict setObject:[error description] forKey:@"error"];
+    }
+    
+    if (dict.allKeys.count == 0) {
+        [PFAnalytics trackEventInBackground:@"Error" block:nil];
+    } else {
+        [PFAnalytics trackEventInBackground:@"Error" dimensions:dict block:nil];
+    }
+    
 }
 
 @end
