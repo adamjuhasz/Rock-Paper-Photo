@@ -825,58 +825,42 @@
                         <viewControllerLayoutGuide type="bottom" id="rL0-6O-rFl"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="73t-lW-lHx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7kk-fc-nlV" userLabel="my Photo">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="252"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RGo-xl-M5O" userLabel="other photo">
-                                <rect key="frame" x="0.0" y="252" width="320" height="252"/>
-                                <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G22-QH-pdV">
+                                <rect key="frame" x="0.0" y="-64" width="375" height="667"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="7kk-fc-nlV" firstAttribute="top" secondItem="f8l-Kk-voG" secondAttribute="bottom" constant="-64" id="1yh-Jw-ycU"/>
-                            <constraint firstAttribute="centerX" secondItem="RGo-xl-M5O" secondAttribute="centerX" id="3Pd-aK-bYq"/>
-                            <constraint firstItem="7kk-fc-nlV" firstAttribute="width" secondItem="RGo-xl-M5O" secondAttribute="width" id="8WL-7q-wzI"/>
-                            <constraint firstItem="rL0-6O-rFl" firstAttribute="top" secondItem="7kk-fc-nlV" secondAttribute="bottom" id="Ecr-x9-bbe"/>
-                            <constraint firstAttribute="width" secondItem="RGo-xl-M5O" secondAttribute="width" id="MSF-Q6-ymV"/>
-                            <constraint firstItem="7kk-fc-nlV" firstAttribute="height" secondItem="RGo-xl-M5O" secondAttribute="height" id="OWP-YA-Wsd"/>
-                            <constraint firstItem="7kk-fc-nlV" firstAttribute="centerX" secondItem="RGo-xl-M5O" secondAttribute="centerX" id="RhT-E2-phy"/>
-                            <constraint firstItem="7kk-fc-nlV" firstAttribute="top" secondItem="RGo-xl-M5O" secondAttribute="bottom" id="Rqi-hh-cNQ"/>
-                            <constraint firstItem="RGo-xl-M5O" firstAttribute="top" secondItem="f8l-Kk-voG" secondAttribute="bottom" constant="-64" id="ldJ-wL-w83"/>
-                            <constraint firstAttribute="height" secondItem="RGo-xl-M5O" secondAttribute="height" multiplier="2" id="muP-4D-37o"/>
-                            <constraint firstItem="rL0-6O-rFl" firstAttribute="bottom" secondItem="RGo-xl-M5O" secondAttribute="bottom" id="soW-Gs-Aw4"/>
+                            <constraint firstItem="G22-QH-pdV" firstAttribute="height" secondItem="73t-lW-lHx" secondAttribute="height" id="Emf-fq-bja"/>
+                            <constraint firstAttribute="centerX" secondItem="G22-QH-pdV" secondAttribute="centerX" id="JzU-GG-obD"/>
+                            <constraint firstItem="G22-QH-pdV" firstAttribute="top" secondItem="f8l-Kk-voG" secondAttribute="bottom" constant="-64" id="Qz4-zK-hK1"/>
+                            <constraint firstAttribute="centerX" secondItem="G22-QH-pdV" secondAttribute="centerX" id="aqv-Ib-PYC"/>
+                            <constraint firstItem="rL0-6O-rFl" firstAttribute="top" secondItem="G22-QH-pdV" secondAttribute="bottom" id="dWm-rH-BVa"/>
+                            <constraint firstAttribute="centerY" secondItem="G22-QH-pdV" secondAttribute="centerY" id="qrl-9b-BsB"/>
+                            <constraint firstItem="G22-QH-pdV" firstAttribute="width" secondItem="73t-lW-lHx" secondAttribute="width" id="wps-VJ-hqz"/>
+                            <constraint firstItem="G22-QH-pdV" firstAttribute="width" secondItem="73t-lW-lHx" secondAttribute="width" id="ypk-uv-ohV"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="Rqi-hh-cNQ"/>
-                                <exclude reference="ldJ-wL-w83"/>
-                                <exclude reference="Ecr-x9-bbe"/>
+                                <exclude reference="Emf-fq-bja"/>
+                                <exclude reference="JzU-GG-obD"/>
+                                <exclude reference="qrl-9b-BsB"/>
+                                <exclude reference="ypk-uv-ohV"/>
                             </mask>
                         </variation>
                     </view>
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="myPhoto" destination="7kk-fc-nlV" id="b2j-1A-5Ng"/>
-                        <outlet property="otherUserPhoto" destination="RGo-xl-M5O" id="E5h-3P-bMb"/>
+                        <outlet property="embededPhotos" destination="G22-QH-pdV" id="TbT-Jx-WRU"/>
                         <segue destination="Fb3-y9-jWG" kind="show" identifier="showCamera" id="cfT-fH-ZNT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yFc-kM-Lpf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="N2G-vO-0DC"/>
-                <tapGestureRecognizer id="SEw-t6-soQ"/>
-                <tapGestureRecognizer id="EHh-9A-5ZM"/>
-                <tapGestureRecognizer id="qst-eP-Zfu"/>
-                <tapGestureRecognizer id="lFL-aS-9WT"/>
-                <tapGestureRecognizer id="7jg-53-XiB"/>
-                <tapGestureRecognizer id="nBy-Hh-D4h"/>
-                <tapGestureRecognizer id="RK3-bh-AaL"/>
             </objects>
             <point key="canvasLocation" x="3251" y="851"/>
         </scene>
@@ -1348,7 +1332,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="chL-OU-Il8"/>
-        <segue reference="U6c-vU-7w2"/>
+        <segue reference="cfT-fH-ZNT"/>
         <segue reference="vv2-9H-2xL"/>
     </inferredMetricsTieBreakers>
 </document>

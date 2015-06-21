@@ -96,6 +96,9 @@
 - (PFQuery *)queryForTable {    
      PFQuery *fullQuery = [PFQuery queryWithClassName:self.parseClassName];
      [fullQuery whereKey:@"completed" equalTo:@(YES)];
+    
+    fullQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
+    
      return fullQuery;
 }
 

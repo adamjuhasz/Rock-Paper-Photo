@@ -10,12 +10,11 @@
 #import "Challenge.h"
 
 @interface PhotoViewController : UIViewController
-
-@property IBOutlet UIImageView *otherUserPhoto;
-@property IBOutlet UIImageView *myPhoto;
-
-@property UIImage *otherUserImage;
-@property UIImage *myImage;
+{
+    NSMutableArray *photoImageViews;
+    NSMutableArray *photoRoundIndicatorViews;
+}
+@property IBOutlet UIScrollView *embededPhotos;
 
 @property Challenge *theChallenge;
 @property NSInteger showChallengeRound;

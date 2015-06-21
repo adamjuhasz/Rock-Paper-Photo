@@ -20,7 +20,6 @@
 #import "PhotoViewController.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
 
-
 @implementation PhotoViewController
 
 - (id)init
@@ -59,11 +58,6 @@
 {
     [super viewDidLoad];
     
-    RAC(self.otherUserPhoto, image) = [RACObserve(self, otherUserImage) filter:^BOOL(id value) {
-        return (value != nil);
-    }];
-    RAC(self.myPhoto, image) = RACObserve(self, myImage);
-    
     [[RACObserve(self, theChallenge) filter:^BOOL(id value) {
         return (value != nil);
     }] subscribeNext:^(Challenge *aChallenge) {
@@ -76,22 +70,18 @@
                                                                             action:nil];
 }
 
-- (void)showImageForOtherPlayerIfIAm:(PlayerType)playerType fromChallenge:(Challenge*)aChallenge withRound:(NSUInteger)roundNumberToShow
+- (void)viewWillLayoutSubviews
 {
-    switch (playerType) {
-        case Challengee:
-            self.otherUserImage = [aChallenge imageForPlayer:Challenger forRound:roundNumberToShow];
-            break;
-            
-        case Challenger:
-            self.otherUserImage = [aChallenge imageForPlayer:Challengee forRound:roundNumberToShow];
-            break;
-            
-        case Unknown:
-            self.myImage = [aChallenge imageForPlayer:Challenger forRound:roundNumberToShow];
-            self.otherUserImage = [aChallenge imageForPlayer:Challengee forRound:roundNumberToShow];
-            break;
-    }
+    [super viewWillLayoutSubviews];
+    
+    
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self loadChallenge:self.theChallenge];
 }
 
 - (void)loadChallenge:(Challenge*)aChallenge
@@ -114,22 +104,62 @@
     [controllers removeObjectsInRange:range];
     [self.navigationController setViewControllers:controllers];
     
-    self.myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:aChallenge.currentRoundNumber];
+    for (UIView *aView in photoImageViews) {
+        [aView removeFromSuperview];
+    }
+    [photoImageViews removeAllObjects];
     
-    if (aChallenge.currentRoundNumber > 1 && self.myImage == nil) {
+    for (UIView *aView in photoRoundIndicatorViews) {
+        [aView removeFromSuperview];
+    }
+    [photoRoundIndicatorViews removeAllObjects];
+    
+    self.embededPhotos.contentSize = CGSizeZero;
+    
+    CGSize imageSize = CGSizeMake(self.embededPhotos.bounds.size.width, self.embededPhotos.bounds.size.height/2.0);
+    
+    for (int i=0; i<aChallenge.currentRoundNumber; i++) {
+        UIImage *myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:(i+1)];
+        UIImage *theirImage = [aChallenge imageForPlayer:aChallenge.otherPlayerIs forRound:(i+1)];
+        
+        if (myImage) {
+            UIImageView *myImageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*imageSize.width, 0, imageSize.width, imageSize.height)];
+            myImageView.image = myImage;
+            [self.embededPhotos addSubview:myImageView];
+            [photoImageViews addObject:myImageView];
+            
+            self.embededPhotos.contentSize = CGSizeMake(CGRectGetMaxX(myImageView.frame), self.embededPhotos.bounds.size.height);
+            self.embededPhotos.contentOffset = CGPointMake(CGRectGetMinX(myImageView.frame), 0);
+        }
+        
+        if (theirImage) {
+            UIImageView *theirImageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*imageSize.width, imageSize.height, imageSize.width, imageSize.height)];
+            theirImageView.image = theirImage;
+            [self.embededPhotos addSubview:theirImageView];
+            [photoImageViews addObject:theirImageView];
+            
+            self.embededPhotos.contentSize = CGSizeMake(CGRectGetMaxX(theirImageView.frame), self.embededPhotos.bounds.size.height);
+            self.embededPhotos.contentOffset = CGPointMake(CGRectGetMinX(theirImageView.frame), 0);
+        }
+        
+        if (myImage || theirImage) {
+            UIView *roundIndicator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+            roundIndicator.backgroundColor = [UIColor blackColor];
+            roundIndicator.clipsToBounds = YES;
+            roundIndicator.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.5), self.embededPhotos.bounds.size.height/2.0);
+            [self.embededPhotos addSubview:roundIndicator];
+            [photoRoundIndicatorViews addObject:roundIndicator];
+        }
+    }
+    
+    if (aChallenge.currentRoundNumber > 1 && aChallenge.whosTurn == myTurn) {
         //show previous round
-        NSUInteger roundNumberToShow = (aChallenge.currentRoundNumber-1);
-        self.myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:roundNumberToShow];
-        [self showImageForOtherPlayerIfIAm:aChallenge.playerIAm fromChallenge:aChallenge withRound:roundNumberToShow];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Start next Round"
                                                                                   style:self.editButtonItem.style
                                                                                  target:self
                                                                                  action:@selector(showCamera:)];
         return;
     }
-    
-    //will load self.otherUserImage
-    [self showImageForOtherPlayerIfIAm:aChallenge.playerIAm fromChallenge:aChallenge withRound:aChallenge.currentRoundNumber];
     
     if (aChallenge.challengeComplete) {
         //all rounds complete
@@ -140,7 +170,7 @@
         return;
     }
     
-    if (self.otherUserImage && aChallenge.currentRoundNumber < aChallenge.maxRounds) {
+    if (aChallenge.whosTurn == noonesTurn && aChallenge.currentRoundNumber < aChallenge.maxRounds) {
             //Current round is complete
             self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next Round"
                                                                                       style:self.editButtonItem.style

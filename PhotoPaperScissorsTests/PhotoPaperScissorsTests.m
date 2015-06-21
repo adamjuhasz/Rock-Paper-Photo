@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+//#import "Challenge.h"
 
 @interface PhotoPaperScissorsTests : XCTestCase
-
+{
+    //PFObject *parseObject;
+}
 @end
 
 @implementation PhotoPaperScissorsTests
@@ -18,6 +21,7 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    
 }
 
 - (void)tearDown {

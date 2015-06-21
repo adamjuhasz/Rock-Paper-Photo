@@ -138,10 +138,13 @@ NSMutableDictionary *cachedChallenges;
         
         if ([self.challenger.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
             _playerIAm = Challenger;
+            _otherPlayerIs = Challengee;
         } else if ([self.challengee.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
             _playerIAm = Challengee;
+            _otherPlayerIs = Challenger;
         } else {
             _playerIAm = Unknown;
+            _otherPlayerIs = Unknown;
             _photoSent = YES;
         }
         
