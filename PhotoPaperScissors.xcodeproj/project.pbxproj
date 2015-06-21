@@ -15,6 +15,9 @@
 		2E116E441B2E985800A0D77F /* PhotoPaperScissorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E116E431B2E985800A0D77F /* PhotoPaperScissorsTests.m */; };
 		2E18C5611B3618AB00F621B2 /* PFUser+MakeFriendships.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C5601B3618AB00F621B2 /* PFUser+MakeFriendships.m */; };
 		2E18C5631B361B2700F621B2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E18C5621B361B2700F621B2 /* MessageUI.framework */; };
+		2E18C5661B363C6900F621B2 /* FriendCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C5651B363C6900F621B2 /* FriendCollectionCell.m */; };
+		2E18C5681B363C8900F621B2 /* FriendCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E18C5671B363C8900F621B2 /* FriendCollectionCell.xib */; };
+		2E18C56B1B363E2C00F621B2 /* FriendCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C56A1B363E2C00F621B2 /* FriendCollectionController.m */; };
 		2E6EFF511B2FC914006FEFC4 /* FriendListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF501B2FC914006FEFC4 /* FriendListController.m */; };
 		2E6EFF541B2FD1F9006FEFC4 /* UserListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */; };
 		2E6EFF5A1B2FDFC9006FEFC4 /* CameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */; };
@@ -110,6 +113,11 @@
 		2E18C55F1B3618AB00F621B2 /* PFUser+MakeFriendships.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFUser+MakeFriendships.h"; sourceTree = "<group>"; };
 		2E18C5601B3618AB00F621B2 /* PFUser+MakeFriendships.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFUser+MakeFriendships.m"; sourceTree = "<group>"; };
 		2E18C5621B361B2700F621B2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		2E18C5641B363C6900F621B2 /* FriendCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCollectionCell.h; sourceTree = "<group>"; };
+		2E18C5651B363C6900F621B2 /* FriendCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCollectionCell.m; sourceTree = "<group>"; };
+		2E18C5671B363C8900F621B2 /* FriendCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCollectionCell.xib; sourceTree = "<group>"; };
+		2E18C5691B363E2C00F621B2 /* FriendCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCollectionController.h; sourceTree = "<group>"; };
+		2E18C56A1B363E2C00F621B2 /* FriendCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCollectionController.m; sourceTree = "<group>"; };
 		2E6EFF4F1B2FC914006FEFC4 /* FriendListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListController.h; sourceTree = "<group>"; };
 		2E6EFF501B2FC914006FEFC4 /* FriendListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListController.m; sourceTree = "<group>"; };
 		2E6EFF521B2FD1F9006FEFC4 /* UserListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListController.h; path = ../UserListController.h; sourceTree = "<group>"; };
@@ -495,6 +503,11 @@
 				2E6EFF501B2FC914006FEFC4 /* FriendListController.m */,
 				2E6EFF5E1B2FF38D006FEFC4 /* FriendCell.h */,
 				2E6EFF5F1B2FF38D006FEFC4 /* FriendCell.m */,
+				2E18C5691B363E2C00F621B2 /* FriendCollectionController.h */,
+				2E18C56A1B363E2C00F621B2 /* FriendCollectionController.m */,
+				2E18C5641B363C6900F621B2 /* FriendCollectionCell.h */,
+				2E18C5651B363C6900F621B2 /* FriendCollectionCell.m */,
+				2E18C5671B363C8900F621B2 /* FriendCollectionCell.xib */,
 			);
 			name = "Friend Page";
 			sourceTree = "<group>";
@@ -660,6 +673,7 @@
 				2E116E331B2E985800A0D77F /* Main.storyboard in Resources */,
 				2E7E069E1B32079D00A796CE /* LaunchScreen.xib in Resources */,
 				2E116E351B2E985800A0D77F /* Images.xcassets in Resources */,
+				2E18C5681B363C8900F621B2 /* FriendCollectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +758,7 @@
 				2E6EFFAF1B30C1CA006FEFC4 /* ANCutColorTable.m in Sources */,
 				2E6EFFE31B30C42A006FEFC4 /* BitmapContextManipulator.m in Sources */,
 				2E6EFFAE1B30C1CA006FEFC4 /* ANColorTable.m in Sources */,
+				2E18C5661B363C6900F621B2 /* FriendCollectionCell.m in Sources */,
 				2E6EFFAA1B30C1CA006FEFC4 /* ANGifLogicalScreenDesc.m in Sources */,
 				2E6EFFAD1B30C1CA006FEFC4 /* ANAvgColorTable.m in Sources */,
 				2E6EFF631B2FFF5C006FEFC4 /* Challenge.m in Sources */,
@@ -782,6 +797,7 @@
 				2E6EFFE51B30C42A006FEFC4 /* BitmapDrawManipulator.m in Sources */,
 				2E7E06A11B321F3700A796CE /* SignUpController.m in Sources */,
 				2E6EFFB11B30C1CA006FEFC4 /* ANGifDataSubblock.m in Sources */,
+				2E18C56B1B363E2C00F621B2 /* FriendCollectionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

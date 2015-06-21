@@ -825,15 +825,15 @@
                         <viewControllerLayoutGuide type="bottom" id="rL0-6O-rFl"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="73t-lW-lHx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7kk-fc-nlV" userLabel="my Photo">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7kk-fc-nlV" userLabel="my Photo">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="252"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RGo-xl-M5O" userLabel="other photo">
-                                <rect key="frame" x="0.0" y="284" width="320" height="284"/>
+                                <rect key="frame" x="0.0" y="252" width="320" height="252"/>
                                 <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                         </subviews>
@@ -891,7 +891,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Yro-gN-ezJ" kind="relationship" relationship="rootViewController" id="one-jg-XNm"/>
+                        <segue destination="0Iz-4W-b3X" kind="relationship" relationship="rootViewController" id="VvW-6a-8jS"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qgO-iu-X4r" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1165,10 +1165,14 @@
             <objects>
                 <navigationController id="HV8-Wd-kwr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Completed" image="Completed" id="K6Z-i0-oRz"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wU5-Ze-bmm">
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="wU5-Ze-bmm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.2826843262" green="1" blue="0.76186865569999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.52941176470588236" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="68d-Pf-yYy" kind="relationship" relationship="rootViewController" id="kx1-qz-scz"/>
@@ -1183,9 +1187,9 @@
             <objects>
                 <tableViewController id="68d-Pf-yYy" customClass="PastChallengesController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="117" sectionHeaderHeight="22" sectionFooterHeight="22" id="Nje-nT-H45">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.43529411764705883" green="0.4392156862745098" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="117" id="IM6-Rn-ls7" customClass="ChallengeCell">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -1291,6 +1295,50 @@
             </objects>
             <point key="canvasLocation" x="2119" y="1046"/>
         </scene>
+        <!--Friend Collection Controller-->
+        <scene sceneID="V2u-Sa-pJv">
+            <objects>
+                <collectionViewController id="0Iz-4W-b3X" customClass="FriendCollectionController" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="46l-Gr-aBB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="0wA-V8-99Y">
+                            <size key="itemSize" width="100" height="130"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="IFS-eI-03R">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="100" height="130"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GXb-g3-W6D">
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="132"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="0Iz-4W-b3X" id="utW-v5-wq0"/>
+                            <outlet property="delegate" destination="0Iz-4W-b3X" id="EEK-AE-YYF"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="vNJ-x6-arh"/>
+                    <connections>
+                        <segue destination="h5V-me-q6e" kind="show" identifier="showChallanges" id="vv2-9H-2xL"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QAJ-d9-Q2V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2158" y="-1233"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Challenges" width="26" height="18"/>
@@ -1299,7 +1347,8 @@
         <image name="You" width="20" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cAy-Ds-t3X"/>
-        <segue reference="k3X-K1-IDS"/>
+        <segue reference="chL-OU-Il8"/>
+        <segue reference="U6c-vU-7w2"/>
+        <segue reference="vv2-9H-2xL"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -41,8 +41,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.title = @"Completed Challenges";
     
-    startColor = [UIColor colorFromHexString:@"#0a9759"];
-    endColor = [UIColor colorFromHexString:@"#29ffcf"];
+    startColor = [UIColor colorFromHexString:@"#6F70FF"];
+    endColor = [UIColor colorFromHexString:@"#33CABA"];
     
     startArray = [startColor CIE_LCHArray];
     endArray = [endColor CIE_LCHArray];
