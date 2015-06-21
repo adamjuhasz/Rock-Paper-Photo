@@ -12,6 +12,7 @@
 #import <Flow/Flow.h>
 #import <DigitsKit/DigitsKit.h>
 #import <MessageUI/MessageUI.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import "FriendCell.h"
 #import "ChallengeThemeController.h"
@@ -344,9 +345,13 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
+        [FBSDKAppEvents logEvent:FBSDKAppEventNameSearched
+                      parameters:@{FBSDKAppEventParameterNameContentType: @"FacebookFriends"}];
         [PFUser findFacebookFriends];
         return;
     } else if (buttonIndex == 1) {
+        [FBSDKAppEvents logEvent:FBSDKAppEventNameSearched
+                      parameters:@{FBSDKAppEventParameterNameContentType: @"ContactFriends"}];
         if ([[Digits sharedInstance] session]) {
             [self loadContactsWithDigitsSession:[[Digits sharedInstance] session]];
             return;

@@ -16,6 +16,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <ClusterPrePermissions/ClusterPrePermissions.h>
 #import <NYXImagesKit/NYXImagesKit.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import "PhotoViewController.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
@@ -103,7 +104,24 @@
                                         denyButtonTitle:@"Not now"
                                        grantButtonTitle:@"Yes!"
                                       completionHandler:^(BOOL hasPermission, ClusterDialogResult userDialogResult, ClusterDialogResult systemDialogResult) {
-                                          
+                                          if (hasPermission) {
+                                              [FBSDKAppEvents logEvent:@"permission"
+                                                            parameters:@{FBSDKAppEventParameterNameContentType: @"notifications",
+                                                                         FBSDKAppEventParameterNameSuccess: [NSNumber numberWithBool:YES]}];
+                                              return;
+                                          }
+                                          if (userDialogResult == ClusterDialogResultDenied) {
+                                              [FBSDKAppEvents logEvent:@"permission"
+                                                            parameters:@{FBSDKAppEventParameterNameContentType: @"notifications",
+                                                                         FBSDKAppEventParameterNameSuccess: [NSNumber numberWithBool:NO],
+                                                                         @"source": @"userDialog"}];
+                                          }
+                                          if (systemDialogResult == ClusterDialogResultDenied) {
+                                              [FBSDKAppEvents logEvent:@"permission"
+                                                            parameters:@{FBSDKAppEventParameterNameContentType: @"notifications",
+                                                                         FBSDKAppEventParameterNameSuccess: [NSNumber numberWithBool:NO],
+                                                                         @"source": @"systemDialog"}];
+                                          }
                                       }];
     
     self.title = aChallenge.challengeName;

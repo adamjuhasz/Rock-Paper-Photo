@@ -9,6 +9,7 @@
 #import "ChallengeThemeController.h"
 #import "Challenge.h"
 #import "CameraController.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface ChallengeThemeController ()
 
@@ -239,6 +240,10 @@
         CameraController *controller = (CameraController*)segue.destinationViewController;
         
         ChallengeTheme *theme = [ChallengeTheme challengeThemeForParseObject:self.selectedTheme];
+        
+        [FBSDKAppEvents logEvent:@"challengeThemeChoose"
+                      parameters:@{FBSDKAppEventParameterNameContentID: self.selectedTheme.objectId,
+                                   @"name": theme.name}];
         
         Challenge *newChallenge = [[Challenge alloc] init];
         newChallenge.challengeName = theme.name;

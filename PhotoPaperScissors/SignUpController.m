@@ -106,8 +106,9 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
 
 - (IBAction)signUp:(id)sender
 {
+    [FBSDKAppEvents logEvent:@"SignUpStart"];
     PFUser *user = [PFUser user];
-    user.username = [self randomStringWithLength:20];
+    user.username = [self randomStringWithLength:30];
     user.password = [self randomStringWithLength:20];
     PFFile *file = [PFFile fileWithName:@"profile.jpg" data:UIImageJPEGRepresentation(self.profileImage, 0.9)];
     user[@"image"] = file;
@@ -120,6 +121,8 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
             return;
         }
         
+        [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration
+                      parameters:[NSDictionary dictionaryWithObject:@"RPP" forKey:FBSDKAppEventParameterNameRegistrationMethod]];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
