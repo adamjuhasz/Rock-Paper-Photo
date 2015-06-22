@@ -168,7 +168,7 @@
     [fullQuery includeKey:@"createdBy"];
     [fullQuery includeKey:@"theme"];
     [fullQuery whereKey:@"completed" equalTo:@(NO)];
-    [fullQuery orderByAscending:@"updatedAt"];
+    [fullQuery orderByDescending:@"createdAt"];
     
     // If Pull To Refresh is enabled, query against the network by default.
     if (self.pullToRefreshEnabled) {

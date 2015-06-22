@@ -390,6 +390,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YoR-br-mS2">
+                                <rect key="frame" x="0.0" y="56" width="320" height="284"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We need your permission to access the camera" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uAN-uB-aIw">
+                                        <rect key="frame" x="0.0" y="124" width="320" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="4kL-Bl-9V4"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="83u-px-V2q">
+                                        <rect key="frame" x="130" y="204" width="60" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="BBc-Os-Zex"/>
+                                            <constraint firstAttribute="width" constant="60" id="mLI-Hp-xyq"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                        <state key="normal" title="OK">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="displayCamera" destination="Fb3-y9-jWG" eventType="touchUpInside" id="c0n-Xj-C4M"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="83u-px-V2q" firstAttribute="width" secondItem="uAN-uB-aIw" secondAttribute="height" multiplier="3:5" id="GG4-qt-6t4"/>
+                                    <constraint firstAttribute="centerY" secondItem="uAN-uB-aIw" secondAttribute="centerY" constant="-7.5" id="KWD-n0-rr0"/>
+                                    <constraint firstItem="83u-px-V2q" firstAttribute="centerX" secondItem="uAN-uB-aIw" secondAttribute="centerX" id="Spq-J1-6QI"/>
+                                    <constraint firstItem="uAN-uB-aIw" firstAttribute="height" secondItem="YoR-br-mS2" secondAttribute="height" id="fOE-qM-cnu"/>
+                                    <constraint firstItem="uAN-uB-aIw" firstAttribute="width" secondItem="YoR-br-mS2" secondAttribute="width" id="gEr-dD-QmN"/>
+                                    <constraint firstAttribute="centerX" secondItem="uAN-uB-aIw" secondAttribute="centerX" constant="-0.5" id="wbg-SG-w6Q"/>
+                                    <constraint firstItem="uAN-uB-aIw" firstAttribute="bottom" secondItem="83u-px-V2q" secondAttribute="top" constant="-30" id="we3-nK-jvB"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="fOE-qM-cnu"/>
+                                        <exclude reference="GG4-qt-6t4"/>
+                                    </mask>
+                                </variation>
+                            </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QKa-WA-4NZ">
                                 <rect key="frame" x="0.0" y="56" width="320" height="284"/>
                                 <color key="backgroundColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -454,7 +499,7 @@
                                             <constraint firstAttribute="width" constant="60" id="KyI-0c-hKf"/>
                                             <constraint firstAttribute="height" constant="44" id="fdT-Zo-k8r"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                         <state key="normal" title="Draw">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -469,7 +514,7 @@
                                             <constraint firstAttribute="width" constant="60" id="HJI-2d-XOF"/>
                                             <constraint firstAttribute="height" constant="44" id="t2n-S0-4p1"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                         <state key="normal" title="Clear">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -484,7 +529,7 @@
                                             <constraint firstAttribute="width" constant="60" id="Zuh-rn-Kq1"/>
                                             <constraint firstAttribute="height" constant="44" id="wm0-kB-vIK"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                         <state key="normal" title="Text">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -680,8 +725,12 @@
                             <constraint firstItem="Wci-qu-oMV" firstAttribute="left" secondItem="veS-C5-CKB" secondAttribute="leftMargin" id="Hfn-IG-m5d"/>
                             <constraint firstItem="Wci-qu-oMV" firstAttribute="top" secondItem="1xm-wC-Kbc" secondAttribute="top" id="JIJ-dK-Ez3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zll-RX-Hb9" secondAttribute="trailing" id="OA4-IM-30A"/>
+                            <constraint firstItem="QKa-WA-4NZ" firstAttribute="centerX" secondItem="YoR-br-mS2" secondAttribute="centerX" id="Q2z-EH-sV6"/>
+                            <constraint firstItem="QKa-WA-4NZ" firstAttribute="height" secondItem="YoR-br-mS2" secondAttribute="height" id="QLF-zI-9mV"/>
                             <constraint firstItem="Wci-qu-oMV" firstAttribute="centerY" secondItem="1xm-wC-Kbc" secondAttribute="centerY" id="XrY-y1-vJp"/>
+                            <constraint firstItem="QKa-WA-4NZ" firstAttribute="width" secondItem="YoR-br-mS2" secondAttribute="width" id="YQI-zP-Qbm"/>
                             <constraint firstItem="QKa-WA-4NZ" firstAttribute="topMargin" secondItem="z1D-J5-5tP" secondAttribute="bottom" id="dN8-Nn-lgZ"/>
+                            <constraint firstItem="QKa-WA-4NZ" firstAttribute="centerY" secondItem="YoR-br-mS2" secondAttribute="centerY" id="rjj-Gl-JID"/>
                             <constraint firstItem="1xm-wC-Kbc" firstAttribute="top" secondItem="QKa-WA-4NZ" secondAttribute="bottom" constant="-44" id="t1q-gI-Con"/>
                             <constraint firstAttribute="centerX" secondItem="1xm-wC-Kbc" secondAttribute="centerX" id="uJX-Sg-bKa"/>
                             <constraint firstItem="o3o-64-9dj" firstAttribute="top" secondItem="YtX-jT-hq4" secondAttribute="bottom" id="upp-GB-oVb"/>
@@ -702,6 +751,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="blackColorSwatch" destination="HgZ-WH-34f" id="h2l-g6-IbM"/>
+                        <outlet property="cameraButton" destination="Zll-RX-Hb9" id="kre-fg-1hZ"/>
                         <outlet property="cameraContainer" destination="QKa-WA-4NZ" id="c4L-9c-ope"/>
                         <outlet property="flashButton" destination="Wci-qu-oMV" id="ncB-Hn-uU7"/>
                         <outlet property="shutterButton" destination="1xm-wC-Kbc" id="DhF-dh-MSE"/>
@@ -1085,8 +1135,8 @@
         <image name="You" width="20" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vv2-9H-2xL"/>
-        <segue reference="cAy-Ds-t3X"/>
         <segue reference="k3X-K1-IDS"/>
+        <segue reference="gyE-1b-2J0"/>
+        <segue reference="vv2-9H-2xL"/>
     </inferredMetricsTieBreakers>
 </document>

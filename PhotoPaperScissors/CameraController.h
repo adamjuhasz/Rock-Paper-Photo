@@ -14,9 +14,9 @@
 @property IBOutlet UIView *cameraContainer;
 @property IBOutlet UIButton *flashButton;
 @property IBOutlet UIButton *shutterButton;
+@property IBOutlet UIButton *cameraButton;
 @property UIImage *takenPhoto;
 @property IBOutlet UIView *blackColorSwatch;
-
 
 @property IBOutletCollection(UIView) NSArray *colorSelectors;
 
