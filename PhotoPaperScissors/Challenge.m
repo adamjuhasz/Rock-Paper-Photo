@@ -144,9 +144,11 @@ NSMutableDictionary *cachedChallenges;
         if ([self.challenger.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
             _playerIAm = Challenger;
             _otherPlayerIs = Challengee;
+            _competitor = _challengee;
         } else if ([self.challengee.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
             _playerIAm = Challengee;
             _otherPlayerIs = Challenger;
+            _competitor = _challenger;
         } else {
             _playerIAm = Unknown;
             _otherPlayerIs = Unknown;

@@ -15,6 +15,7 @@ pod 'NSURLConnection-Blocks'
 pod 'Colours', :git => 'https://github.com/adamjuhasz/Colours.git'
 pod 'Flow'
 pod 'FBSDKShareKit'
+pod 'JazzHands'
 end
 
 target 'PhotoPaperScissorsTests', :exclusive => true do

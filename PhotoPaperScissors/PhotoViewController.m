@@ -213,7 +213,7 @@
     
     if (aChallenge.currentRoundNumber > 1 && aChallenge.whosTurn == myTurn) {
         //show previous round
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Start next Round"
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next Round"
                                                                                   style:self.editButtonItem.style
                                                                                  target:self
                                                                                  action:@selector(showCamera:)];

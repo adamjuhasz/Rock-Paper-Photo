@@ -25,6 +25,7 @@ PODS:
   - FBSDKShareKit (4.2.0):
     - FBSDKCoreKit
   - Flow (1.6.3)
+  - JazzHands (0.2.1)
   - jot (0.1.3):
     - Masonry (~> 0.6.1)
   - Masonry (0.6.1)
@@ -56,6 +57,7 @@ DEPENDENCIES:
   - FastttCamera
   - FBSDKShareKit
   - Flow
+  - JazzHands
   - jot (from `https://github.com/adamjuhasz/jot.git`)
   - NSURLConnection-Blocks
   - NYXImagesKit
@@ -92,6 +94,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 57e37106af12c9e264e473dcb75d7decdbb07fe4
   FBSDKShareKit: 931746fdf8fb95efd6e12310ec14b2b3295e2aec
   Flow: e93229ef5331fd4f61522507a6bbc254ca6310b6
+  JazzHands: d2343c3f2f9d70598d0cad8f521ce3893842a44a
   jot: 86da410a8bd544860166d5617707f3b2a8f0e4a1
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   NSURLConnection-Blocks: 921a21aa8e472527d6c29b7741a7c78b346ea7f0

@@ -11,6 +11,7 @@
 #import <NYXImagesKit/UIImage+Resizing.h>
 #import <Parse/Parse.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <Colours/Colours.h>
 
 #import "UIImage+fixOrientation.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
@@ -44,6 +45,13 @@
         
     }];
 
+    CGFloat increaseRatio = 0.15;
+    UIColor *baseColor = [UIColor colorFromHexString:@"#66FFCC"];
+    self.takePhotoBackground.backgroundColor = [baseColor darken:increaseRatio * 1];
+    self.photoLibraryBackground.backgroundColor = [baseColor darken:increaseRatio * 2];
+    self.linkFacebookBackground.backgroundColor = [baseColor darken:increaseRatio * 3];
+    self.saveBackground.backgroundColor = [baseColor darken:increaseRatio * 4];
+    RAC(self.tabBarBackground,backgroundColor) = RACObserve(self.saveBackground, backgroundColor);
 }
 
 - (void)viewWillAppear:(BOOL)animated

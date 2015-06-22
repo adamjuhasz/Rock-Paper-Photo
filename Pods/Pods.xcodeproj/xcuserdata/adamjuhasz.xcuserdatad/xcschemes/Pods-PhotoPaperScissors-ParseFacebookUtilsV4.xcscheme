@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C342864DBD677ACE261B86FB"
+               BlueprintIdentifier = "E9190D21BE896D0381AEB5D7"
                BuildableName = "libPods-PhotoPaperScissors-ParseFacebookUtilsV4.a"
                BlueprintName = "Pods-PhotoPaperScissors-ParseFacebookUtilsV4"
                ReferencedContainer = "container:Pods.xcodeproj">

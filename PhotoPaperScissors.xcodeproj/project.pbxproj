@@ -58,8 +58,6 @@
 		2EF6C22D1B34EA9600616F17 /* DigitsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */; };
 		2EF6C22E1B34EA9600616F17 /* DigitsKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */; };
 		2EF6C22F1B34EA9600616F17 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF6C22C1B34EA9600616F17 /* TwitterCore.framework */; };
-		61EA661D545CEA1E53AFE46C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAEE433A730252B92CF17403 /* libPods.a */; };
-		69AE1E1916C656BEF14E5FD9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAEE433A730252B92CF17403 /* libPods.a */; };
 		C8C6F116F4A010B4DD5E8C5D /* libPods-PhotoPaperScissors.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 712A8768E3E438CCE08FA289 /* libPods-PhotoPaperScissors.a */; };
 		F122F3799C5A9859FD972A41 /* libPods-PhotoPaperScissorsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DEF0E43E312336C77D712E /* libPods-PhotoPaperScissorsTests.a */; };
 /* End PBXBuildFile section */
@@ -155,7 +153,6 @@
 		712A8768E3E438CCE08FA289 /* libPods-PhotoPaperScissors.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhotoPaperScissors.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74DEF0E43E312336C77D712E /* libPods-PhotoPaperScissorsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhotoPaperScissorsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A29597EB53662AEE10F72F93 /* Pods-PhotoPaperScissorsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoPaperScissorsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoPaperScissorsTests/Pods-PhotoPaperScissorsTests.release.xcconfig"; sourceTree = "<group>"; };
-		BAEE433A730252B92CF17403 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5CED86AEC48FF4AA3161842 /* Pods-PhotoPaperScissors.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoPaperScissors.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoPaperScissors/Pods-PhotoPaperScissors.debug.xcconfig"; sourceTree = "<group>"; };
 		CE89ADAE9106D8C6ACCBB17D /* Pods-PhotoPaperScissorsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoPaperScissorsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoPaperScissorsTests/Pods-PhotoPaperScissorsTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -185,7 +182,6 @@
 				2EF6C22F1B34EA9600616F17 /* TwitterCore.framework in Frameworks */,
 				2E8242AE1B2FBB9C00746842 /* CFNetwork.framework in Frameworks */,
 				2E8242AC1B2FBB9700746842 /* AudioToolbox.framework in Frameworks */,
-				69AE1E1916C656BEF14E5FD9 /* libPods.a in Frameworks */,
 				2EF6C22D1B34EA9600616F17 /* DigitsKit.framework in Frameworks */,
 				C8C6F116F4A010B4DD5E8C5D /* libPods-PhotoPaperScissors.a in Frameworks */,
 			);
@@ -196,7 +192,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F122F3799C5A9859FD972A41 /* libPods-PhotoPaperScissorsTests.a in Frameworks */,
-				61EA661D545CEA1E53AFE46C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +368,6 @@
 				2E8242AF1B2FBBA500746842 /* CoreGraphics.framework */,
 				2E8242AD1B2FBB9C00746842 /* CFNetwork.framework */,
 				2E8242AB1B2FBB9700746842 /* AudioToolbox.framework */,
-				BAEE433A730252B92CF17403 /* libPods.a */,
 				712A8768E3E438CCE08FA289 /* libPods-PhotoPaperScissors.a */,
 				74DEF0E43E312336C77D712E /* libPods-PhotoPaperScissorsTests.a */,
 			);

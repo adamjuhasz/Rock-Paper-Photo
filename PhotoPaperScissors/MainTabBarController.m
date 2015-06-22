@@ -7,8 +7,11 @@
 //
 
 #import "MainTabBarController.h"
+
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
+#import <Colours/Colours.h>
+
 #import "CurrentChallengesController.h"
 #import "FriendCollectionController.h"
 
@@ -43,6 +46,26 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    UITabBar *tabBar = self.tabBar;
+    
+    UITabBarItem *item0 = [tabBar.items objectAtIndex:0];
+    UITabBarItem *item1 = [tabBar.items objectAtIndex:1];
+    UITabBarItem *item2 = [tabBar.items objectAtIndex:2];
+    UITabBarItem *item3 = [tabBar.items objectAtIndex:3];
+    
+    [item0 setImage:[[UIImage imageNamed:@"Challenges"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [item1 setImage:[[UIImage imageNamed:@"Friends"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [item2 setImage:[[UIImage imageNamed:@"Completed"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [item3 setImage:[[UIImage imageNamed:@"You"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    
+    [[UITabBar appearance] setTintColor:[UIColor colorFromHexString:@"#6F70FF"]];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+}
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];

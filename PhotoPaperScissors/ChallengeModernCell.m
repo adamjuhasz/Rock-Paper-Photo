@@ -7,8 +7,14 @@
 //
 
 #import "ChallengeModernCell.h"
+#import <Colours/Colours.h>
 
 @implementation ChallengeModernCell
+
+- (void)awakeFromNib
+{
+    [self commonInit];
+}
 
 - (id)init
 {
@@ -32,22 +38,49 @@
 {
     self.roundIndictorHolder.layer.cornerRadius = self.roundIndictorHolder.bounds.size.width/2.0;
     self.roundIndictorHolder.clipsToBounds = YES;
+    
+    self.opponentImageView.clipsToBounds = YES;
+    self.opponentImageView.layer.cornerRadius = self.opponentImageView.bounds.size.width/2.0;
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    
+    [self commonChangeSize];
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    
+    [self commonChangeSize];
+}
+
+- (void)commonChangeSize
+{
+     self.opponentImageView.layer.cornerRadius = self.opponentImageView.bounds.size.width/2.0;
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    
 }
 
 - (void)prepareForReuse
 {
     self.roundIndictorHolder.hidden = NO;
     self.roundIndicatorLabel.text = @"";
-    self.competitorImageView.image = nil;
+    self.opponentImageView.image = nil;
     self.competitorNameLabel.text = @"";
     self.challengeNameLabel.text = @"";
 }
 
 - (void)loadWithChallenge:(Challenge*)challenge
 {
-    self.competitorImageView.file = challenge.competitor[@"image"];
-    [self.competitorImageView loadInBackground];
-    self.competitorNameLabel.text = challenge.competitor[@"name"];
+    self.opponentImageView.file = challenge.competitor[@"image"];
+    [self.opponentImageView loadInBackground];
+    self.competitorNameLabel.text = challenge.competitor[@"nickname"];
     
     self.challengeNameLabel.text = challenge.challengeName;
     self.roundIndicatorLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)challenge.currentRoundNumber];

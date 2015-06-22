@@ -14,6 +14,14 @@
 @property IBOutlet PFImageView *profileImage;
 @property IBOutlet UITextField *nickname;
 @property UIImage *aNewProfileImage;
+
+@property IBOutlet UIView *takePhotoBackground;
+@property IBOutlet UIView *photoLibraryBackground;
+@property IBOutlet UIView *linkFacebookBackground;
+@property IBOutlet UIView *saveBackground;
+@property IBOutlet UIView *tabBarBackground;
+
 @property IBOutlet UIButton *saveButton;
+
 
 @end

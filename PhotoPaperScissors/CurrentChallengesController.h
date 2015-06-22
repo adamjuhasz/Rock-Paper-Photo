@@ -9,6 +9,19 @@
 #import <ParseUI/ParseUI.h>
 #import <Parse/Parse.h>
 
+#define MinimumGradientSteps 7
+
 @interface CurrentChallengesController : PFQueryTableViewController
+{
+    UIColor *gradientStartColor;
+    UIColor *gradientEndColor;
+    
+    NSArray *gradientStartColorArray;
+    NSArray *gradientEndColorArray;
+    
+    int gradientSteps;
+}
+
+- (UIColor*)colorForCellPosition:(NSIndexPath*)path;
 
 @end

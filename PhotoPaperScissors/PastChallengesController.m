@@ -15,10 +15,7 @@
 
 @interface PastChallengesController ()
 {
-    UIColor *startColor;
-    NSArray *startArray;
-    UIColor *endColor;
-    NSArray *endArray;
+
 }
 
 @end
@@ -43,15 +40,6 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.title = @"Completed Challenges";
-    
-    startColor = [UIColor colorFromHexString:@"#6F70FF"];
-    endColor = [UIColor colorFromHexString:@"#33CABA"];
-    
-    startArray = [startColor CIE_LCHArray];
-    endArray = [endColor CIE_LCHArray];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"ChallengeCell" bundle:nil] forCellReuseIdentifier:@"normal"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"ChallengeModernCell" bundle:nil] forCellReuseIdentifier:@"modern"];
 }
 
 - (void)viewDidUnload {
@@ -117,20 +105,11 @@
     
     ChallengeCell *cell = (ChallengeCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    int steps = MAX(10, (int)self.objects.count);
-    int i = (int)[indexPath row];
-    
-    double L = ([endArray[0] doubleValue] - [startArray[0] doubleValue]) / (steps-1) * i + [startArray[0] doubleValue];
-    double C = ([endArray[1] doubleValue] - [startArray[1] doubleValue]) / (steps-1) * i + [startArray[1] doubleValue];
-    double H = ([endArray[2] doubleValue] - [startArray[2] doubleValue]) / (steps-1) * i + [startArray[2] doubleValue];
-    double A = ([endArray[3] doubleValue] - [startArray[3] doubleValue]) / (steps-1) * i + [startArray[3] doubleValue];
-    
-    UIColor *diffColor = [UIColor colorFromCIE_LCHArray:@[@(L), @(C), @(H), @(A)]];
-    cell.backgroundColor = diffColor;
-    
     // Configure the cell
     Challenge *newChallenge = [Challenge challengeForParseObject:object];
     [cell loadWithChallenge:newChallenge];
+    
+    cell.backgroundColor = [self colorForCellPosition:indexPath];
     
     return cell;
 }
