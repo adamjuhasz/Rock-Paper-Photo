@@ -56,7 +56,7 @@ DEPENDENCIES:
   - FastttCamera
   - FBSDKShareKit
   - Flow
-  - jot
+  - jot (from `https://github.com/adamjuhasz/jot.git`)
   - NSURLConnection-Blocks
   - NYXImagesKit
   - ParseFacebookUtilsV4
@@ -68,6 +68,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/adamjuhasz/ClusterPrePermissions.git
   Colours:
     :git: https://github.com/adamjuhasz/Colours.git
+  jot:
+    :git: https://github.com/adamjuhasz/jot.git
 
 CHECKOUT OPTIONS:
   ClusterPrePermissions:
@@ -76,6 +78,9 @@ CHECKOUT OPTIONS:
   Colours:
     :commit: 54d4389117d9d5984516a4959813177d3732ba40
     :git: https://github.com/adamjuhasz/Colours.git
+  jot:
+    :commit: 2d9a7d6a748519018270e9212cc2aa049a2961b2
+    :git: https://github.com/adamjuhasz/jot.git
 
 SPEC CHECKSUMS:
   AFDropdownNotification: 4125b132cd03a8d6293e09ce000aeef55ced1364

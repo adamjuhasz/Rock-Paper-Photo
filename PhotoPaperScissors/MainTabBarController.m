@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 #import "CurrentChallengesController.h"
-#import "FriendListController.h"
+#import "FriendCollectionController.h"
 
 @interface MainTabBarController () <PFLogInViewControllerDelegate>
 
@@ -34,7 +34,7 @@
                     UINavigationController *nav = (UINavigationController*)controller;
                     potentialController = nav.topViewController;
                 }
-                if ([potentialController isMemberOfClass:[FriendListController class]]) {
+                if ([potentialController isMemberOfClass:[FriendCollectionController class]]) {
                     [self setSelectedViewController:controller];
                     break;
                 }

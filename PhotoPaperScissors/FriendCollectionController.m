@@ -19,7 +19,7 @@
 #import "PFUser+findFacebookFriends.h"
 #import "PFUser+MakeFriendships.h"
 
-@interface FriendCollectionController ()
+@interface FriendCollectionController () <MFMessageComposeViewControllerDelegate, UIActionSheetDelegate>
 
 @end
 

@@ -20,6 +20,11 @@ NSMutableDictionary *cachedChallenges;
     dispatch_once(&onceToken, ^{
         cachedChallenges = [NSMutableDictionary dictionary];
     });
+    
+    if (object.objectId == nil) {
+        return [[Challenge alloc] initWithParseObject:object];
+    }
+    
     Challenge *potentialCachedChallenge = [cachedChallenges objectForKey:object.objectId];
     if (potentialCachedChallenge) {
         NSComparisonResult updatedComparison = [potentialCachedChallenge.parseObject.updatedAt compare:object.updatedAt];
@@ -65,10 +70,10 @@ NSMutableDictionary *cachedChallenges;
                 self.playerIAm = Challenger;
                 self.otherPlayerIs = Challengee;
                 if (self.parseObject[@"challengee"]) {
-                    self.otherUser = self.parseObject[@"challengee"];
+                    self.competitor = self.parseObject[@"challengee"];
                 }
             } else {
-                self.otherUser = self.parseObject[@"createdBy"];
+                self.competitor = self.parseObject[@"createdBy"];
             }
         }];
         
@@ -82,10 +87,10 @@ NSMutableDictionary *cachedChallenges;
                 self.playerIAm = Challengee;
                 self.otherPlayerIs = Challenger;
                 if (self.parseObject[@"createdBy"]) {
-                    self.otherUser = self.parseObject[@"createdBy"];
+                    self.competitor = self.parseObject[@"createdBy"];
                 }
             } else {
-                self.otherUser = self.parseObject[@"challengee"];
+                self.competitor = self.parseObject[@"challengee"];
             }
         }];
         
@@ -352,7 +357,7 @@ NSMutableDictionary *cachedChallenges;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
         
         //PUSH
-        PFUser *otherUser = self.otherUser;
+        PFUser *otherUser = self.competitor;
         if ([otherUser.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
             
         }

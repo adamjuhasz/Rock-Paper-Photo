@@ -41,17 +41,16 @@
     
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
-    [FBSDKAppEvents activateApp];
-    [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
-    
     [PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
         if (error) {
             NSLog(@"Failed to fetch. Using Cached Config.");
         }
     }];
-    
+
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+    [FBSDKAppEvents activateApp];
+    [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
+    
     [PFTwitterUtils initializeWithConsumerKey:@"MswULT6L6nMik6uyIszhgZ6C8" consumerSecret:@"zmrMnAIbt5v6vZHaOb87GxDDjnVM7uZk2luIuXTGVZM1okMzwm"];
     
     //[[PFUser currentUser] fetch];

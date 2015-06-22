@@ -57,26 +57,8 @@
 
 - (void)loadWithChallenge:(Challenge*)challenge
 {
-    switch (challenge.playerIAm) {
-        case Challenger:
-            if (challenge.challengee[@"image"]) {
-                self.opponentImageView.file = challenge.challengee[@"image"];
-                [self.opponentImageView loadInBackground];
-            }
-            self.opponentName.text = challenge.challengee[@"nickname"];
-            break;
-            
-       case Challengee:
-            if (challenge.challenger[@"image"]) {
-                self.opponentImageView.file = challenge.challenger[@"image"];
-                [self.opponentImageView loadInBackground];
-            }
-            self.opponentName.text = challenge.challenger[@"nickname"];
-            break;
-        
-        case Unknown:
-            break;
-    }
+    self.opponentImageView.file = challenge.competitor[@"image"];
+    [self.opponentImageView loadInBackground];
     
     self.challengeName.text = challenge.challengeName;
     self.roundNumber.text = [NSString stringWithFormat:@"%lu", (unsigned long)challenge.currentRoundNumber];

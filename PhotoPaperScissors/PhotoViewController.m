@@ -16,9 +16,14 @@
 #import <AVFoundation/AVFoundation.h>
 #import <ClusterPrePermissions/ClusterPrePermissions.h>
 #import <NYXImagesKit/NYXImagesKit.h>
+#import <MessageUI/MessageUI.h>
 
 #import "PhotoViewController.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
+
+@interface PhotoViewController () <MFMessageComposeViewControllerDelegate>
+
+@end
 
 @implementation PhotoViewController
 
@@ -51,7 +56,8 @@
 
 - (void)commonInit
 {
-
+    photoImageViews = [NSMutableArray array];
+    photoRoundIndicatorViews = [NSMutableArray array];
 }
 
 - (void)viewDidLoad
@@ -68,24 +74,19 @@
                                                                              style:self.navigationItem.backBarButtonItem.style
                                                                             target:nil
                                                                             action:nil];
-}
-
-- (void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-    
-    
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-    [self loadChallenge:self.theChallenge];
+    self.embededPhotos = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    self.embededPhotos.backgroundColor = [UIColor blackColor];
+    self.embededPhotos.pagingEnabled = YES;
+    self.embededPhotos.bounces = NO;
+    [self.view addSubview:self.embededPhotos];
 }
 
 - (void)loadChallenge:(Challenge*)aChallenge
 {
+    if (self.embededPhotos == nil) {
+        return;
+    }
+    
     ClusterPrePermissions *permission = [ClusterPrePermissions sharedPermissions];
     [permission showPushNotificationPermissionsWithType:UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge
                                                   title:@"Keep you in the loop?"
@@ -116,14 +117,21 @@
     
     self.embededPhotos.contentSize = CGSizeZero;
     
-    CGSize imageSize = CGSizeMake(self.embededPhotos.bounds.size.width, self.embededPhotos.bounds.size.height/2.0);
+    CGSize imageSize = CGSizeMake(self.embededPhotos.bounds.size.width, ceilf(self.embededPhotos.bounds.size.height/2.0));
+    NSLog(@"size: %@, frame: %@", NSStringFromCGSize(imageSize), NSStringFromCGRect(self.embededPhotos.frame));
     
     for (int i=0; i<aChallenge.currentRoundNumber; i++) {
-        UIImage *myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:(i+1)];
-        UIImage *theirImage = [aChallenge imageForPlayer:aChallenge.otherPlayerIs forRound:(i+1)];
+        int roundNumber = i+1;
+        UIImage *myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:roundNumber];
+        UIImage *theirImage = [aChallenge imageForPlayer:aChallenge.otherPlayerIs forRound:roundNumber];
         
         if (myImage) {
+            if (CGSizeEqualToSize(myImage.size, imageSize) == NO) {
+                NSLog(@"two sized different: myImage=%@ and %@", NSStringFromCGSize(myImage.size), NSStringFromCGSize(imageSize));
+            }
             UIImageView *myImageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*imageSize.width, 0, imageSize.width, imageSize.height)];
+            myImageView.backgroundColor = [UIColor blackColor];
+            myImageView.contentMode = UIViewContentModeScaleAspectFill;
             myImageView.image = myImage;
             [self.embededPhotos addSubview:myImageView];
             [photoImageViews addObject:myImageView];
@@ -133,7 +141,12 @@
         }
         
         if (theirImage) {
-            UIImageView *theirImageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*imageSize.width, imageSize.height, imageSize.width, imageSize.height)];
+            if (CGSizeEqualToSize(theirImage.size, imageSize) == NO) {
+                NSLog(@"two sized different: theirIamge=%@ and %@", NSStringFromCGSize(theirImage.size), NSStringFromCGSize(imageSize));
+            }
+            UIImageView *theirImageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*imageSize.width, imageSize.height-1, imageSize.width, imageSize.height)];
+            theirImageView.backgroundColor = [UIColor blackColor];
+            theirImageView.contentMode = UIViewContentModeScaleAspectFill;
             theirImageView.image = theirImage;
             [self.embededPhotos addSubview:theirImageView];
             [photoImageViews addObject:theirImageView];
@@ -143,12 +156,58 @@
         }
         
         if (myImage || theirImage) {
-            UIView *roundIndicator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-            roundIndicator.backgroundColor = [UIColor blackColor];
-            roundIndicator.clipsToBounds = YES;
-            roundIndicator.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.5), self.embededPhotos.bounds.size.height/2.0);
-            [self.embededPhotos addSubview:roundIndicator];
-            [photoRoundIndicatorViews addObject:roundIndicator];
+            if (roundNumber == aChallenge.maxRounds ) {
+                UIButton *shareToTwitter = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+                [shareToTwitter setImage:[UIImage imageNamed:@"twitter"] forState:UIControlStateNormal];
+                shareToTwitter.backgroundColor = [UIColor blackColor];
+                shareToTwitter.clipsToBounds = YES;
+                shareToTwitter.layer.cornerRadius = shareToTwitter.bounds.size.width/2.0;
+                shareToTwitter.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.8), self.embededPhotos.bounds.size.height/2.0);
+                [self.embededPhotos addSubview:shareToTwitter];
+                [photoRoundIndicatorViews addObject:shareToTwitter];
+                
+                UIButton *shareToSMS = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+                [shareToSMS setImage:[UIImage imageNamed:@"messages"] forState:UIControlStateNormal];
+                shareToSMS.backgroundColor = [UIColor blackColor];
+                shareToSMS.clipsToBounds = YES;
+                shareToSMS.layer.cornerRadius = shareToSMS.bounds.size.width/2.0;
+                shareToSMS.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.6), self.embededPhotos.bounds.size.height/2.0);
+                [self.embededPhotos addSubview:shareToSMS];
+                [photoRoundIndicatorViews addObject:shareToSMS];
+                
+                UIButton *shareToFB = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+                [shareToFB setImage:[UIImage imageNamed:@"facebook"] forState:UIControlStateNormal];
+                shareToFB.backgroundColor = [UIColor blackColor];
+                shareToFB.clipsToBounds = YES;
+                shareToFB.layer.cornerRadius = shareToFB.bounds.size.width/2.0;
+                shareToFB.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.4), self.embededPhotos.bounds.size.height/2.0);
+                [self.embededPhotos addSubview:shareToFB];
+                [photoRoundIndicatorViews addObject:shareToFB];
+                
+                UIButton *shareToCameraRoll = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+                [shareToCameraRoll setImage:[UIImage imageNamed:@"camera_roll"] forState:UIControlStateNormal];
+                [shareToCameraRoll addTarget:self action:@selector(makeAnimatedGif:) forControlEvents:UIControlEventTouchUpInside];
+                shareToCameraRoll.backgroundColor = [UIColor blackColor];
+                shareToCameraRoll.clipsToBounds = YES;
+                shareToCameraRoll.layer.cornerRadius = shareToCameraRoll.bounds.size.width/2.0;
+                shareToCameraRoll.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.2), self.embededPhotos.bounds.size.height/2.0);
+                [self.embededPhotos addSubview:shareToCameraRoll];
+                [photoRoundIndicatorViews addObject:shareToCameraRoll];
+            } else {
+                UIView *roundIndicator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+                roundIndicator.backgroundColor = [UIColor blackColor];
+                roundIndicator.clipsToBounds = YES;
+                roundIndicator.layer.cornerRadius = roundIndicator.bounds.size.width/2.0;
+                roundIndicator.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.5), self.embededPhotos.bounds.size.height/2.0);
+                [self.embededPhotos addSubview:roundIndicator];
+                [photoRoundIndicatorViews addObject:roundIndicator];
+                
+                UILabel *roundNumberLabel = [[UILabel alloc] initWithFrame:roundIndicator.bounds];
+                roundNumberLabel.text = [NSString stringWithFormat:@"%d", roundNumber];
+                roundNumberLabel.textColor = [UIColor whiteColor];
+                roundNumberLabel.textAlignment = NSTextAlignmentCenter;
+                [roundIndicator addSubview:roundNumberLabel];
+            }
         }
     }
     
@@ -166,7 +225,7 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save to library"
                                                                                   style:self.editButtonItem.style
                                                                                  target:self
-                                                                                 action:@selector(makeAnimatedGif)];
+                                                                                 action:@selector(makeAnimatedGif:)];
         return;
     }
     
@@ -185,6 +244,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.embededPhotos.frame = CGRectOffset(self.view.bounds, 0, -1 * self.view.frame.origin.y) ;
+    [self loadChallenge:self.theChallenge];
     
     //self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     //self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
@@ -221,16 +283,74 @@
     }
 }
 
-- (void) makeAnimatedGif
+- (IBAction)makeAnimatedGif:(id)sender
 {
-    NSArray *size = [[PFConfig currentConfig] objectForKey:@"SizeOfExportGif"];
-    if (size == nil || size.count != 2) {
-        size = @[@(470), @(836)];
+    if ([sender respondsToSelector:@selector(setEnabled:)]) {
+        [sender setEnabled:NO];
     }
-    CGSize blockSize = CGSizeMake([size[0] integerValue], ceilf([size[1] floatValue] / 2.0));
-    CGSize finalSize = CGSizeMake(blockSize.width, blockSize.height*2);
     
-    NSUInteger kFrameCount = self.theChallenge.maxRounds;
+    [self createAndSaveAnimatedGifWithCompletetion:^(NSError *error) {
+        if ([sender respondsToSelector:@selector(setEnabled:)]) {
+            [sender setEnabled:YES];
+        }
+        if (!error) {
+            UIAlertView *alerting = [[UIAlertView alloc] initWithTitle:@"Saved"
+                                                               message:@"GIF saved to Camera Roll"
+                                                              delegate:nil
+                                                     cancelButtonTitle:@"OK"
+                                                     otherButtonTitles:nil];
+            [alerting show];
+        }
+    }];
+}
+
+- (void)createAndSaveAnimatedGifWithCompletetion:(void (^)(NSError*))completionBlock
+{
+    NSArray *images = [self collectImages];
+    NSData *gifData = [self createAnimatedGiFrom:images];
+    //[self createVideoFrom:images];
+    
+    ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+    [al writeImageDataToSavedPhotosAlbum:gifData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+        if (completionBlock) {
+            completionBlock(error);
+        }
+        
+        if (error) {
+            NSLog(@"Error %@", error);
+            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
+            return;
+        }
+    }];
+}
+
+- (void)sendGifToSMS
+{
+    NSArray *images = [self collectImages];
+    NSData *gifData = [self createAnimatedGiFrom:images];
+    
+    if(![MFMessageComposeViewController canSendText]) {
+        UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [warningAlert show];
+        return;
+    }
+    
+    MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+    [messageController setBody:self.theChallenge.challengeName];
+    [messageController addAttachmentData:gifData typeIdentifier:@"com.compuserve.gif" filename:@"rpp.gif"];
+    
+    messageController.messageComposeDelegate = self;
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:messageController animated:YES completion:nil];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (NSData*)createAnimatedGiFrom:(NSArray*)images
+{
+    
     
     NSDictionary *fileProperties = @{
                                      (__bridge id)kCGImagePropertyGIFDictionary: @{
@@ -244,27 +364,14 @@
                                               }
                                       };
     
-    NSMutableArray *images = [NSMutableArray array];
+    
     CFMutableDataRef gifData = CFDataCreateMutable(kCFAllocatorDefault, 0);
     
-    CGImageDestinationRef destination = CGImageDestinationCreateWithData(gifData, kUTTypeGIF, kFrameCount+1, NULL);
+    CGImageDestinationRef destination = CGImageDestinationCreateWithData(gifData, kUTTypeGIF, images.count, NULL);
     CGImageDestinationSetProperties(destination, (__bridge CFDictionaryRef)fileProperties);
     
-    
-    UIImage *challengeCover = [self.theChallenge.theme coverphoto];
-    if (challengeCover == nil) {
-        challengeCover = [self drawText:self.theChallenge.challengeName intoSize:finalSize];
-    } else {
-        challengeCover = [[challengeCover scaleToCoverSize:finalSize] cropToSize:finalSize usingMode:NYXCropModeCenter];
-    }
-    CGImageDestinationAddImage(destination, challengeCover.CGImage, (__bridge CFDictionaryRef)frameProperties);
-    [images addObject:challengeCover];
-    
-    for (NSUInteger i = 0; i < kFrameCount; i++) {
-        UIImage *image = [self drawTop:[self.theChallenge imageForPlayer:Challenger forRound:(i+1)]
-                            drawBottom:[self.theChallenge imageForPlayer:Challengee forRound:(i+1)]
-                         intoImageSize:blockSize];
-        [images addObject:image];
+    for (int i=0; i<images.count; i++) {
+        UIImage *image = images[i];
         CGImageDestinationAddImage(destination, image.CGImage, (__bridge CFDictionaryRef)frameProperties);
     }
     
@@ -273,14 +380,36 @@
     }
     CFRelease(destination);
     
-    ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-    [al writeImageDataToSavedPhotosAlbum:(NSData*)CFBridgingRelease(gifData) metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
-        if (error) {
-            NSLog(@"Error %@", error);
-        }
-    }];
+    return CFBridgingRelease(gifData);
+}
+
+- (NSArray*)collectImages
+{
+    NSMutableArray *images = [NSMutableArray array];
     
-    [self createVideoFrom:images];
+    NSArray *size = [[PFConfig currentConfig] objectForKey:@"SizeOfExportGif"];
+    if (size == nil || size.count != 2) {
+        size = @[@(470), @(836)];
+    }
+    CGSize blockSize = CGSizeMake([size[0] integerValue], ceilf([size[1] floatValue] / 2.0));
+    CGSize finalSize = CGSizeMake(blockSize.width, blockSize.height*2);
+    
+    UIImage *challengeCover = [self.theChallenge.theme coverphoto];
+    if (challengeCover == nil) {
+        challengeCover = [self drawText:self.theChallenge.challengeName intoSize:finalSize];
+    } else {
+        challengeCover = [[challengeCover scaleToCoverSize:finalSize] cropToSize:finalSize usingMode:NYXCropModeCenter];
+    }
+    [images addObject:challengeCover];
+    
+    for (NSUInteger i = 0; i < self.theChallenge.maxRounds; i++) {
+        UIImage *image = [self drawTop:[self.theChallenge imageForPlayer:Challenger forRound:(i+1)]
+                            drawBottom:[self.theChallenge imageForPlayer:Challengee forRound:(i+1)]
+                         intoImageSize:blockSize];
+        [images addObject:image];
+    }
+    
+    return images;
 }
 
 - (UIImage *)drawText:(NSString*)string intoSize:(CGSize)finalSize
@@ -324,7 +453,6 @@
     UIGraphicsEndImageContext();
     
     return outputImage;
-
 }
 
 - (UIImage *)drawTop:(UIImage *)topImage drawBottom:(UIImage*)bottomImage intoImageSize:(CGSize)blockSize
@@ -341,11 +469,13 @@
     // (need to do this manually because we are not drawing in a UIView)
     UIGraphicsPushContext(context);
     
+    CGContextSetFillColorWithColor(context, [UIColor blackColor].CGColor);
+    
     // drawing code comes here- look at CGContext reference
     // for available operations
     // this example draws the inputImage into the context
-    [[topImage scaleToCoverSize:blockSize] drawInRect:CGRectMake(0, 0, blockSize.width, blockSize.height)];
-    [[bottomImage scaleToCoverSize:blockSize] drawInRect:CGRectMake(0, blockSize.height, blockSize.width, blockSize.height)];
+    [[[topImage scaleToCoverSize:blockSize] cropToSize:blockSize usingMode:NYXCropModeCenter]  drawInRect:CGRectMake(0, 0, blockSize.width, blockSize.height)];
+    [[[bottomImage scaleToCoverSize:blockSize] cropToSize:blockSize usingMode:NYXCropModeCenter] drawInRect:CGRectMake(0, blockSize.height, blockSize.width, blockSize.height)];
     
     // pop context
     UIGraphicsPopContext();
@@ -373,10 +503,81 @@
     }
 
     UIImage *anImage = imageArray[0];
-    //[self writeImageAsMovie:imageArray toPath:path size:anImage.size duration:1];
+    [self writeImageAsMovie:imageArray toPath:path size:anImage.size duration:1];
 }
-/*
-- (CVPixelBufferRef) pixelBufferFromCGImage: (CGImageRef)image  size:(CGSize)imageSize
+
+-(void)writeImageAsMovie:(NSArray *)array toPath:(NSString*)path size:(CGSize)size duration:(int)duration
+{
+    NSError *error = nil;
+    AVAssetWriter *videoWriter = [[AVAssetWriter alloc] initWithURL:[NSURL fileURLWithPath:path]
+                                                           fileType:AVFileTypeMPEG4
+                                                              error:&error];
+    NSParameterAssert(videoWriter);
+    NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   AVVideoCodecH264, AVVideoCodecKey,
+                                   [NSNumber numberWithInt:size.width], AVVideoWidthKey,
+                                   [NSNumber numberWithInt:size.height], AVVideoHeightKey,
+                                   nil];
+    AVAssetWriterInput* writerInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
+                                                                          outputSettings:videoSettings];
+    AVAssetWriterInputPixelBufferAdaptor *adaptor = [AVAssetWriterInputPixelBufferAdaptor assetWriterInputPixelBufferAdaptorWithAssetWriterInput:writerInput
+                                                                                                                     sourcePixelBufferAttributes:nil];
+    NSParameterAssert(writerInput);
+    NSParameterAssert([videoWriter canAddInput:writerInput]);
+    [videoWriter addInput:writerInput];
+    //Start a session:
+    [videoWriter startWriting];
+    [videoWriter startSessionAtSourceTime:kCMTimeZero];
+    CVPixelBufferRef buffer = NULL;
+    UIImage *image = [array objectAtIndex:0];
+    buffer = [self pixelBufferFromCGImage:[image CGImage] size:size];
+    CVPixelBufferPoolCreatePixelBuffer (NULL, adaptor.pixelBufferPool, &buffer);
+    [adaptor appendPixelBuffer:buffer withPresentationTime:kCMTimeZero];
+    
+    int i = 1;
+    while (1)
+    {
+        if(writerInput.readyForMoreMediaData){
+            CMTime frameTime = CMTimeMake(1, 10);
+            CMTime lastTime=CMTimeMake(i, 10);
+            CMTime presentTime=CMTimeAdd(lastTime, frameTime);
+            if (i >= [array count]) {
+                buffer = NULL;
+            } else {
+                image = [array objectAtIndex:i];
+                CGImageRef imageData = image.CGImage;
+                buffer = [self pixelBufferFromCGImage:imageData size:size];
+            }
+            
+            if (buffer) {
+                // append buffer
+                [adaptor appendPixelBuffer:buffer withPresentationTime:presentTime];
+                i++;
+            } else {
+                //Finish the session:
+                [writerInput markAsFinished];
+                //If change to fininshWritingWith... Cause Zero bytes file. I'm Trying to fix.
+                [videoWriter finishWriting];
+                CVPixelBufferPoolRelease(adaptor.pixelBufferPool);
+                break;
+            }
+        }
+    }
+    
+    NSLog (@"Done");
+    
+    ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    [al writeVideoAtPathToSavedPhotosAlbum:url completionBlock:^(NSURL *assetURL, NSError *error) {
+        if (error) {
+            NSLog(@"Error %@", error);
+            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
+            return;
+        }
+    }];
+}
+ 
+- (CVPixelBufferRef)pixelBufferFromCGImage:(CGImageRef)image size:(CGSize)imageSize
 {
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithBool:YES], kCVPixelBufferCGImageCompatibilityKey,
@@ -398,8 +599,7 @@
                                                  kCGImageAlphaNoneSkipFirst);
     NSParameterAssert(context);
     //    CGContextConcatCTM(context, frameTransform);
-    CGContextDrawImage(context, CGRectMake(0, 0, CGImageGetWidth(image),
-                                           CGImageGetHeight(image)), image);
+    CGContextDrawImage(context, CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image)), image);
     CGColorSpaceRelease(rgbColorSpace);
     CGContextRelease(context);
     
@@ -407,69 +607,4 @@
     
     return pxbuffer;
 }
-
--(void)writeImageAsMovie:(NSArray *)array toPath:(NSString*)path size:(CGSize)size duration:(int)duration
-{
-    NSError *error = nil;
-    AVAssetWriter *videoWriter = [[AVAssetWriter alloc] initWithURL:[NSURL fileURLWithPath:path]
-                                                           fileType:AVFileTypeMPEG4
-                                                              error:&error];
-    NSParameterAssert(videoWriter);
-    NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   AVVideoCodecH264, AVVideoCodecKey,
-                                   [NSNumber numberWithInt:size.width], AVVideoWidthKey,
-                                   [NSNumber numberWithInt:size.height], AVVideoHeightKey,
-                                   nil];
-    AVAssetWriterInput* writerInput = [[AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
-                                                                          outputSettings:videoSettings] retain];
-    AVAssetWriterInputPixelBufferAdaptor *adaptor = [AVAssetWriterInputPixelBufferAdaptor assetWriterInputPixelBufferAdaptorWithAssetWriterInput:writerInput
-                                                                                                                     sourcePixelBufferAttributes:nil];
-    NSParameterAssert(writerInput);
-    NSParameterAssert([videoWriter canAddInput:writerInput]);
-    [videoWriter addInput:writerInput];
-    //Start a session:
-    [videoWriter startWriting];
-    [videoWriter startSessionAtSourceTime:kCMTimeZero];
-    CVPixelBufferRef buffer = NULL;
-    buffer = [self pixelBufferFromCGImage:[[array objectAtIndex:0] CGImage] size:CGSizeMake(640, 1136)];
-    CVPixelBufferPoolCreatePixelBuffer (NULL, adaptor.pixelBufferPool, &buffer);
-    [adaptor appendPixelBuffer:buffer withPresentationTime:kCMTimeZero];
-    
-    int i = 1;
-    while (1)
-    {
-        if(writerInput.readyForMoreMediaData){
-            CMTime frameTime = CMTimeMake(1, 10);
-            CMTime lastTime=CMTimeMake(i, 10);
-            CMTime presentTime=CMTimeAdd(lastTime, frameTime);
-            if (i >= [array count])
-            {
-                buffer = NULL;
-            }
-            else
-            {
-                buffer = [self pixelBufferFromCGImage:[[array objectAtIndex:i] CGImage] size:CGSizeMake(640, 1136)];
-            }
-            if (buffer)
-            {
-                // append buffer
-                [adaptor appendPixelBuffer:buffer withPresentationTime:presentTime];
-                i++;
-            }
-            else
-            {
-                //Finish the session:
-                [writerInput markAsFinished];
-                //If change to fininshWritingWith... Cause Zero bytes file. I'm Trying to fix.
-                [videoWriter finishWriting];
-                CVPixelBufferPoolRelease(adaptor.pixelBufferPool);
-                [videoWriter release];
-                [writerInput release];
-                NSLog (@"Done");
-                break;
-            }
-        }
-    }
-}
-*/
 @end

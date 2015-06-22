@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_PhotoPaperScissorsTests_AFDropdownNotification : NSObject
+@end
+@implementation PodsDummy_Pods_PhotoPaperScissorsTests_AFDropdownNotification
+@end

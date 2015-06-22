@@ -7,8 +7,11 @@
 //
 
 #import "PastChallengesController.h"
-#import "ChallengeCell.h"
+
 #import <Colours/Colours.h>
+
+#import "ChallengeCell.h"
+#import "ChallengeModernCell.h"
 
 @interface PastChallengesController ()
 {
@@ -46,6 +49,9 @@
     
     startArray = [startColor CIE_LCHArray];
     endArray = [endColor CIE_LCHArray];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"ChallengeCell" bundle:nil] forCellReuseIdentifier:@"normal"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"ChallengeModernCell" bundle:nil] forCellReuseIdentifier:@"modern"];
 }
 
 - (void)viewDidUnload {
@@ -94,7 +100,8 @@
 // Override to customize what kind of query to perform on the class. The default is to query for
 // all objects ordered by createdAt descending.
 - (PFQuery *)queryForTable {    
-     PFQuery *fullQuery = [PFQuery queryWithClassName:self.parseClassName];
+     //PFQuery *fullQuery = [PFQuery queryWithClassName:self.parseClassName];
+    PFQuery *fullQuery = [super queryForTable];
      [fullQuery whereKey:@"completed" equalTo:@(YES)];
     
     fullQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
@@ -106,7 +113,7 @@
 // a UITableViewCellStyleDefault style cell with the label being the textKey in the object,
 // and the imageView being the imageKey in the object.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    static NSString *CellIdentifier = @"cell";
+    static NSString *CellIdentifier = @"modern";
     
     ChallengeCell *cell = (ChallengeCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -122,8 +129,8 @@
     cell.backgroundColor = diffColor;
     
     // Configure the cell
-    //Challenge *newChallenge = [Challenge challengeForParseObject:object];
-    //[cell loadWithChallenge:newChallenge];
+    Challenge *newChallenge = [Challenge challengeForParseObject:object];
+    [cell loadWithChallenge:newChallenge];
     
     return cell;
 }
@@ -135,24 +142,9 @@
  }
  */
 
-/*
- // Override to customize the look of the cell that allows the user to load the next page of objects.
- // The default implementation is a UITableViewCellStyleDefault cell with simple labels.
- - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
- static NSString *CellIdentifier = @"NextPage";
- 
- UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
- 
- if (cell == nil) {
- cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
- }
- 
- cell.selectionStyle = UITableViewCellSelectionStyleNone;
- cell.textLabel.text = @"Load more...";
- 
- return cell;
- }
- */
+
+
+
 
 #pragma mark - UITableViewDataSource
 

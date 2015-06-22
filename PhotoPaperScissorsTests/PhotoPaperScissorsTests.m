@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-//#import "Challenge.h"
+#import "Challenge.h"
 
 @interface PhotoPaperScissorsTests : XCTestCase
 {
-    //PFObject *parseObject;
+    PFObject *parseObject;
 }
 @end
 
@@ -21,7 +21,8 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    
+    parseObject = [PFObject objectWithClassName:@"Challenge"];
+    parseObject[@"challengeName"] = @"hello";
 }
 
 - (void)tearDown {
@@ -29,9 +30,11 @@
     [super tearDown];
 }
 
-- (void)testExample {
+- (void)testRoundNumber {
     // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+    Challenge *newChallenge = [Challenge challengeForParseObject:parseObject];
+    XCTAssertNotNil(newChallenge);
+    XCTAssertEqual(newChallenge.challengeName, @"hello");
 }
 
 - (void)testPerformanceExample {
