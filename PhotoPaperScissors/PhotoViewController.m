@@ -17,11 +17,15 @@
 #import <ClusterPrePermissions/ClusterPrePermissions.h>
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <MessageUI/MessageUI.h>
+#import <FBSDKShareKit/FBSDKShareKit.h>
 
 #import "PhotoViewController.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
+#import "CEMovieMaker.h"
 
-@interface PhotoViewController () <MFMessageComposeViewControllerDelegate>
+@interface PhotoViewController () <MFMessageComposeViewControllerDelegate, FBSDKSharingDelegate>
+
+@property (strong) CEMovieMaker *movieMaker;
 
 @end
 
@@ -133,6 +137,8 @@
             myImageView.backgroundColor = [UIColor blackColor];
             myImageView.contentMode = UIViewContentModeScaleAspectFill;
             myImageView.image = myImage;
+            myImageView.clipsToBounds = YES;
+            
             [self.embededPhotos addSubview:myImageView];
             [photoImageViews addObject:myImageView];
             
@@ -148,6 +154,8 @@
             theirImageView.backgroundColor = [UIColor blackColor];
             theirImageView.contentMode = UIViewContentModeScaleAspectFill;
             theirImageView.image = theirImage;
+            theirImageView.clipsToBounds = YES;
+            
             [self.embededPhotos addSubview:theirImageView];
             [photoImageViews addObject:theirImageView];
             
@@ -177,6 +185,8 @@
                 
                 UIButton *shareToFB = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
                 [shareToFB setImage:[UIImage imageNamed:@"facebook"] forState:UIControlStateNormal];
+                [shareToFB addTarget:self action:@selector(sendToFacebook:) forControlEvents:UIControlEventTouchUpInside];
+                
                 shareToFB.backgroundColor = [UIColor blackColor];
                 shareToFB.clipsToBounds = YES;
                 shareToFB.layer.cornerRadius = shareToFB.bounds.size.width/2.0;
@@ -245,13 +255,20 @@
 {
     [super viewWillAppear:animated];
     
-    self.embededPhotos.frame = CGRectOffset(self.view.bounds, 0, -1 * self.view.frame.origin.y) ;
-    [self loadChallenge:self.theChallenge];
+    [self positionEmbeddedView];
     
     //self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     //self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.tabBarController.tabBar.hidden = YES;
+}
+
+- (void)positionEmbeddedView
+{
+    CGRect embedFrame = CGRectOffset(self.view.bounds, 0, -1 * self.view.frame.origin.y);
+    embedFrame.size.height += self.view.frame.origin.y;
+    self.embededPhotos.frame = embedFrame;
+    [self loadChallenge:self.theChallenge];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -295,7 +312,7 @@
         }
         if (!error) {
             UIAlertView *alerting = [[UIAlertView alloc] initWithTitle:@"Saved"
-                                                               message:@"GIF saved to Camera Roll"
+                                                               message:@"GIF & video saved to Camera Roll"
                                                               delegate:nil
                                                      cancelButtonTitle:@"OK"
                                                      otherButtonTitles:nil];
@@ -304,11 +321,64 @@
     }];
 }
 
+- (IBAction)sendToFacebook:(id)sender
+{
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb:"]]) {
+        UIButton *buttonFrom = (UIButton*)sender;
+        buttonFrom.enabled = NO;
+        NSArray *images = [self collectImages];
+        [self createVideoFrom:images withCompletetion:^(NSError *error, NSURL *fileURL) {
+            if (fileURL) {
+                ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+                [al writeVideoAtPathToSavedPhotosAlbum:fileURL completionBlock:^(NSURL *assetURL, NSError *error) {
+                    buttonFrom.enabled = YES;
+                    if (error) {
+                        NSLog(@"Error %@", error);
+                        [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
+                        return;
+                    }
+                    
+                    FBSDKShareVideo *videoShare = [FBSDKShareVideo videoWithVideoURL:assetURL];
+                    FBSDKSharePhoto *photoPreview = [FBSDKSharePhoto photoWithImage:images[0] userGenerated:YES];
+                    FBSDKShareVideoContent  *toShare = [[FBSDKShareVideoContent alloc] init];
+                    toShare.video = videoShare;
+                    toShare.previewPhoto = photoPreview;
+                    toShare.peopleIDs = @[];
+                    toShare.placeID = @"";
+                    [FBSDKShareDialog showFromViewController:self withContent:toShare delegate:self];
+                }];
+            } else {
+                buttonFrom.enabled = YES;
+            }
+        }];
+    } else {
+        UIAlertView *alerting = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                           message:@"You must have the facebook client installed to upload video"
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"OK"
+                                                 otherButtonTitles:nil];
+        [alerting show];
+    }
+}
+
 - (void)createAndSaveAnimatedGifWithCompletetion:(void (^)(NSError*))completionBlock
 {
     NSArray *images = [self collectImages];
+    
+    [self createVideoFrom:images withCompletetion:^(NSError *error, NSURL *fileURL) {
+        if (fileURL) {
+            ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+            [al writeVideoAtPathToSavedPhotosAlbum:fileURL completionBlock:^(NSURL *assetURL, NSError *error) {
+                if (error) {
+                    NSLog(@"Error %@", error);
+                    [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
+                    return;
+                }
+            }];
+        }
+    }];
+    
     NSData *gifData = [self createAnimatedGiFrom:images];
-    //[self createVideoFrom:images];
     
     ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
     [al writeImageDataToSavedPhotosAlbum:gifData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
@@ -390,6 +460,13 @@
     NSArray *size = [[PFConfig currentConfig] objectForKey:@"SizeOfExportGif"];
     if (size == nil || size.count != 2) {
         size = @[@(470), @(836)];
+    }
+    CGFloat width = [size[0] floatValue];
+    CGFloat height = [size[1] floatValue];
+    if (fmodf(width,16.0) != 0) {
+        CGFloat newWidth = ceilf(width / 16) * 16;
+        CGFloat newHeight = ceilf(newWidth * height / width);
+        size = @[@(newWidth), @(newHeight)];
     }
     CGSize blockSize = CGSizeMake([size[0] integerValue], ceilf([size[1] floatValue] / 2.0));
     CGSize finalSize = CGSizeMake(blockSize.width, blockSize.height*2);
@@ -489,122 +566,44 @@
     return outputImage;
 }
 
-- (void)createVideoFrom:(NSArray*)imageArray
+- (void)createVideoFrom:(NSArray*)imageArray withCompletetion:(void (^)(NSError *error, NSURL* fileURL))completionBlock
 {
-    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/movie.mp4"]];
-    NSString *documentsDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSArray *dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectoryPath error:nil];
-    for (NSString *tString in dirContents) {
-        if ([tString isEqualToString:@"movie.mp4"])
-        {
-            //Remove File existed.
-            [[NSFileManager defaultManager]removeItemAtPath:[NSString stringWithFormat:@"%@/%@",documentsDirectoryPath,tString] error:nil];
-        }
-    }
-
-    UIImage *anImage = imageArray[0];
-    [self writeImageAsMovie:imageArray toPath:path size:anImage.size duration:1];
-}
-
--(void)writeImageAsMovie:(NSArray *)array toPath:(NSString*)path size:(CGSize)size duration:(int)duration
-{
-    NSError *error = nil;
-    AVAssetWriter *videoWriter = [[AVAssetWriter alloc] initWithURL:[NSURL fileURLWithPath:path]
-                                                           fileType:AVFileTypeMPEG4
-                                                              error:&error];
-    NSParameterAssert(videoWriter);
-    NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   AVVideoCodecH264, AVVideoCodecKey,
-                                   [NSNumber numberWithInt:size.width], AVVideoWidthKey,
-                                   [NSNumber numberWithInt:size.height], AVVideoHeightKey,
-                                   nil];
-    AVAssetWriterInput* writerInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
-                                                                          outputSettings:videoSettings];
-    AVAssetWriterInputPixelBufferAdaptor *adaptor = [AVAssetWriterInputPixelBufferAdaptor assetWriterInputPixelBufferAdaptorWithAssetWriterInput:writerInput
-                                                                                                                     sourcePixelBufferAttributes:nil];
-    NSParameterAssert(writerInput);
-    NSParameterAssert([videoWriter canAddInput:writerInput]);
-    [videoWriter addInput:writerInput];
-    //Start a session:
-    [videoWriter startWriting];
-    [videoWriter startSessionAtSourceTime:kCMTimeZero];
-    CVPixelBufferRef buffer = NULL;
-    UIImage *image = [array objectAtIndex:0];
-    buffer = [self pixelBufferFromCGImage:[image CGImage] size:size];
-    CVPixelBufferPoolCreatePixelBuffer (NULL, adaptor.pixelBufferPool, &buffer);
-    [adaptor appendPixelBuffer:buffer withPresentationTime:kCMTimeZero];
+    UIImage *anImage = [imageArray firstObject];
+    CGSize size = anImage.size;
     
-    int i = 1;
-    while (1)
-    {
-        if(writerInput.readyForMoreMediaData){
-            CMTime frameTime = CMTimeMake(1, 10);
-            CMTime lastTime=CMTimeMake(i, 10);
-            CMTime presentTime=CMTimeAdd(lastTime, frameTime);
-            if (i >= [array count]) {
-                buffer = NULL;
-            } else {
-                image = [array objectAtIndex:i];
-                CGImageRef imageData = image.CGImage;
-                buffer = [self pixelBufferFromCGImage:imageData size:size];
+    NSDictionary *settings = [CEMovieMaker videoSettingsWithCodec:AVVideoCodecH264
+                                                        withWidth:size.width
+                                                        andHeight:size.height];
+    self.movieMaker = [[CEMovieMaker alloc] initWithSettings:settings];
+    self.movieMaker.frameTime = CMTimeMake(1, 2); //last number is FPS
+    [self.movieMaker createMovieFromImages:imageArray withCompletion:^(NSURL *fileURL){
+        if (fileURL) {
+            if (completionBlock) {
+                completionBlock(nil, fileURL);
             }
-            
-            if (buffer) {
-                // append buffer
-                [adaptor appendPixelBuffer:buffer withPresentationTime:presentTime];
-                i++;
-            } else {
-                //Finish the session:
-                [writerInput markAsFinished];
-                //If change to fininshWritingWith... Cause Zero bytes file. I'm Trying to fix.
-                [videoWriter finishWriting];
-                CVPixelBufferPoolRelease(adaptor.pixelBufferPool);
-                break;
+        } else {
+            if (completionBlock) {
+                completionBlock([NSError errorWithDomain:@"eek" code:1 userInfo:nil], nil);
             }
-        }
-    }
-    
-    NSLog (@"Done");
-    
-    ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-    NSURL *url = [NSURL fileURLWithPath:path];
-    [al writeVideoAtPathToSavedPhotosAlbum:url completionBlock:^(NSURL *assetURL, NSError *error) {
-        if (error) {
-            NSLog(@"Error %@", error);
-            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
-            return;
         }
     }];
 }
- 
-- (CVPixelBufferRef)pixelBufferFromCGImage:(CGImageRef)image size:(CGSize)imageSize
+
+#pragma mark Facebook Delegate
+
+- (void)sharer:(id<FBSDKSharing>)sharer didCompleteWithResults:(NSDictionary *)results
 {
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithBool:YES], kCVPixelBufferCGImageCompatibilityKey,
-                             [NSNumber numberWithBool:YES], kCVPixelBufferCGBitmapContextCompatibilityKey,
-                             nil];
-    CVPixelBufferRef pxbuffer = NULL;
-    CVReturn status = CVPixelBufferCreate(kCFAllocatorDefault, imageSize.width,
-                                          imageSize.height, kCVPixelFormatType_32ARGB, (CFDictionaryRef) CFBridgingRetain(options),
-                                          &pxbuffer);
-    NSParameterAssert(status == kCVReturnSuccess && pxbuffer != NULL);
     
-    CVPixelBufferLockBaseAddress(pxbuffer, 0);
-    void *pxdata = CVPixelBufferGetBaseAddress(pxbuffer);
-    NSParameterAssert(pxdata != NULL);
-    
-    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(pxdata, imageSize.width,
-                                                 imageSize.height, 8, 4*imageSize.width, rgbColorSpace,
-                                                 kCGImageAlphaNoneSkipFirst);
-    NSParameterAssert(context);
-    //    CGContextConcatCTM(context, frameTransform);
-    CGContextDrawImage(context, CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image)), image);
-    CGColorSpaceRelease(rgbColorSpace);
-    CGContextRelease(context);
-    
-    CVPixelBufferUnlockBaseAddress(pxbuffer, 0);
-    
-    return pxbuffer;
 }
+
+- (void)sharer:(id<FBSDKSharing>)sharer didFailWithError:(NSError *)error
+{
+    
+}
+
+- (void)sharerDidCancel:(id<FBSDKSharing>)sharer
+{
+    
+}
+
 @end

@@ -20,6 +20,7 @@
 @property IBOutlet UIView *linkFacebookBackground;
 @property IBOutlet UIView *saveBackground;
 @property IBOutlet UIView *tabBarBackground;
+@property IBOutlet UIView *nicknameLine;
 
 @property IBOutlet UIButton *saveButton;
 

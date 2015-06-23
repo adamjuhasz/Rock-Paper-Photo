@@ -138,6 +138,7 @@
     // This method is called before a PFQuery is fired to get more objects
 }
 
+// This method is called every time objects are loaded from Parse via the PFQuery
 - (void)objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     
@@ -145,7 +146,16 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ZeroChallenges" object:nil];
     }
     
-    // This method is called every time objects are loaded from Parse via the PFQuery
+    if ([self isMemberOfClass:[CurrentChallengesController class]]) {
+        PFInstallation *badging = [PFInstallation currentInstallation];
+        badging.badge = 0;
+        for (int i=0; i<self.objects.count; i++) {
+            Challenge *thisChallenge = [Challenge challengeForParseObject:self.objects[i]];
+            if (thisChallenge.whosTurn == myTurn) {
+                badging.badge++;
+            }
+        }
+    }
 }
 
 

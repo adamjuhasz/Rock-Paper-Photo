@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E6954A152C50A6F3CB3633D"
+               BlueprintIdentifier = "7E346F904D4F4B1107337C61"
                BuildableName = "libPods-PhotoPaperScissors-ClusterPrePermissions.a"
                BlueprintName = "Pods-PhotoPaperScissors-ClusterPrePermissions"
                ReferencedContainer = "container:Pods.xcodeproj">

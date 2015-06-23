@@ -162,6 +162,12 @@
 #define COCOAPODS_VERSION_MINOR_ReactiveTableViewBinding 0
 #define COCOAPODS_VERSION_PATCH_ReactiveTableViewBinding 0
 
+// UICKeyChainStore
+#define COCOAPODS_POD_AVAILABLE_UICKeyChainStore
+#define COCOAPODS_VERSION_MAJOR_UICKeyChainStore 2
+#define COCOAPODS_VERSION_MINOR_UICKeyChainStore 0
+#define COCOAPODS_VERSION_PATCH_UICKeyChainStore 6
+
 // jot
 #define COCOAPODS_POD_AVAILABLE_jot
 #define COCOAPODS_VERSION_MAJOR_jot 0

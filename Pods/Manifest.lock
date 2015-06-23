@@ -49,6 +49,7 @@ PODS:
     - ReactiveCocoa/Core
   - ReactiveTableViewBinding (1.0):
     - ReactiveCocoa (~> 2.4)
+  - UICKeyChainStore (2.0.6)
 
 DEPENDENCIES:
   - AFDropdownNotification
@@ -64,6 +65,7 @@ DEPENDENCIES:
   - ParseFacebookUtilsV4
   - ParseUI
   - ReactiveTableViewBinding
+  - UICKeyChainStore
 
 EXTERNAL SOURCES:
   ClusterPrePermissions:
@@ -104,5 +106,6 @@ SPEC CHECKSUMS:
   ParseUI: d1228541b02a36a7354c8f47747f5f7a89cf1ff0
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   ReactiveTableViewBinding: f925165a270dc51a3bc02ace494a2f212ae04498
+  UICKeyChainStore: c5719c814e8bd69e74e4a0fc09daf8f4d6257a59
 
 COCOAPODS: 0.37.2

@@ -13,6 +13,7 @@
 #import <Fabric/Fabric.h>
 #import <DigitsKit/DigitsKit.h>
 #import <Crashlytics/Crashlytics.h>
+#import <UICKeyChainStore/UICKeyChainStore.h>
 
 
 @interface AppDelegate ()
@@ -55,9 +56,19 @@
     
     //[[PFUser currentUser] fetch];
     
-    /*if ([PFUser currentUser]) {
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }*/
+    PFUser *currentUser = [PFUser currentUser];
+    if (currentUser) {
+        //[[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else {
+        UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"io.ajuhasz.rpp.icloud"];
+        keychain.synchronizable = YES;
+        
+        NSString *username = keychain[@"username"];
+        NSString *password = keychain[@"password"];
+        if (username && password) {
+            [PFUser logInWithUsername:username password:password];
+        }
+    }
     
     return YES;
 }

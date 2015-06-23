@@ -106,6 +106,7 @@ NSMutableDictionary *cachedChallenges;
             self.parseObject[@"roundNumber"] = currentRoundNumber;
             if ([self imageForPlayer:self.playerIAm forRound:currentRoundNumber.integerValue] == nil) {
                 self.photoSent = NO;
+                self.whosTurn = myTurn;
             }
         }];
         
@@ -338,17 +339,27 @@ NSMutableDictionary *cachedChallenges;
         self.photoSent = YES;
     }
     
+    if ([self imageForPlayer:self.playerIAm forRound:self.currentRoundNumber] &&
+        [self imageForPlayer:self.otherPlayerIs forRound:self.currentRoundNumber] &&
+        (self.currentRoundNumber+1 <= self.maxRounds)) {
+            self.whosTurn = myTurn;
+    }
+    
     if (self.currentRoundNumber == self.maxRounds) {
         UIImage *currentChallengerImage = [self imageForPlayer:Challenger forRound:self.currentRoundNumber];
         UIImage *currentChallengeeImage = [self imageForPlayer:Challengee forRound:self.currentRoundNumber];
         if (currentChallengerImage && currentChallengeeImage) {
             self.challengeComplete = YES;
+            self.whosTurn = noonesTurn;
         }
     }
     
     if (self.currentRoundNumber > self.maxRounds) {
         self.challengeComplete = YES;
+        self.whosTurn = noonesTurn;
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
     
     [self.parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *PF_NULLABLE_S error){
         if (error){

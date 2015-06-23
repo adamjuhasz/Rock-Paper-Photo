@@ -16,4 +16,10 @@
 @property IBOutlet UITextField *nickname;
 @property IBOutlet UIButton *signUp;
 
+@property IBOutlet UIView *takePhotoBackground;
+@property IBOutlet UIView *photoLibraryBackground;
+@property IBOutlet UIView *signUpBakcgeound;
+@property IBOutlet UIView *facebookSignUpBackground;
+@property IBOutlet UIView *nicknameLine;
+
 @end
