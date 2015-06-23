@@ -682,7 +682,7 @@
                   moduleName = "PhotoPaperScissors"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adamjuhasz/Code/PhotoPaperScissors/PhotoPaperScissors/ProfileViewController.m"
-                  timestampString = "456790709.634671"
+                  timestampString = "456792475.010416"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "118"
@@ -697,7 +697,7 @@
                   moduleName = "PhotoPaperScissors"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/adamjuhasz/Code/PhotoPaperScissors/PhotoPaperScissors/ProfileViewController.m"
-                  timestampString = "456790709.635281"
+                  timestampString = "456792475.010767"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "120"
@@ -922,11 +922,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoPaperScissors/PhotoViewController.m"
-            timestampString = "456790586.803946"
+            timestampString = "456791604.426981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "-loadChallenge:"
             landmarkType = "5">
          </BreakpointContent>
@@ -986,11 +986,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoPaperScissors/PhotoViewController.m"
-            timestampString = "456790709.474019"
+            timestampString = "456792099.625934"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "553"
-            endingLineNumber = "553"
+            startingLineNumber = "577"
+            endingLineNumber = "577"
             landmarkName = "-drawTop:drawBottom:intoImageSize:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1242,11 +1242,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoPaperScissors/PhotoViewController.m"
-            timestampString = "456790709.474019"
+            timestampString = "456792099.625934"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "466"
-            endingLineNumber = "466"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
             landmarkName = "-collectImages"
             landmarkType = "5">
          </BreakpointContent>
@@ -1258,11 +1258,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoPaperScissors/PhotoViewController.m"
-            timestampString = "456790709.474019"
+            timestampString = "456792055.011387"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "-createAndSaveAnimatedGifWithCompletetion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1274,11 +1274,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoPaperScissors/PhotoViewController.m"
-            timestampString = "456790709.474019"
+            timestampString = "456791604.426981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
+            startingLineNumber = "328"
+            endingLineNumber = "328"
             landmarkName = "-sendToFacebook:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1290,11 +1290,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoPaperScissors/PhotoViewController.m"
-            timestampString = "456790709.474019"
+            timestampString = "456791604.426981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
             landmarkName = "-sendToFacebook:"
             landmarkType = "5">
             <Locations>
@@ -1402,11 +1402,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoPaperScissors/PhotoViewController.m"
-            timestampString = "456790709.474019"
+            timestampString = "456791604.426981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1434,12 +1434,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoPaperScissors/PhotoViewController.m"
-            timestampString = "456790709.474019"
+            timestampString = "456791604.426981"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
             landmarkName = "-positionEmbeddedView"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotoPaperScissors/PhotoViewController.m"
+            timestampString = "456792099.625934"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "423"
+            endingLineNumber = "423"
+            landmarkName = "-sendGifToSMS"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotoPaperScissors/PhotoViewController.m"
+            timestampString = "456792099.625934"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
+            landmarkName = "-sendToShareSheet"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotoPaperScissors/PhotoViewController.m"
+            timestampString = "456792132.471232"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
+            landmarkName = "-makeAnimatedGif:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotoPaperScissors/PhotoViewController.m"
+            timestampString = "456792140.536286"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "405"
+            endingLineNumber = "405"
+            landmarkName = "-createAndSaveAnimatedGifWithCompletetion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

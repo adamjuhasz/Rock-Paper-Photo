@@ -167,6 +167,7 @@
             if (roundNumber == aChallenge.maxRounds ) {
                 UIButton *shareToTwitter = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
                 [shareToTwitter setImage:[UIImage imageNamed:@"twitter"] forState:UIControlStateNormal];
+                [shareToTwitter addTarget:self action:@selector(sendToShareSheet) forControlEvents:UIControlEventTouchUpInside];
                 shareToTwitter.backgroundColor = [UIColor blackColor];
                 shareToTwitter.clipsToBounds = YES;
                 shareToTwitter.layer.cornerRadius = shareToTwitter.bounds.size.width/2.0;
@@ -176,6 +177,7 @@
                 
                 UIButton *shareToSMS = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
                 [shareToSMS setImage:[UIImage imageNamed:@"messages"] forState:UIControlStateNormal];
+                [shareToSMS addTarget:self action:@selector(sendGifToSMS) forControlEvents:UIControlEventTouchUpInside];
                 shareToSMS.backgroundColor = [UIColor blackColor];
                 shareToSMS.clipsToBounds = YES;
                 shareToSMS.layer.cornerRadius = shareToSMS.bounds.size.width/2.0;
@@ -186,7 +188,6 @@
                 UIButton *shareToFB = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
                 [shareToFB setImage:[UIImage imageNamed:@"facebook"] forState:UIControlStateNormal];
                 [shareToFB addTarget:self action:@selector(sendToFacebook:) forControlEvents:UIControlEventTouchUpInside];
-                
                 shareToFB.backgroundColor = [UIColor blackColor];
                 shareToFB.clipsToBounds = YES;
                 shareToFB.layer.cornerRadius = shareToFB.bounds.size.width/2.0;
@@ -364,34 +365,57 @@
 - (void)createAndSaveAnimatedGifWithCompletetion:(void (^)(NSError*))completionBlock
 {
     NSArray *images = [self collectImages];
+    __block NSError *groupError = nil;
     
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_enter(group);
     [self createVideoFrom:images withCompletetion:^(NSError *error, NSURL *fileURL) {
         if (fileURL) {
             ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
             [al writeVideoAtPathToSavedPhotosAlbum:fileURL completionBlock:^(NSURL *assetURL, NSError *error) {
+                dispatch_group_leave(group);
                 if (error) {
                     NSLog(@"Error %@", error);
                     [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
+                    groupError = error;
                     return;
                 }
             }];
+        } else {
+            dispatch_group_leave(group);
         }
     }];
     
     NSData *gifData = [self createAnimatedGiFrom:images];
     
     ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+    dispatch_group_enter(group);
     [al writeImageDataToSavedPhotosAlbum:gifData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
-        if (completionBlock) {
-            completionBlock(error);
-        }
-        
+        dispatch_group_leave(group);
         if (error) {
             NSLog(@"Error %@", error);
             [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
+            groupError = error;
             return;
         }
     }];
+    
+    dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        if (completionBlock) {
+            completionBlock(groupError);
+        }
+    });
+}
+
+- (void)sendToShareSheet
+{
+    NSArray *images = [self collectImages];
+    NSData *gifData = [self createAnimatedGiFrom:images];
+    
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[gifData, self.theChallenge.challengeName]
+                                                                             applicationActivities:nil];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)sendGifToSMS
