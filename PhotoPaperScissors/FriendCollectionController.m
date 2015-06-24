@@ -11,6 +11,8 @@
 #import <DigitsKit/DigitsKit.h>
 #import <MessageUI/MessageUI.h>
 #import <Colours/Colours.h>
+#import <Flow/FLWTutorialController.h>
+#import <Flow/FLWTapGesture.h>
 
 #import "FriendCollectionCell.h"
 #import "ChallengeThemeController.h"
@@ -18,6 +20,8 @@
 #import "PFAnalytics+PFAnalytics_TrackError.h"
 #import "PFUser+findFacebookFriends.h"
 #import "PFUser+MakeFriendships.h"
+
+static NSString * const FindFriendsTutorialString = @"io.ajuhasz.friends.find";
 
 @interface FriendCollectionController () <MFMessageComposeViewControllerDelegate, UIActionSheetDelegate>
 
@@ -101,6 +105,35 @@
     gradient.frame = background.bounds;
     gradient.colors = [NSArray arrayWithObjects:(id)[startColor CGColor], (id)[endColor CGColor], nil];
     [background.layer insertSublayer:gradient atIndex:0];
+}
+
+- (void)objectsDidLoad:(nullable NSError *)error
+{
+    [super objectsDidLoad:error];
+    
+    if (self.objects.count == 0) {
+        [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:FindFriendsTutorialString];
+        [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:FindFriendsTutorialString
+                                                                    afterDelay:1.0
+                                                                 withPredicate:NULL
+                                                             constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                                 tutorial.title = @"Why don't we find some friends to challenge?";
+                                                                 tutorial.speechSynthesisesDisabled = NO;
+                                                                 tutorial.position = FLWTutorialPositionBottom;
+                                                                 tutorial.gesture =  [[FLWTapGesture alloc] initWithTouchPoint:CGPointMake(self.view.bounds.size.width - 28, 44) inView:self.navigationController.view];
+                                                                 tutorial.respectsSilentSwitch = YES;
+                                                             }];
+    } else if (self.objects.count <= 4) {
+        int friendsPerLine = 2;
+        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
+        CGFloat width = (self.view.bounds.size.width - (layout.sectionInset.left + layout.sectionInset.right) - (friendsPerLine-1)*layout.minimumInteritemSpacing) / friendsPerLine;
+        layout.itemSize = CGSizeMake(width, width * layout.itemSize.height / layout.itemSize.width);
+    } else {
+        int friendsPerLine = 3;
+        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
+        CGFloat width = (self.view.bounds.size.width - (layout.sectionInset.left + layout.sectionInset.right) - (friendsPerLine-1)*layout.minimumInteritemSpacing) / friendsPerLine;
+        layout.itemSize = CGSizeMake(width, width * layout.itemSize.height / layout.itemSize.width);
+    }
 }
 
 - (PFQuery *)queryForCollection {
@@ -191,6 +224,7 @@
 
 - (void)showSheet
 {
+    [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:FindFriendsTutorialString];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Find friends through"
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"

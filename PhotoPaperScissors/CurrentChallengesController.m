@@ -80,7 +80,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     //self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
     
-    self.title = @"Current Challenges";
+    self.navigationItem.title = @"Current Challenges";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
                                                                              style:self.navigationItem.backBarButtonItem.style
                                                                             target:nil
@@ -152,6 +152,9 @@
         for (int i=0; i<self.objects.count; i++) {
             Challenge *thisChallenge = [Challenge challengeForParseObject:self.objects[i]];
             if (thisChallenge.whosTurn == myTurn) {
+                badging.badge++;
+            }
+            if (thisChallenge.whosTurn == noonesTurn) {
                 badging.badge++;
             }
         }

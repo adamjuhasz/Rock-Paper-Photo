@@ -983,7 +983,7 @@
         <scene sceneID="q3X-39-kHP">
             <objects>
                 <tableViewController id="6fY-nP-AmP" customClass="CurrentChallengesController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="105" sectionHeaderHeight="22" sectionFooterHeight="22" id="dzH-D8-CZc">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="dzH-D8-CZc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1194,8 +1194,8 @@
         <image name="shutter_active" width="88" height="88"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="k3X-K1-IDS"/>
-        <segue reference="gyE-1b-2J0"/>
         <segue reference="vv2-9H-2xL"/>
+        <segue reference="k3X-K1-IDS"/>
+        <segue reference="cAy-Ds-t3X"/>
     </inferredMetricsTieBreakers>
 </document>

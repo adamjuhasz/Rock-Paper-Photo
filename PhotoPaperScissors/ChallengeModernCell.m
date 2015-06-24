@@ -91,7 +91,7 @@
     if (challenge.challengeComplete) {
         //challenge complete
         self.roundIndictorHolder.hidden = YES;
-    } else if (challenge.whosTurn == myTurn) {
+    } else if (challenge.whosTurn == myTurn || challenge.whosTurn == noonesTurn) {
         //waiting for my turn
         self.roundIndictorHolder.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     } else {
