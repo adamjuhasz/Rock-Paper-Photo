@@ -12,5 +12,5 @@ $('.img-6').attr('src', (window.devicePixelRatio > 1) ? ((window.devicePixelRati
 $('.img-8').attr('src', (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/madewithsparkle-570.png' : 'images/madewithsparkle-380.png') : 'images/madewithsparkle-190.png');};
 $(window).resize(r);
 r();
-$('.cont').Stickyfill();
+
 });
