@@ -63,7 +63,7 @@ DEPENDENCIES:
   - NSURLConnection-Blocks
   - NYXImagesKit
   - ParseFacebookUtilsV4
-  - ParseUI
+  - ParseUI (from `../ParseUI-iOS`)
   - ReactiveTableViewBinding
   - UICKeyChainStore
 
@@ -74,6 +74,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/adamjuhasz/Colours.git
   jot:
     :git: https://github.com/adamjuhasz/jot.git
+  ParseUI:
+    :path: ../ParseUI-iOS
 
 CHECKOUT OPTIONS:
   ClusterPrePermissions:

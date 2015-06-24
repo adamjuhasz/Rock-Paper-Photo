@@ -5,7 +5,7 @@ platform :ios, '7.0'
 def import_pods
   pod 'NYXImagesKit'
   pod 'ParseFacebookUtilsV4'
-  pod 'ParseUI'
+  pod 'ParseUI', :path => '../ParseUI-iOS'
 
   pod 'FastttCamera'
   pod 'ReactiveTableViewBinding'

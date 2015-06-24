@@ -233,10 +233,12 @@
     
     if (aChallenge.challengeComplete) {
         //all rounds complete
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save to library"
+        /*
+         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save to library"
                                                                                   style:self.editButtonItem.style
                                                                                  target:self
                                                                                  action:@selector(makeAnimatedGif:)];
+         */
         return;
     }
     

@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DADD42FC38E2588545FFF51D"
-               BuildableName = "libPods-PhotoPaperScissorsTests-ParseUI.a"
-               BlueprintName = "Pods-PhotoPaperScissorsTests-ParseUI"
+               BlueprintIdentifier = "356BB217A234EA3749CE86F4"
+               BuildableName = "libPods-PhotoPaperScissors-ParseUI.a"
+               BlueprintName = "Pods-PhotoPaperScissors-ParseUI"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

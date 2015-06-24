@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/Views/PFImageView.h
+../../../../../ParseUI-iOS/ParseUI/Classes/Views/PFImageView.h

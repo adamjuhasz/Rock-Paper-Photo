@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/Internal/Cells/PFActivityIndicatorTableViewCell.h
+../../../../../ParseUI-iOS/ParseUI/Classes/Internal/Cells/PFActivityIndicatorTableViewCell.h

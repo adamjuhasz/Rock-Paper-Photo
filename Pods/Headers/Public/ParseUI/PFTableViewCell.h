@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/Cells/PFTableViewCell.h
+../../../../../ParseUI-iOS/ParseUI/Classes/Cells/PFTableViewCell.h

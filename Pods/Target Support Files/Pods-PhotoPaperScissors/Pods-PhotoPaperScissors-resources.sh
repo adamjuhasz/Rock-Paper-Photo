@@ -62,14 +62,14 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "Flow/Resources/FLWProgressCheckmark@2x.png"
   install_resource "Flow/Resources/FLWProgressViewClose.png"
   install_resource "Flow/Resources/FLWProgressViewClose@2x.png"
-  install_resource "ParseUI/ParseUI/Resources/Localization/en.lproj"
+  install_resource "../../ParseUI-iOS/ParseUI/Resources/Localization/en.lproj"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "Flow/Resources/FLWProgressCheckmark.png"
   install_resource "Flow/Resources/FLWProgressCheckmark@2x.png"
   install_resource "Flow/Resources/FLWProgressViewClose.png"
   install_resource "Flow/Resources/FLWProgressViewClose@2x.png"
-  install_resource "ParseUI/ParseUI/Resources/Localization/en.lproj"
+  install_resource "../../ParseUI-iOS/ParseUI/Resources/Localization/en.lproj"
 fi
 
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

@@ -12,6 +12,8 @@
 	<dict>
 		<key>5C101AE639A6216A0296FE7625D9FC3C67D57B12</key>
 		<string>https://github.com/adamjuhasz/Rock-Paper-Photo.git</string>
+		<key>D23D34EC354641B9D28A265B23EB97007E6EDDB6</key>
+		<string>https://github.com/adamjuhasz/ParseUI-iOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>PhotoPaperScissors.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>5C101AE639A6216A0296FE7625D9FC3C67D57B12</key>
 		<string>..</string>
+		<key>D23D34EC354641B9D28A265B23EB97007E6EDDB6</key>
+		<string>../../ParseUI-iOS</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/adamjuhasz/Rock-Paper-Photo.git</string>
@@ -28,6 +32,14 @@
 	<string>5C101AE639A6216A0296FE7625D9FC3C67D57B12</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D23D34EC354641B9D28A265B23EB97007E6EDDB6</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ParseUI-iOS</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

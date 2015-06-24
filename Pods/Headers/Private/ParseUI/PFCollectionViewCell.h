@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/Cells/PFCollectionViewCell.h
+../../../../../ParseUI-iOS/ParseUI/Classes/Cells/PFCollectionViewCell.h

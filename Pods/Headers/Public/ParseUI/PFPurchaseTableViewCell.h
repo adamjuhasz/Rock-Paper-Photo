@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/Cells/PFPurchaseTableViewCell.h
+../../../../../ParseUI-iOS/ParseUI/Classes/Cells/PFPurchaseTableViewCell.h
