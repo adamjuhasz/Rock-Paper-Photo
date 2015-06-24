@@ -155,6 +155,8 @@
                 badging.badge++;
             }
         }
+        UITabBarItem *myItem = self.tabBarController.tabBar.items[0];
+        myItem.badgeValue = [NSString stringWithFormat:@"%ld", (long)badging.badge];
     }
 }
 

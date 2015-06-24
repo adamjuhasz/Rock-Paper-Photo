@@ -22,10 +22,11 @@
 
 #import <TwitterCore/TwitterCore.h>
 
-#import "DGTOAuthSigning.h"
 #import "DGTContacts.h"
 #import "DGTContactsUploadResult.h"
 #import "DGTErrors.h"
+#import "DGTOAuthSigning.h"
+#import "DGTSessionUpdateDelegate.h"
 #import "DGTUser.h"
 #import "Digits.h"
 

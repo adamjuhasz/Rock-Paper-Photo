@@ -12,11 +12,10 @@
 
 @class UIViewController;
 @class TWTRAuthConfig;
+@protocol DGTSessionUpdateDelegate;
 
 /**
  *  The `Digits` class contains the main methods to implement the Digits authentication flow.
- *
- *  @warning You must first properly initialize the Twitter kit in order to use Digits. Consult the Twitter kit documentation for more information.
  */
 @interface Digits : NSObject
 
@@ -49,6 +48,11 @@
  *  Authentication configuration details. Encapsulates the `consumerKey` and `consumerSecret` credentials required to authenticate a Twitter application.
  */
 @property (nonatomic, strong, readonly) TWTRAuthConfig *authConfig;
+
+/**
+ *  Notifies whenever there have been changes to the Digits Session or if it is no longer a valid session.
+ */
+@property (nonatomic, weak) id<DGTSessionUpdateDelegate> sessionUpdateDelegate;
 
 /**
  *  Starts the authentication flow UI with the standard appearance. The UI is presented as a modal off of the top-most view controller. The modal title is the application name.

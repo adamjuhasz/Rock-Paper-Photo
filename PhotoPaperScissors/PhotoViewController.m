@@ -23,6 +23,8 @@
 #import "PFAnalytics+PFAnalytics_TrackError.h"
 #import "CEMovieMaker.h"
 
+#define TimePerFrameInSeconds 2.0
+
 @interface PhotoViewController () <MFMessageComposeViewControllerDelegate, FBSDKSharingDelegate>
 
 @property (strong) CEMovieMaker *movieMaker;
@@ -143,7 +145,7 @@
             [photoImageViews addObject:myImageView];
             
             self.embededPhotos.contentSize = CGSizeMake(CGRectGetMaxX(myImageView.frame), self.embededPhotos.bounds.size.height);
-            self.embededPhotos.contentOffset = CGPointMake(CGRectGetMinX(myImageView.frame), 0);
+            //self.embededPhotos.contentOffset = CGPointMake(CGRectGetMinX(myImageView.frame), 0);
         }
         
         if (theirImage) {
@@ -160,7 +162,7 @@
             [photoImageViews addObject:theirImageView];
             
             self.embededPhotos.contentSize = CGSizeMake(CGRectGetMaxX(theirImageView.frame), self.embededPhotos.bounds.size.height);
-            self.embededPhotos.contentOffset = CGPointMake(CGRectGetMinX(theirImageView.frame), 0);
+            //self.embededPhotos.contentOffset = CGPointMake(CGRectGetMinX(theirImageView.frame), 0);
         }
         
         if (myImage || theirImage) {
@@ -260,10 +262,16 @@
     
     [self positionEmbeddedView];
     
-    //self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    //self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.tabBarController.tabBar.hidden = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    self.embededPhotos.contentOffset = CGPointMake(0, 0);
+    [UIView animateWithDuration:1.0 animations:^{
+        self.embededPhotos.contentOffset = CGPointMake(self.embededPhotos.contentSize.width-self.embededPhotos.bounds.size.width, 0);
+    }];
 }
 
 - (void)positionEmbeddedView
@@ -456,7 +464,7 @@
     
     NSDictionary *frameProperties = @{
                                       (__bridge id)kCGImagePropertyGIFDictionary: @{
-                                              (__bridge id)kCGImagePropertyGIFDelayTime: @1.0f, // a float (not double!) in seconds, rounded to centiseconds in the GIF data
+                                              (__bridge id)kCGImagePropertyGIFDelayTime: @(TimePerFrameInSeconds), // a float (not double!) in seconds, rounded to centiseconds in the GIF data
                                               }
                                       };
     
@@ -601,7 +609,7 @@
                                                         withWidth:size.width
                                                         andHeight:size.height];
     self.movieMaker = [[CEMovieMaker alloc] initWithSettings:settings];
-    self.movieMaker.frameTime = CMTimeMake(1, 2); //last number is FPS
+    self.movieMaker.frameTime = CMTimeMake(TimePerFrameInSeconds, 1); //seconds, frames in those seconds
     [self.movieMaker createMovieFromImages:imageArray withCompletion:^(NSURL *fileURL){
         if (fileURL) {
             if (completionBlock) {

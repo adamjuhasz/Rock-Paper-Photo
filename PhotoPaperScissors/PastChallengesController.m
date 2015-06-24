@@ -92,7 +92,7 @@
     PFQuery *fullQuery = [super queryForTable];
      [fullQuery whereKey:@"completed" equalTo:@(YES)];
     
-    fullQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
+    fullQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     
      return fullQuery;
 }

@@ -37,7 +37,7 @@
 /**
  *  This method provides you with the OAuth signature, as well as the formed URL with the query string, to send a request to `/sdk/account`.
  *
- *  @param params           (optional) Extra custom params to be added to the Request URL. These parameters will be part of the signature and validated by Digit's API. These extra parameters help as a Nonce between the client's session and the Echo header to validate that this header cannot be reused by another client's session.
+ *  @param params           (optional) Extra custom params to be added to the Request URL. These parameters will be part of the signature which authenticity is validated by the Digits' API. These extra parameters help as a Nonce between the client's session but they are ignored by the Digits' API. The params in the Request URL can be parsed and used by your server to validate that this header is not being reused by another one of your sessions.
  *
  *  @return A dictionary with the fully formed Request URL under `TWTROAuthEchoRequestURLStringKey` (`NSString`), and the `Authorization` header in `TWTROAuthEchoAuthorizationHeaderKey` (`NSString`), to be used to sign the request.
  *

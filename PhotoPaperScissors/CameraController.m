@@ -116,11 +116,30 @@
              [self.templateImageView loadInBackground];
          }
      }];
+    
+    [RACObserve(self, takenPhoto) subscribeNext:^(UIImage *takenPhoto) {
+        if (takenPhoto) {
+            //we are in draw mode
+            self.drawContainer.hidden = NO;
+            self.drawContainer.userInteractionEnabled = YES;
+            self.cameraControlContainer.hidden = YES;
+            self.cameraControlContainer.userInteractionEnabled = NO;
+            self.clearButton.hidden = NO;
+        } else {
+            self.drawContainer.hidden = YES;
+            self.drawContainer.userInteractionEnabled = NO;
+            self.cameraControlContainer.hidden = NO;
+            self.cameraControlContainer.userInteractionEnabled = YES;
+            self.clearButton.hidden = YES;
+        }
+    }];
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
                                                                              style:self.navigationItem.backBarButtonItem.style
                                                                             target:nil
                                                                             action:nil];
-    self.blackColorSwatch.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8);
+    [self changeDrawColorToBackgroundOf:self.whiteColorSwatch];
+    [self.jotViewController setTextColor:self.whiteColorSwatch.backgroundColor];
 }
 
 - (IBAction)displayCamera
@@ -178,7 +197,6 @@
 
 - (IBAction)switchCamera
 {
-
     switch (self.fastCamera.cameraDevice) {
         case FastttCameraDeviceFront:
             if ([FastttCamera isCameraDeviceAvailable:FastttCameraDeviceRear]) {
@@ -192,12 +210,10 @@
             }
             break;
     }
-    
 }
 
 - (IBAction)switchFlash:(id)sender
 {
-    
     switch (self.fastCamera.cameraFlashMode) {
         case FastttCameraFlashModeAuto:
             if ([FastttCamera isFlashAvailableForCameraDevice:self.fastCamera.cameraDevice]) {
@@ -231,13 +247,26 @@
         self.navigationItem.rightBarButtonItem = nil;
     } else {
         [self.fastCamera takePicture];
+        
+        self.shutterButton.enabled = NO;
+        
+        UIView *whiteFlash = [[UIView alloc] initWithFrame:self.cameraContainer.frame];
+        whiteFlash.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:whiteFlash];
+        
+        [UIView animateWithDuration:2.0 animations:^{
+            whiteFlash.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [whiteFlash removeFromSuperview];
+            self.shutterButton.enabled = YES;
+        }];
     }
 }
 
 - (void)cameraController:(id<FastttCameraInterface>)cameraController didFinishNormalizingCapturedImage:(FastttCapturedImage *)capturedImage
 {
     self.takenPhoto = capturedImage.scaledImage;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Shoot"
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
                                                                               style:self.editButtonItem.style
                                                                              target:self
                                                                              action:@selector(sendToServer)];
@@ -292,27 +321,26 @@
     
     viewToScale.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8);
     
-    switch (self.jotViewController.state) {
-        case JotViewStateDrawing:
-            self.jotViewController.drawingColor = colorToBe;
-            break;
-            
-        case JotViewStateDefault:
-        case JotViewStateEditingText:
-        case JotViewStateText:
-            self.jotViewController.textColor = colorToBe;
-            break;
-    }
+    self.jotViewController.drawingColor = colorToBe;
+    self.jotViewController.textColor = colorToBe;
 }
 
 - (IBAction)switchToDrawing:(id)sender
 {
     self.jotViewController.state = JotViewStateDrawing;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
+                                                                              style:self.editButtonItem.style
+                                                                             target:self
+                                                                             action:@selector(sendToServer)];
 }
 
 - (IBAction)switchToTexting:(id)sender
 {
     self.jotViewController.state = JotViewStateEditingText;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                              style:self.editButtonItem.style
+                                                                             target:self
+                                                                             action:@selector(switchToDrawing:)];
 }
 
 - (IBAction)clearDrawing:(id)sender
