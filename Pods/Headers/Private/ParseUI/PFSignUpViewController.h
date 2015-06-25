@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/SignUpViewController/PFSignUpViewController.h
+../../../../../ParseUI-iOS/ParseUI/Classes/SignUpViewController/PFSignUpViewController.h

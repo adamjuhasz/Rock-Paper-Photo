@@ -7,12 +7,16 @@
 //
 
 #import "CameraController.h"
+
 #import <FastttCamera/FastttCamera.h>
 #import <jot/jot.h>
-#import "PhotoViewController.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <ParseUI/ParseUI.h>
 #import <NYXImagesKit/NYXImagesKit.h>
+#import <AVFoundation/AVFoundation.h>
+
+#import "PhotoViewController.h"
+
 
 @interface CameraController () <FastttCameraDelegate, JotViewControllerDelegate>
 
@@ -28,20 +32,43 @@
 {
     [super viewDidLoad];
     
-    _fastCamera = [FastttCamera new];
-    self.fastCamera.delegate = self;
-    
-    [self fastttAddChildViewController:self.fastCamera];
-    [self.fastCamera.view removeFromSuperview];
-    [self.cameraContainer addSubview:self.fastCamera.view];
-    self.fastCamera.view.frame = self.cameraContainer.bounds;
-    if ([FastttCamera isCameraDeviceAvailable:FastttCameraDeviceFront]) {
-        self.fastCamera.cameraDevice = FastttCameraDeviceFront;
-    }
-    
-    self.imagePreview = [[UIImageView alloc] initWithFrame:self.cameraContainer.frame];
+    self.imagePreview = [[UIImageView alloc] initWithFrame:self.cameraContainer.bounds];
     self.imagePreview.backgroundColor = [UIColor clearColor];
-    [self.cameraContainer insertSubview:self.imagePreview aboveSubview:self.fastCamera.view];
+    self.imagePreview.image = nil;
+    self.imagePreview.hidden = YES;
+    [self.cameraContainer addSubview:self.imagePreview];
+    
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if(authStatus == AVAuthorizationStatusAuthorized) {
+        // do your logic
+        [self displayCamera];
+    } else if(authStatus == AVAuthorizationStatusDenied){
+        // denied
+        self.cameraContainer.hidden = YES;
+        
+        self.cameraButton.hidden = YES;
+        self.shutterButton.hidden = YES;
+        self.flashButton.hidden = YES;
+        
+        self.cameraButton.userInteractionEnabled = NO;
+        self.shutterButton.userInteractionEnabled = NO;
+        self.flashButton.userInteractionEnabled = NO;
+        
+    } else if(authStatus == AVAuthorizationStatusRestricted){
+        // restricted, normally won't happen
+    } else if(authStatus == AVAuthorizationStatusNotDetermined){
+        // not determined?!
+        self.cameraContainer.hidden = YES;
+        self.cameraButton.hidden = YES;
+        self.shutterButton.hidden = YES;
+        self.flashButton.hidden = YES;
+        
+        self.cameraButton.userInteractionEnabled = NO;
+        self.shutterButton.userInteractionEnabled = NO;
+        self.flashButton.userInteractionEnabled = NO;
+    } else {
+        // impossible, unknown authorization status
+    }
     
     self.templateImageView = [[PFImageView alloc] initWithFrame:self.cameraContainer.frame];
     [self.cameraContainer insertSubview:self.templateImageView aboveSubview:self.imagePreview];
@@ -58,7 +85,15 @@
     [self.jotViewController didMoveToParentViewController:self];
     self.jotViewController.view.userInteractionEnabled = NO;
     
-    RAC(self.imagePreview, image) = RACObserve(self, takenPhoto);
+    [RACObserve(self, takenPhoto) subscribeNext:^(UIImage *newImage) {
+        self.imagePreview.image = newImage;
+        if (newImage) {
+            self.imagePreview.hidden = NO;
+        } else {
+            self.imagePreview.hidden = YES;
+        }
+    }];
+    
     [[RACObserve(self, theChallenge) filter:^BOOL(id value) {
          return (value != nil);
      }] subscribeNext:^(Challenge *newChallenge) {
@@ -81,11 +116,57 @@
              [self.templateImageView loadInBackground];
          }
      }];
+    
+    [RACObserve(self, takenPhoto) subscribeNext:^(UIImage *takenPhoto) {
+        if (takenPhoto) {
+            //we are in draw mode
+            self.drawContainer.hidden = NO;
+            self.drawContainer.userInteractionEnabled = YES;
+            self.cameraControlContainer.hidden = YES;
+            self.cameraControlContainer.userInteractionEnabled = NO;
+            self.clearButton.hidden = NO;
+        } else {
+            self.drawContainer.hidden = YES;
+            self.drawContainer.userInteractionEnabled = NO;
+            self.cameraControlContainer.hidden = NO;
+            self.cameraControlContainer.userInteractionEnabled = YES;
+            self.clearButton.hidden = YES;
+        }
+    }];
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
                                                                              style:self.navigationItem.backBarButtonItem.style
                                                                             target:nil
                                                                             action:nil];
-    self.blackColorSwatch.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8);
+    [self changeDrawColorToBackgroundOf:self.whiteColorSwatch];
+    [self.jotViewController setTextColor:self.whiteColorSwatch.backgroundColor];
+}
+
+- (IBAction)displayCamera
+{
+    self.cameraContainer.hidden = NO;
+    
+    self.cameraButton.hidden = NO;
+    self.shutterButton.hidden = NO;
+    self.flashButton.hidden = NO;
+    
+    self.cameraButton.userInteractionEnabled = YES;
+    self.shutterButton.userInteractionEnabled = YES;
+    self.flashButton.userInteractionEnabled = YES;
+    
+    _fastCamera = [FastttCamera new];
+    self.fastCamera.delegate = self;
+    
+    [self fastttAddChildViewController:self.fastCamera];
+    [self.fastCamera.view removeFromSuperview];
+    [self.cameraContainer addSubview:self.fastCamera.view];
+    [self.cameraContainer bringSubviewToFront:self.imagePreview];
+    [self.cameraContainer bringSubviewToFront:self.templateImageView];
+    
+    self.fastCamera.view.frame = self.cameraContainer.bounds;
+    if ([FastttCamera isCameraDeviceAvailable:FastttCameraDeviceFront]) {
+        self.fastCamera.cameraDevice = FastttCameraDeviceFront;
+    }
 }
 
 - (void)viewWillLayoutSubviews
@@ -116,7 +197,6 @@
 
 - (IBAction)switchCamera
 {
-
     switch (self.fastCamera.cameraDevice) {
         case FastttCameraDeviceFront:
             if ([FastttCamera isCameraDeviceAvailable:FastttCameraDeviceRear]) {
@@ -130,12 +210,10 @@
             }
             break;
     }
-    
 }
 
 - (IBAction)switchFlash:(id)sender
 {
-    
     switch (self.fastCamera.cameraFlashMode) {
         case FastttCameraFlashModeAuto:
             if ([FastttCamera isFlashAvailableForCameraDevice:self.fastCamera.cameraDevice]) {
@@ -169,13 +247,26 @@
         self.navigationItem.rightBarButtonItem = nil;
     } else {
         [self.fastCamera takePicture];
+        
+        self.shutterButton.enabled = NO;
+        
+        UIView *whiteFlash = [[UIView alloc] initWithFrame:self.cameraContainer.frame];
+        whiteFlash.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:whiteFlash];
+        
+        [UIView animateWithDuration:2.0 animations:^{
+            whiteFlash.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [whiteFlash removeFromSuperview];
+            self.shutterButton.enabled = YES;
+        }];
     }
 }
 
 - (void)cameraController:(id<FastttCameraInterface>)cameraController didFinishNormalizingCapturedImage:(FastttCapturedImage *)capturedImage
 {
     self.takenPhoto = capturedImage.scaledImage;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Shoot"
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
                                                                               style:self.editButtonItem.style
                                                                              target:self
                                                                              action:@selector(sendToServer)];
@@ -230,27 +321,26 @@
     
     viewToScale.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8);
     
-    switch (self.jotViewController.state) {
-        case JotViewStateDrawing:
-            self.jotViewController.drawingColor = colorToBe;
-            break;
-            
-        case JotViewStateDefault:
-        case JotViewStateEditingText:
-        case JotViewStateText:
-            self.jotViewController.textColor = colorToBe;
-            break;
-    }
+    self.jotViewController.drawingColor = colorToBe;
+    self.jotViewController.textColor = colorToBe;
 }
 
 - (IBAction)switchToDrawing:(id)sender
 {
     self.jotViewController.state = JotViewStateDrawing;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
+                                                                              style:self.editButtonItem.style
+                                                                             target:self
+                                                                             action:@selector(sendToServer)];
 }
 
 - (IBAction)switchToTexting:(id)sender
 {
     self.jotViewController.state = JotViewStateEditingText;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                              style:self.editButtonItem.style
+                                                                             target:self
+                                                                             action:@selector(switchToDrawing:)];
 }
 
 - (IBAction)clearDrawing:(id)sender

@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/Internal/Extensions/PFAlertView.h
+../../../../../ParseUI-iOS/ParseUI/Classes/Internal/Extensions/PFAlertView.h

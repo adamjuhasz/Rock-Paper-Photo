@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/QueryCollectionViewController/PFQueryCollectionViewController.h
+../../../../../ParseUI-iOS/ParseUI/Classes/QueryCollectionViewController/PFQueryCollectionViewController.h

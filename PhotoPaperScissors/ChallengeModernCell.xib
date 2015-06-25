@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ChallengeModernCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jtX-bi-cu0" customClass="PFImageView">
+                    <rect key="frame" x="10" y="10" width="80" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="jtX-bi-cu0" secondAttribute="height" multiplier="1:1" id="HtM-zd-bAA"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hot Dogs or Legs?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4WB-dK-Vm6">
+                    <rect key="frame" x="100" y="28.5" width="205" height="27"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="27" id="u1z-LF-osg"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="21"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4pQ-yw-Gti">
+                    <rect key="frame" x="315" y="25" width="50" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqh-Jg-NHk">
+                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="31"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="1NY-1y-cZH"/>
+                        <constraint firstAttribute="centerX" secondItem="hqh-Jg-NHk" secondAttribute="centerX" id="2XH-Ra-wMZ"/>
+                        <constraint firstAttribute="centerY" secondItem="hqh-Jg-NHk" secondAttribute="centerY" constant="-0.5" id="ONh-Gn-LOG"/>
+                        <constraint firstItem="hqh-Jg-NHk" firstAttribute="height" secondItem="4pQ-yw-Gti" secondAttribute="height" id="Si1-P2-EPs"/>
+                        <constraint firstAttribute="width" constant="50" id="oVi-9b-JfZ"/>
+                        <constraint firstItem="hqh-Jg-NHk" firstAttribute="width" secondItem="4pQ-yw-Gti" secondAttribute="width" id="zxu-fv-jOC"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adam Juhaszg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6P-LM-1zR">
+                    <rect key="frame" x="100" y="55.5" width="205" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="15" id="GID-3b-RXh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.50196081399917603" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="4WB-dK-Vm6" firstAttribute="centerY" secondItem="jtX-bi-cu0" secondAttribute="centerY" constant="-8" id="8Qj-Zc-N9w"/>
+                <constraint firstItem="jtX-bi-cu0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="9IM-CH-Ub5"/>
+                <constraint firstAttribute="centerX" secondItem="4pQ-yw-Gti" secondAttribute="centerX" id="DUk-E9-W0r"/>
+                <constraint firstItem="h6P-LM-1zR" firstAttribute="height" secondItem="4WB-dK-Vm6" secondAttribute="height" id="OEX-H9-4RC"/>
+                <constraint firstItem="h6P-LM-1zR" firstAttribute="top" secondItem="4WB-dK-Vm6" secondAttribute="bottom" id="YCZ-Ba-Tww"/>
+                <constraint firstItem="4WB-dK-Vm6" firstAttribute="left" secondItem="jtX-bi-cu0" secondAttribute="right" constant="10" id="Yc5-Ca-7LC"/>
+                <constraint firstItem="jtX-bi-cu0" firstAttribute="left" secondItem="iN0-l3-epB" secondAttribute="left" constant="10" id="aRM-X5-51I"/>
+                <constraint firstAttribute="centerY" secondItem="4pQ-yw-Gti" secondAttribute="centerY" id="ava-B7-xas"/>
+                <constraint firstItem="h6P-LM-1zR" firstAttribute="leading" secondItem="4WB-dK-Vm6" secondAttribute="leading" id="p5G-3W-9Sg"/>
+                <constraint firstItem="4pQ-yw-Gti" firstAttribute="left" secondItem="4WB-dK-Vm6" secondAttribute="right" constant="10" id="r8d-Df-ILX"/>
+                <constraint firstItem="h6P-LM-1zR" firstAttribute="width" secondItem="4WB-dK-Vm6" secondAttribute="width" id="rec-am-GQz"/>
+                <constraint firstAttribute="right" secondItem="4pQ-yw-Gti" secondAttribute="right" constant="10" id="thP-Za-Lq5"/>
+                <constraint firstAttribute="bottom" secondItem="jtX-bi-cu0" secondAttribute="bottom" constant="10" id="wue-xN-osO"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="OEX-H9-4RC"/>
+                    <exclude reference="DUk-E9-W0r"/>
+                </mask>
+            </variation>
+            <connections>
+                <outlet property="challengeNameLabel" destination="4WB-dK-Vm6" id="OpN-99-Nd4"/>
+                <outlet property="competitorNameLabel" destination="h6P-LM-1zR" id="U36-pm-oaJ"/>
+                <outlet property="opponentImageView" destination="jtX-bi-cu0" id="8eI-2z-mSD"/>
+                <outlet property="roundIndicatorLabel" destination="hqh-Jg-NHk" id="ahV-33-7g8"/>
+                <outlet property="roundIndictorHolder" destination="4pQ-yw-Gti" id="tqr-am-fGR"/>
+            </connections>
+            <point key="canvasLocation" x="421.5" y="258"/>
+        </view>
+    </objects>
+</document>

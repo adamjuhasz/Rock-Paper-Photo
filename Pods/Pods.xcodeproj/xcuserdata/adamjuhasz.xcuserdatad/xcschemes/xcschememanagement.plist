@@ -4,97 +4,212 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-AFDropdownNotification.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-AFDropdownNotification.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Bolts.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-Bolts.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ClusterPrePermissions.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-ClusterPrePermissions.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Colours.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-Colours.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-FBSDKCoreKit.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-FBSDKCoreKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-FBSDKLoginKit.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-FBSDKLoginKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-FBSDKShareKit.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-FBSDKShareKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-FastttCamera.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-FastttCamera.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Flow.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-Flow.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Masonry.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-JazzHands.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-NSURLConnection-Blocks.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-NYXImagesKit.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-NSURLConnection-Blocks.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Parse.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-NYXImagesKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ParseFacebookUtilsV4.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-Parse.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ParseUI.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-ParseFacebookUtilsV4.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ReactiveCocoa.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-ParseUI.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ReactiveTableViewBinding.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-ReactiveCocoa.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-jot.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-ReactiveTableViewBinding.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods.xcscheme</key>
+		<key>Pods-PhotoPaperScissors-UICKeyChainStore.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissors-jot.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissors.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-AFDropdownNotification.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-Bolts.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-ClusterPrePermissions.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-Colours.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-FBSDKCoreKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-FBSDKLoginKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-FBSDKShareKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-FastttCamera.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-Flow.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-JazzHands.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-Masonry.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-NSURLConnection-Blocks.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-NYXImagesKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-Parse.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-ParseFacebookUtilsV4.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-ParseUI.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-ReactiveCocoa.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-ReactiveTableViewBinding.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-UICKeyChainStore.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests-jot.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PhotoPaperScissorsTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -102,97 +217,212 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>01A740E9BB710D5FC5D3A309</key>
+		<key>071BA15CA47FBA753936EE6B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>04E21286E0B90497E2CED288</key>
+		<key>150781247B18E9A79E7A2DD9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>0597C6A80FD2172C6C8BED11</key>
+		<key>20D8AB474B75EEA4FD2E9282</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>0C26B9E249CC4FBD744E75C1</key>
+		<key>2ECA45961B6C17046191BEAF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2124E1B7AB81BFAA807D0B85</key>
+		<key>3197BB90F2B5DE9F870DC153</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2442FC27769D4858F4CB008C</key>
+		<key>356BB217A234EA3749CE86F4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3FE64FAFB432F0C3BDA701AA</key>
+		<key>35FEEC3554FFCBD8A1185508</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>40F0C91EA88F5029B47926C7</key>
+		<key>46F6BCA06E0C37B6CB74334D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4A24F79CB57DF91F8C3AC148</key>
+		<key>48182D715DDA753BFFE066D6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5F0C6B5D1B62B1E2683EA451</key>
+		<key>553C449279F751978639EF7F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>716837882ACEDF7F2D949106</key>
+		<key>56B19B7DF801D68F4155A7F7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>80C5BCD74D7DD4AB30A3895C</key>
+		<key>5B66F332FD4C0CC7E47EC7CF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8FD319F3170B8FA5C2158F31</key>
+		<key>5BCFDCA9A0E012A4BA51CE16</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B55A414FDEEF95DB71AB6269</key>
+		<key>65F634690427753959D85739</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B71F5EFD2D66D2F83ADFD92C</key>
+		<key>69242FFC6CF9D78D3EC0D71D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BB3DA4D463ADE674C8E8A17F</key>
+		<key>6BEA31972B2282A56B482E0A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CA4FD54A6E6DC8296B5C5B06</key>
+		<key>72F2464245494B3304CE06F0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CBB2B04CBD6DDF9BA488A260</key>
+		<key>7D037A851E185B16B56C4E2E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D56C05489B09A4B87DA2517A</key>
+		<key>8BC25FFBEE8BCF59E6D7EE2D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9301596C1B6D270A88EE4A08</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9F707374D5A39C18F4AFC023</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A41C963BA9FCCB5CA96A70D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A93DF86811FEA5C10F35F443</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AB540F61A51D4DF390275B31</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AB7FFEBB70BCF20611A0C3CA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B7EDB9F882E17BD41891C3A0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BB46517C5D6840298DCED672</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BCDAE4866803F319A92B9103</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BE497C5E811B3027A0069614</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C4BC8AE8A187A39E9095C540</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC7721A2C8DB27356D1B32F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CCCFE3EBE553A76E6503A53F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CDA30F6087E3C7516D7D06D8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D2A60DC37BB2072878C15203</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DE40127DC4143A6A444A08ED</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DE8A2CA63D5F2159818B1086</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E114682ABC82D8B900C4F3BF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E8134228984A2BCF7CD7C328</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EADC7BAE99102C562A2D8039</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ED36C2D3D7FA9D3115D28F7F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F487C2478A13BA7B5D151F50</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F4A6382EE186153FFAD77839</key>
 		<dict>
 			<key>primary</key>
 			<true/>

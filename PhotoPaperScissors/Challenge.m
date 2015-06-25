@@ -20,6 +20,11 @@ NSMutableDictionary *cachedChallenges;
     dispatch_once(&onceToken, ^{
         cachedChallenges = [NSMutableDictionary dictionary];
     });
+    
+    if (object.objectId == nil) {
+        return [[Challenge alloc] initWithParseObject:object];
+    }
+    
     Challenge *potentialCachedChallenge = [cachedChallenges objectForKey:object.objectId];
     if (potentialCachedChallenge) {
         NSComparisonResult updatedComparison = [potentialCachedChallenge.parseObject.updatedAt compare:object.updatedAt];
@@ -65,10 +70,10 @@ NSMutableDictionary *cachedChallenges;
                 self.playerIAm = Challenger;
                 self.otherPlayerIs = Challengee;
                 if (self.parseObject[@"challengee"]) {
-                    self.otherUser = self.parseObject[@"challengee"];
+                    self.competitor = self.parseObject[@"challengee"];
                 }
             } else {
-                self.otherUser = self.parseObject[@"createdBy"];
+                self.competitor = self.parseObject[@"createdBy"];
             }
         }];
         
@@ -82,10 +87,10 @@ NSMutableDictionary *cachedChallenges;
                 self.playerIAm = Challengee;
                 self.otherPlayerIs = Challenger;
                 if (self.parseObject[@"createdBy"]) {
-                    self.otherUser = self.parseObject[@"createdBy"];
+                    self.competitor = self.parseObject[@"createdBy"];
                 }
             } else {
-                self.otherUser = self.parseObject[@"challengee"];
+                self.competitor = self.parseObject[@"challengee"];
             }
         }];
         
@@ -101,6 +106,7 @@ NSMutableDictionary *cachedChallenges;
             self.parseObject[@"roundNumber"] = currentRoundNumber;
             if ([self imageForPlayer:self.playerIAm forRound:currentRoundNumber.integerValue] == nil) {
                 self.photoSent = NO;
+                self.whosTurn = myTurn;
             }
         }];
         
@@ -138,10 +144,15 @@ NSMutableDictionary *cachedChallenges;
         
         if ([self.challenger.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
             _playerIAm = Challenger;
+            _otherPlayerIs = Challengee;
+            _competitor = _challengee;
         } else if ([self.challengee.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
             _playerIAm = Challengee;
+            _otherPlayerIs = Challenger;
+            _competitor = _challenger;
         } else {
             _playerIAm = Unknown;
+            _otherPlayerIs = Unknown;
             _photoSent = YES;
         }
         
@@ -328,17 +339,27 @@ NSMutableDictionary *cachedChallenges;
         self.photoSent = YES;
     }
     
+    if ([self imageForPlayer:self.playerIAm forRound:self.currentRoundNumber] &&
+        [self imageForPlayer:self.otherPlayerIs forRound:self.currentRoundNumber] &&
+        (self.currentRoundNumber+1 <= self.maxRounds)) {
+            self.whosTurn = myTurn;
+    }
+    
     if (self.currentRoundNumber == self.maxRounds) {
         UIImage *currentChallengerImage = [self imageForPlayer:Challenger forRound:self.currentRoundNumber];
         UIImage *currentChallengeeImage = [self imageForPlayer:Challengee forRound:self.currentRoundNumber];
         if (currentChallengerImage && currentChallengeeImage) {
             self.challengeComplete = YES;
+            self.whosTurn = noonesTurn;
         }
     }
     
     if (self.currentRoundNumber > self.maxRounds) {
         self.challengeComplete = YES;
+        self.whosTurn = noonesTurn;
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
     
     [self.parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *PF_NULLABLE_S error){
         if (error){
@@ -349,7 +370,7 @@ NSMutableDictionary *cachedChallenges;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
         
         //PUSH
-        PFUser *otherUser = self.otherUser;
+        PFUser *otherUser = self.competitor;
         if ([otherUser.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
             
         }

@@ -7,15 +7,15 @@
 //
 
 #import "PastChallengesController.h"
-#import "ChallengeCell.h"
+
 #import <Colours/Colours.h>
+
+#import "ChallengeCell.h"
+#import "ChallengeModernCell.h"
 
 @interface PastChallengesController ()
 {
-    UIColor *startColor;
-    NSArray *startArray;
-    UIColor *endColor;
-    NSArray *endArray;
+
 }
 
 @end
@@ -39,13 +39,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.title = @"Completed Challenges";
-    
-    startColor = [UIColor colorFromHexString:@"#0a9759"];
-    endColor = [UIColor colorFromHexString:@"#29ffcf"];
-    
-    startArray = [startColor CIE_LCHArray];
-    endArray = [endColor CIE_LCHArray];
+    self.navigationItem.title = @"Completed Challenges";
 }
 
 - (void)viewDidUnload {
@@ -94,8 +88,12 @@
 // Override to customize what kind of query to perform on the class. The default is to query for
 // all objects ordered by createdAt descending.
 - (PFQuery *)queryForTable {    
-     PFQuery *fullQuery = [PFQuery queryWithClassName:self.parseClassName];
+     //PFQuery *fullQuery = [PFQuery queryWithClassName:self.parseClassName];
+    PFQuery *fullQuery = [super queryForTable];
      [fullQuery whereKey:@"completed" equalTo:@(YES)];
+    
+    fullQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    
      return fullQuery;
 }
 
@@ -103,24 +101,15 @@
 // a UITableViewCellStyleDefault style cell with the label being the textKey in the object,
 // and the imageView being the imageKey in the object.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    static NSString *CellIdentifier = @"cell";
+    static NSString *CellIdentifier = @"modern";
     
     ChallengeCell *cell = (ChallengeCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    int steps = MAX(10, (int)self.objects.count);
-    int i = (int)[indexPath row];
-    
-    double L = ([endArray[0] doubleValue] - [startArray[0] doubleValue]) / (steps-1) * i + [startArray[0] doubleValue];
-    double C = ([endArray[1] doubleValue] - [startArray[1] doubleValue]) / (steps-1) * i + [startArray[1] doubleValue];
-    double H = ([endArray[2] doubleValue] - [startArray[2] doubleValue]) / (steps-1) * i + [startArray[2] doubleValue];
-    double A = ([endArray[3] doubleValue] - [startArray[3] doubleValue]) / (steps-1) * i + [startArray[3] doubleValue];
-    
-    UIColor *diffColor = [UIColor colorFromCIE_LCHArray:@[@(L), @(C), @(H), @(A)]];
-    cell.backgroundColor = diffColor;
-    
     // Configure the cell
-    //Challenge *newChallenge = [Challenge challengeForParseObject:object];
-    //[cell loadWithChallenge:newChallenge];
+    Challenge *newChallenge = [Challenge challengeForParseObject:object];
+    [cell loadWithChallenge:newChallenge];
+    
+    cell.backgroundColor = [self colorForCellPosition:indexPath];
     
     return cell;
 }
@@ -132,24 +121,9 @@
  }
  */
 
-/*
- // Override to customize the look of the cell that allows the user to load the next page of objects.
- // The default implementation is a UITableViewCellStyleDefault cell with simple labels.
- - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
- static NSString *CellIdentifier = @"NextPage";
- 
- UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
- 
- if (cell == nil) {
- cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
- }
- 
- cell.selectionStyle = UITableViewCellSelectionStyleNone;
- cell.textLabel.text = @"Load more...";
- 
- return cell;
- }
- */
+
+
+
 
 #pragma mark - UITableViewDataSource
 

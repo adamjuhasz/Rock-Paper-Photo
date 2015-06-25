@@ -15,6 +15,9 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <NSURLConnection-Blocks/NSURLConnection+Blocks.h>
 #import <Flow/Flow.h>
+#import <UICKeyChainStore/UICKeyChainStore.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <Colours/Colours.h>
 
 #import "PFAnalytics+PFAnalytics_TrackError.h"
 #import "UIImage+fixOrientation.h"
@@ -24,6 +27,9 @@ static NSString * const SignUpPhotoTutorialString = @"io.ajuhasz.signup.photo";
 static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.complete";
 
 @interface SignUpController () <UITextFieldDelegate>
+
+@property BOOL isLoggedIn;
+@property BOOL newUser;
 
 @end
 
@@ -35,7 +41,19 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     self.signUp.enabled = NO;
     self.profileImageView.clipsToBounds = YES;
     self.profileImageView.layer.cornerRadius = self.profileImageView.bounds.size.width/2.0;
+    self.isLoggedIn = NO;
+    self.newUser = YES;
 
+    CGFloat increaseRatio = 0.15;
+    UIColor *baseColor = [UIColor colorFromHexString:@"#6F70FF"];
+    self.view.backgroundColor = baseColor;
+    self.takePhotoBackground.backgroundColor = [baseColor darken:increaseRatio * 1];
+    self.photoLibraryBackground.backgroundColor = [baseColor darken:increaseRatio * 2];
+    self.signUpBakcgeound.backgroundColor = [baseColor darken:increaseRatio * 3];
+    self.facebookSignUpBackground.backgroundColor = [baseColor darken:increaseRatio * 4];
+    self.nicknameLine.backgroundColor = [baseColor blackOrWhiteContrastingColor];
+    self.nickname.textColor = [baseColor blackOrWhiteContrastingColor];
+    
     RAC(self.profileImageView, image) = [RACObserve(self, profileImage) filter:^BOOL(id value) {
         return (value != nil);
     }];
@@ -48,10 +66,19 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
         return @(image != nil);
     }];
     
+    RACSignal *validSignup = [RACObserve(self, isLoggedIn) map:^id(NSNumber *loggedIn) {
+        return loggedIn;
+    }];
+    
     RACSignal *signUpActiveSignal = [RACSignal combineLatest:@[validNickname, validPhoto]
                       reduce:^id(NSNumber *usernameValid, NSNumber *photoValid) {
                           return @([usernameValid boolValue] && [photoValid boolValue]);
                       }];
+    
+    RACSignal *dismissSignal = [RACSignal combineLatest:@[validNickname, validPhoto, validSignup]
+                                                      reduce:^id(NSNumber *usernameValid, NSNumber *photoValid, NSNumber *loggedIn) {
+                                                          return @([usernameValid boolValue] && [photoValid boolValue] && [loggedIn boolValue]);
+                                                      }];
 
     self.nickname.delegate = self;
     
@@ -64,6 +91,12 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
             [self.signUp setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
         }
         
+    }];
+    
+    [dismissSignal subscribeNext:^(NSNumber *readyToDismiss) {
+        if ([readyToDismiss boolValue]) {
+            //
+        }
     }];
     
     [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpNicknameTutorialString];
@@ -117,12 +150,21 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             NSLog(@"%@", error);
-            [PFAnalytics trackErrorIn:@"signUp" withComment:@"signUpInBackgroundWithBlock" withError:error];
+            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"signUpInBackgroundWithBlock" withError:error];
             return;
         }
+        self.isLoggedIn = YES;
         
+<<<<<<< HEAD
         [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration
                       parameters:[NSDictionary dictionaryWithObject:@"RPP" forKey:FBSDKAppEventParameterNameRegistrationMethod]];
+=======
+        UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
+        keychain.synchronizable = YES;
+        keychain[@"username"] = user.username;
+        keychain[@"password"] = user.password;
+
+>>>>>>> collection
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
@@ -143,12 +185,31 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
 - (IBAction)signUpWithFaceBook:(id)sender
 {
+    self.nickname.userInteractionEnabled = NO;
+    self.profileImageView.userInteractionEnabled = NO;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookProfileUpdated) name:FBSDKProfileDidChangeNotification object:nil];
+    
     NSArray *permissions = @[@"public_profile", @"user_friends"];
     
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
+        if (error) {
+            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"logInInBackgroundWithReadPermissions" withError:error];
+            return;
+        }
+        
         if (!user) {
             NSLog(@"Uh oh. The user cancelled the Facebook login.");
-        } else if (user.isNew) {
+            self.nickname.userInteractionEnabled = YES;
+            self.profileImageView.userInteractionEnabled = YES;
+            return;
+        }
+        
+        [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpNicknameTutorialString];
+        [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpPhotoTutorialString];
+        [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpCompleteTutorialString];
+        
+        if (user.isNew) {
             NSLog(@"User signed up and logged in through Facebook!");
             PFUser *current = [PFUser currentUser];
             if (current) {
@@ -161,13 +222,21 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 }
                 [current saveInBackground];
             }
+            UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
+            keychain.synchronizable = YES;
+            keychain[@"username"] = user.username;
+            keychain[@"password"] = user.password;
+            
             if (self.nickname.text.length > 0 && self.profileImage != nil) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
         } else {
+            self.newUser = NO;
             NSLog(@"User logged in through Facebook!");
             [self dismissViewControllerAnimated:YES completion:nil];
         }
+        
+        self.isLoggedIn = YES;
     }];
 }
 
@@ -213,6 +282,42 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpNicknameTutorialString];
+}
+
+#pragma mark FaceBook signup stuff
+
+- (void)facebookProfileUpdated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FBSDKProfileDidChangeNotification object:nil];
+    
+    FBSDKProfile *currentFBProfile = [FBSDKProfile currentProfile];
+    
+    if (self.nickname.text.length == 0) {
+        if ([PFUser currentUser]) {
+            [[PFUser currentUser] setObject:currentFBProfile.name forKey:@"nickname"];
+        }
+        self.nickname.text = currentFBProfile.name;
+    }
+    
+    if (self.profileImage == nil) {
+        NSString *imagePath = [currentFBProfile imagePathForPictureMode:FBSDKProfilePictureModeSquare size:CGSizeMake(300, 300)];
+        NSURL *imageUrl = [NSURL URLWithString:imagePath relativeToURL:[NSURL URLWithString:@"http://graph.facebook.com/"]];
+        NSURLRequest *imageRequst = [NSURLRequest requestWithURL:imageUrl];
+        [NSURLConnection connectionWithRequest:imageRequst
+                                  onCompletion:^(NSData *data, NSInteger statusCode) {
+                                      UIImage *profile = [UIImage imageWithData:data];
+                                      if ([PFUser currentUser] && self.newUser) {
+                                          PFFile *file = [PFFile fileWithName:@"profile.jpg" data:UIImageJPEGRepresentation(profile, 0.9)];
+                                          [[PFUser currentUser] setObject:file forKey:@"image"];
+                                      }
+                                      self.profileImage = profile;
+                                  }
+                                        onFail:^(NSError *error, NSInteger statusCode) {
+                                            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd)
+                                                          withComment:@"connectionWithRequest"
+                                                            withError:error];
+                                        }];
+    }
 }
 
 

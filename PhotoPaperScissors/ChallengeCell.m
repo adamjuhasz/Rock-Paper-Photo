@@ -7,7 +7,9 @@
 //
 
 #import "ChallengeCell.h"
+
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <Colours/Colours.h>
 
 @implementation ChallengeCell
 
@@ -52,47 +54,30 @@
 {
     [super prepareForReuse];
     self.opponentImageView.image = nil;
-    self.roundContainer.backgroundColor = [UIColor clearColor];
+    self.roundIndictorHolder.backgroundColor = [UIColor clearColor];
 }
 
 - (void)loadWithChallenge:(Challenge*)challenge
 {
-    switch (challenge.playerIAm) {
-        case Challenger:
-            if (challenge.challengee[@"image"]) {
-                self.opponentImageView.file = challenge.challengee[@"image"];
-                [self.opponentImageView loadInBackground];
-            }
-            self.opponentName.text = challenge.challengee[@"nickname"];
-            break;
-            
-       case Challengee:
-            if (challenge.challenger[@"image"]) {
-                self.opponentImageView.file = challenge.challenger[@"image"];
-                [self.opponentImageView loadInBackground];
-            }
-            self.opponentName.text = challenge.challenger[@"nickname"];
-            break;
-        
-        case Unknown:
-            break;
-    }
+    self.opponentImageView.file = challenge.competitor[@"image"];
+    [self.opponentImageView loadInBackground];
+    self.competitorNameLabel.text = challenge.competitor[@"nickname"];
     
-    self.challengeName.text = challenge.challengeName;
-    self.roundNumber.text = [NSString stringWithFormat:@"%lu", (unsigned long)challenge.currentRoundNumber];
+    self.challengeNameLabel.text = challenge.challengeName;
+    self.roundIndicatorLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)challenge.currentRoundNumber];
     if (challenge.challengeComplete) {
-        self.roundNumber.text = @"C";
+        self.roundIndicatorLabel.text = @"C";
     }
     
     if (challenge.challengeComplete) {
         //challenge complete
-        self.roundContainer.backgroundColor = [UIColor blackColor];
+        self.roundIndictorHolder.backgroundColor = [UIColor blackColor];
     } else if (challenge.whosTurn == theirTurn) {
         //waiting for my turn
-        self.roundContainer.backgroundColor = [UIColor colorWithRed:251/255.0 green:234/255.0 blue:153/255.0 alpha:1.0];
+        self.roundIndictorHolder.backgroundColor = [UIColor colorWithRed:251/255.0 green:234/255.0 blue:153/255.0 alpha:1.0];
     } else if (challenge.whosTurn == myTurn) {
         //ready for next round
-        self.roundContainer.backgroundColor = [UIColor colorWithRed:182/255.0 green:224/255.0 blue:148/255.0 alpha:1.0];
+        self.roundIndictorHolder.backgroundColor = [UIColor colorWithRed:182/255.0 green:224/255.0 blue:148/255.0 alpha:1.0];
     }
     
 }

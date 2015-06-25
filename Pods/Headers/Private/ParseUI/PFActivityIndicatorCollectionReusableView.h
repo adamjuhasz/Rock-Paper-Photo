@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/Internal/Cells/PFActivityIndicatorCollectionReusableView.h
+../../../../../ParseUI-iOS/ParseUI/Classes/Internal/Cells/PFActivityIndicatorCollectionReusableView.h

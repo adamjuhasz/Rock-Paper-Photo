@@ -1,0 +1,1 @@
+PODS_PHOTOPAPERSCISSORS_FASTTTCAMERA_OTHER_LDFLAGS = -framework "AVFoundation" -framework "CoreMotion" -framework "UIKit"

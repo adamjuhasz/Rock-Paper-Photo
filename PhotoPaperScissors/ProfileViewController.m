@@ -11,7 +11,11 @@
 #import <NYXImagesKit/UIImage+Resizing.h>
 #import <Parse/Parse.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+<<<<<<< HEAD
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+=======
+#import <Colours/Colours.h>
+>>>>>>> collection
 
 #import "UIImage+fixOrientation.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
@@ -42,6 +46,21 @@
             [self.saveButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
         }
     }];
+<<<<<<< HEAD
+=======
+
+    CGFloat increaseRatio = 0.15;
+    UIColor *baseColor = [UIColor colorFromHexString:@"#6F70FF"];
+    self.view.backgroundColor = baseColor;
+    self.takePhotoBackground.backgroundColor = [baseColor darken:increaseRatio * 1];
+    self.photoLibraryBackground.backgroundColor = [baseColor darken:increaseRatio * 2];
+    self.linkFacebookBackground.backgroundColor = [baseColor darken:increaseRatio * 3];
+    self.saveBackground.backgroundColor = [baseColor darken:increaseRatio * 4];
+    self.nicknameLine.backgroundColor = [UIColor whiteColor];
+    self.nickname.textColor = [UIColor whiteColor];
+    
+    RAC(self.tabBarBackground,backgroundColor) = RACObserve(self.saveBackground, backgroundColor);
+>>>>>>> collection
 }
 
 - (void)viewWillAppear:(BOOL)animated

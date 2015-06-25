@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/Internal/PFLocalization.h
+../../../../../ParseUI-iOS/ParseUI/Classes/Internal/PFLocalization.h

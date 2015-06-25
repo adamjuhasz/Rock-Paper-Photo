@@ -7,6 +7,9 @@
 //
 
 #import "CurrentChallengesController.h"
+
+#import <Colours/Colours.h>
+
 #import "ChallengeCell.h"
 #import "CameraController.h"
 #import "PhotoViewController.h"
@@ -75,14 +78,28 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
+    //self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
     
-    self.title = @"Current Challenges";
+    self.navigationItem.title = @"Current Challenges";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
                                                                              style:self.navigationItem.backBarButtonItem.style
                                                                             target:nil
                                                                             action:nil];
+    
+    gradientStartColor = [UIColor colorFromHexString:@"#6F70FF"];
+    gradientEndColor = [UIColor colorFromHexString:@"#33CABA"];
+    
+    gradientStartColorArray = [gradientStartColor CIE_LCHArray];
+    gradientEndColorArray = [gradientEndColor CIE_LCHArray];
+    
+    self.navigationController.navigationBar.barTintColor = [gradientStartColor darken:0.25];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.navigationController.navigationBar.translucent = NO;
+    self.view.backgroundColor = [gradientStartColor darken:0.1];
+    self.tableView.backgroundColor = self.view.backgroundColor;
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"ChallengeCell" bundle:nil] forCellReuseIdentifier:@"xib"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"ChallengeModernCell" bundle:nil] forCellReuseIdentifier:@"modern"];
 }
 
 - (void)viewDidUnload {
@@ -121,6 +138,7 @@
     // This method is called before a PFQuery is fired to get more objects
 }
 
+// This method is called every time objects are loaded from Parse via the PFQuery
 - (void)objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     
@@ -128,9 +146,27 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ZeroChallenges" object:nil];
     }
     
-    // This method is called every time objects are loaded from Parse via the PFQuery
+    if ([self isMemberOfClass:[CurrentChallengesController class]]) {
+        int badgeCount = 0;
+        for (int i=0; i<self.objects.count; i++) {
+            Challenge *thisChallenge = [Challenge challengeForParseObject:self.objects[i]];
+            if (thisChallenge.whosTurn == myTurn) {
+                badgeCount++;
+            }
+            if (thisChallenge.whosTurn == noonesTurn) {
+                badgeCount++;
+            }
+        }
+        PFInstallation *badging = [PFInstallation currentInstallation];
+        badging.badge = badgeCount;
+        UITabBarItem *myItem = self.tabBarController.tabBar.items[0];
+        if (badgeCount == 0) {
+            myItem.badgeValue = nil;
+        } else {
+            myItem.badgeValue = [NSString stringWithFormat:@"%ld", (long)badgeCount];
+        }
+    }
 }
-
 
 // Override to customize what kind of query to perform on the class. The default is to query for
 // all objects ordered by createdAt descending.
@@ -151,7 +187,7 @@
     [fullQuery includeKey:@"createdBy"];
     [fullQuery includeKey:@"theme"];
     [fullQuery whereKey:@"completed" equalTo:@(NO)];
-    [fullQuery orderByAscending:@"updatedAt"];
+    [fullQuery orderByDescending:@"createdAt"];
     
     // If Pull To Refresh is enabled, query against the network by default.
     if (self.pullToRefreshEnabled) {
@@ -161,13 +197,25 @@
     return fullQuery;
 }
 
-
+- (UIColor*)colorForCellPosition:(NSIndexPath *)path
+{
+    NSInteger i = [path row];
+    int steps = (int)(MAX(self.objects.count, MinimumGradientSteps));
+    
+    double L = ([gradientEndColorArray[0] doubleValue] - [gradientStartColorArray[0] doubleValue]) / (steps-1) * i + [gradientStartColorArray[0] doubleValue];
+    double C = ([gradientEndColorArray[1] doubleValue] - [gradientStartColorArray[1] doubleValue]) / (steps-1) * i + [gradientStartColorArray[1] doubleValue];
+    double H = ([gradientEndColorArray[2] doubleValue] - [gradientStartColorArray[2] doubleValue]) / (steps-1) * i + [gradientStartColorArray[2] doubleValue];
+    double A = ([gradientEndColorArray[3] doubleValue] - [gradientStartColorArray[3] doubleValue]) / (steps-1) * i + [gradientStartColorArray[3] doubleValue];
+    
+    UIColor *diffColor = [UIColor colorFromCIE_LCHArray:@[@(L), @(C), @(H), @(A)]];
+    return diffColor;
+}
 
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the textKey in the object,
 // and the imageView being the imageKey in the object.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    static NSString *CellIdentifier = @"xib";
+    static NSString *CellIdentifier = @"modern";
     
     ChallengeCell *cell = (ChallengeCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -175,9 +223,22 @@
     Challenge *newChallenge = [Challenge challengeForParseObject:object];
     [cell loadWithChallenge:newChallenge];
     
+    cell.backgroundColor = [self colorForCellPosition:indexPath];
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Add your Colour.
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.backgroundColor = [[self colorForCellPosition:indexPath] lighten:0.3];
+}
+
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Reset Colour.
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.backgroundColor = [self colorForCellPosition:indexPath];
+}
 
 /*
  // Override if you need to change the ordering of objects in the table.

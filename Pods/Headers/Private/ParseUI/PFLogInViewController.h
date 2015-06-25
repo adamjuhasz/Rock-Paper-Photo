@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/LogInViewController/PFLogInViewController.h
+../../../../../ParseUI-iOS/ParseUI/Classes/LogInViewController/PFLogInViewController.h

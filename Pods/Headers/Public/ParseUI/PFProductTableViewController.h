@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Classes/ProductTableViewController/PFProductTableViewController.h
+../../../../../ParseUI-iOS/ParseUI/Classes/ProductTableViewController/PFProductTableViewController.h

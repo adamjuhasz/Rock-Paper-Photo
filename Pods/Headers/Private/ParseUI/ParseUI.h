@@ -1,1 +1,1 @@
-../../../ParseUI/ParseUI/Other/ParseUI.h
+../../../../../ParseUI-iOS/ParseUI/Other/ParseUI.h

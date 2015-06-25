@@ -25,6 +25,7 @@ PODS:
   - FBSDKShareKit (4.2.0):
     - FBSDKCoreKit
   - Flow (1.6.3)
+  - JazzHands (0.2.1)
   - jot (0.1.3):
     - Masonry (~> 0.6.1)
   - Masonry (0.6.1)
@@ -48,6 +49,7 @@ PODS:
     - ReactiveCocoa/Core
   - ReactiveTableViewBinding (1.0):
     - ReactiveCocoa (~> 2.4)
+  - UICKeyChainStore (2.0.6)
 
 DEPENDENCIES:
   - AFDropdownNotification
@@ -56,18 +58,24 @@ DEPENDENCIES:
   - FastttCamera
   - FBSDKShareKit
   - Flow
-  - jot
+  - JazzHands
+  - jot (from `https://github.com/adamjuhasz/jot.git`)
   - NSURLConnection-Blocks
   - NYXImagesKit
   - ParseFacebookUtilsV4
-  - ParseUI
+  - ParseUI (from `../ParseUI-iOS`)
   - ReactiveTableViewBinding
+  - UICKeyChainStore
 
 EXTERNAL SOURCES:
   ClusterPrePermissions:
     :git: https://github.com/adamjuhasz/ClusterPrePermissions.git
   Colours:
     :git: https://github.com/adamjuhasz/Colours.git
+  jot:
+    :git: https://github.com/adamjuhasz/jot.git
+  ParseUI:
+    :path: ../ParseUI-iOS
 
 CHECKOUT OPTIONS:
   ClusterPrePermissions:
@@ -76,6 +84,9 @@ CHECKOUT OPTIONS:
   Colours:
     :commit: 54d4389117d9d5984516a4959813177d3732ba40
     :git: https://github.com/adamjuhasz/Colours.git
+  jot:
+    :commit: 2d9a7d6a748519018270e9212cc2aa049a2961b2
+    :git: https://github.com/adamjuhasz/jot.git
 
 SPEC CHECKSUMS:
   AFDropdownNotification: 4125b132cd03a8d6293e09ce000aeef55ced1364
@@ -87,6 +98,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 57e37106af12c9e264e473dcb75d7decdbb07fe4
   FBSDKShareKit: 931746fdf8fb95efd6e12310ec14b2b3295e2aec
   Flow: e93229ef5331fd4f61522507a6bbc254ca6310b6
+  JazzHands: d2343c3f2f9d70598d0cad8f521ce3893842a44a
   jot: 86da410a8bd544860166d5617707f3b2a8f0e4a1
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   NSURLConnection-Blocks: 921a21aa8e472527d6c29b7741a7c78b346ea7f0
@@ -96,5 +108,6 @@ SPEC CHECKSUMS:
   ParseUI: d1228541b02a36a7354c8f47747f5f7a89cf1ff0
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   ReactiveTableViewBinding: f925165a270dc51a3bc02ace494a2f212ae04498
+  UICKeyChainStore: c5719c814e8bd69e74e4a0fc09daf8f4d6257a59
 
 COCOAPODS: 0.37.2

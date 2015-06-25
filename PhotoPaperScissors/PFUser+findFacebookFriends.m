@@ -104,7 +104,7 @@ AJFaceBookDelegate *AJAlertDelegate;
                                                        message:string
                                                       delegate:AJAlertDelegate
                                              cancelButtonTitle:@"OK"
-                                             otherButtonTitles:@"Invite M,ore", nil];
+                                             otherButtonTitles:@"Invite More", nil];
     [alerting show];
 }
 

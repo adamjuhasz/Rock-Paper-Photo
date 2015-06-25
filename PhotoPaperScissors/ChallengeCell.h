@@ -12,12 +12,12 @@
 @interface ChallengeCell : PFTableViewCell
 
 @property IBOutlet PFImageView *opponentImageView;
-@property IBOutlet UILabel *challengeName;
-@property IBOutlet UILabel *opponentName;
-@property IBOutlet UILabel *roundNumber;
+@property IBOutlet UILabel *challengeNameLabel;
+@property IBOutlet UILabel *competitorNameLabel;
+@property IBOutlet UILabel *roundIndicatorLabel;
+@property IBOutlet UIView *roundIndictorHolder;
 
 @property IBOutlet UIView *innerRectangle;
-@property IBOutlet UIView *roundContainer;
 @property IBOutlet UILabel *timeIndicator;
 
 - (void)loadWithChallenge:(Challenge*)challenge;
