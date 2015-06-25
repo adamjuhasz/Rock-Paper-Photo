@@ -16,12 +16,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import <ClusterPrePermissions/ClusterPrePermissions.h>
 #import <NYXImagesKit/NYXImagesKit.h>
-<<<<<<< HEAD
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-=======
 #import <MessageUI/MessageUI.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
->>>>>>> collection
 
 #import "PhotoViewController.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"

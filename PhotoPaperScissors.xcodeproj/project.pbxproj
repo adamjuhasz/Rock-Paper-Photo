@@ -18,6 +18,7 @@
 		2E18C5661B363C6900F621B2 /* FriendCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C5651B363C6900F621B2 /* FriendCollectionCell.m */; };
 		2E18C5681B363C8900F621B2 /* FriendCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E18C5671B363C8900F621B2 /* FriendCollectionCell.xib */; };
 		2E18C56B1B363E2C00F621B2 /* FriendCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C56A1B363E2C00F621B2 /* FriendCollectionController.m */; };
+		2E62E0C41B3CBEC100265978 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E62E0C31B3CBEC100265978 /* CloudKit.framework */; };
 		2E6EFF541B2FD1F9006FEFC4 /* UserListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */; };
 		2E6EFF5A1B2FDFC9006FEFC4 /* CameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */; };
 		2E6EFF5D1B2FEBDF006FEFC4 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF5C1B2FEBDF006FEFC4 /* PhotoViewController.m */; };
@@ -94,6 +95,7 @@
 		2E18C5671B363C8900F621B2 /* FriendCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCollectionCell.xib; sourceTree = "<group>"; };
 		2E18C5691B363E2C00F621B2 /* FriendCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCollectionController.h; sourceTree = "<group>"; };
 		2E18C56A1B363E2C00F621B2 /* FriendCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCollectionController.m; sourceTree = "<group>"; };
+		2E62E0C31B3CBEC100265978 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		2E6EFF521B2FD1F9006FEFC4 /* UserListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListController.h; path = ../UserListController.h; sourceTree = "<group>"; };
 		2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListController.m; path = ../UserListController.m; sourceTree = "<group>"; };
 		2E6EFF581B2FDFC9006FEFC4 /* CameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraController.h; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				2E6EFFF91B31EA26006FEFC4 /* Fabric.framework in Frameworks */,
 				2E8242C21B2FBBEB00746842 /* Accounts.framework in Frameworks */,
 				2E8242C01B2FBBE400746842 /* libsqlite3.dylib in Frameworks */,
+				2E62E0C41B3CBEC100265978 /* CloudKit.framework in Frameworks */,
 				2E8242BE1B2FBBDB00746842 /* libz.dylib in Frameworks */,
 				2E8242BC1B2FBBD400746842 /* SystemConfiguration.framework in Frameworks */,
 				2E8242B81B2FBBC600746842 /* Security.framework in Frameworks */,
@@ -353,6 +356,7 @@
 		FC324F0128DAA72F4142E76B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E62E0C31B3CBEC100265978 /* CloudKit.framework */,
 				2E18C5621B361B2700F621B2 /* MessageUI.framework */,
 				2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */,
 				2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */,

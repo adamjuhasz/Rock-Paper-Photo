@@ -155,16 +155,15 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
         }
         self.isLoggedIn = YES;
         
-<<<<<<< HEAD
+
         [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration
                       parameters:[NSDictionary dictionaryWithObject:@"RPP" forKey:FBSDKAppEventParameterNameRegistrationMethod]];
-=======
+
         UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
         keychain.synchronizable = YES;
         keychain[@"username"] = user.username;
         keychain[@"password"] = user.password;
 
->>>>>>> collection
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }

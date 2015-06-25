@@ -6,7 +6,6 @@
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Sign Up Controller-->
@@ -416,10 +415,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YoR-br-mS2">
-                                <rect key="frame" x="0.0" y="56" width="320" height="284"/>
+                                <rect key="frame" x="0.0" y="56" width="320" height="284.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We need your permission to access the camera" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uAN-uB-aIw">
-                                        <rect key="frame" x="0.0" y="124" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="124.5" width="320" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="4kL-Bl-9V4"/>
                                         </constraints>
@@ -428,7 +427,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="83u-px-V2q">
-                                        <rect key="frame" x="130" y="204" width="60" height="44"/>
+                                        <rect key="frame" x="130" y="204.5" width="60" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="BBc-Os-Zex"/>
                                             <constraint firstAttribute="width" constant="60" id="mLI-Hp-xyq"/>
@@ -461,14 +460,17 @@
                                 </variation>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QKa-WA-4NZ">
-                                <rect key="frame" x="0.0" y="56" width="320" height="284"/>
+                                <rect key="frame" x="0.0" y="56" width="320" height="284.5"/>
                                 <color key="backgroundColor" red="0.20392156859999999" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="QKa-WA-4NZ" secondAttribute="height" multiplier="9:8" id="tcp-ij-qRh"/>
+                                </constraints>
                                 <connections>
                                     <segue destination="cuR-z6-UsV" kind="embed" identifier="embed" id="Uzh-hC-6nz"/>
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7nP-pi-W1w">
-                                <rect key="frame" x="0.0" y="296" width="44" height="44"/>
+                                <rect key="frame" x="0.0" y="296.5" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ilp-VD-5xX"/>
                                     <constraint firstAttribute="width" constant="44" id="spI-JS-HiN"/>
@@ -708,7 +710,7 @@
                                 </variation>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJU-Mg-sDn" userLabel="Camera box">
-                                <rect key="frame" x="0.0" y="340" width="320" height="128"/>
+                                <rect key="frame" x="0.0" y="340.5" width="320" height="128"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zll-RX-Hb9" userLabel="Flip">
                                         <rect key="frame" x="252" y="42" width="58" height="44"/>
@@ -783,7 +785,6 @@
                         <constraints>
                             <constraint firstItem="QKa-WA-4NZ" firstAttribute="width" secondItem="veS-C5-CKB" secondAttribute="width" id="3ML-fq-RuV"/>
                             <constraint firstAttribute="centerX" secondItem="QKa-WA-4NZ" secondAttribute="centerX" id="8W0-Cd-nA4"/>
-                            <constraint firstItem="QKa-WA-4NZ" firstAttribute="height" secondItem="veS-C5-CKB" secondAttribute="height" multiplier="0.5" id="8ri-Ap-ZU4"/>
                             <constraint firstItem="QKa-WA-4NZ" firstAttribute="bottom" secondItem="7nP-pi-W1w" secondAttribute="bottom" id="E1R-JA-k22"/>
                             <constraint firstItem="QKa-WA-4NZ" firstAttribute="leading" secondItem="7nP-pi-W1w" secondAttribute="leading" id="M3u-TO-Y9S"/>
                             <constraint firstAttribute="centerX" secondItem="tJU-Mg-sDn" secondAttribute="centerX" id="Mb3-LF-QFb"/>
@@ -900,7 +901,7 @@
                         <viewControllerLayoutGuide type="bottom" id="n0j-qY-9GN"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ILf-Gc-6dI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="284.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1194,8 +1195,8 @@
         <image name="shutter_active" width="88" height="88"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vv2-9H-2xL"/>
         <segue reference="k3X-K1-IDS"/>
-        <segue reference="cAy-Ds-t3X"/>
+        <segue reference="gyE-1b-2J0"/>
+        <segue reference="vv2-9H-2xL"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -38,11 +38,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-<<<<<<< HEAD
-	<string>261</string>
-=======
-	<string>528</string>
->>>>>>> collection
+	<string>529</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
