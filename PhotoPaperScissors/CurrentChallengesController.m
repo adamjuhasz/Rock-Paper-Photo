@@ -147,22 +147,26 @@
     }
     
     if ([self isMemberOfClass:[CurrentChallengesController class]]) {
-        PFInstallation *badging = [PFInstallation currentInstallation];
-        badging.badge = 0;
+        int badgeCount = 0;
         for (int i=0; i<self.objects.count; i++) {
             Challenge *thisChallenge = [Challenge challengeForParseObject:self.objects[i]];
             if (thisChallenge.whosTurn == myTurn) {
-                badging.badge++;
+                badgeCount++;
             }
             if (thisChallenge.whosTurn == noonesTurn) {
-                badging.badge++;
+                badgeCount++;
             }
         }
+        PFInstallation *badging = [PFInstallation currentInstallation];
+        badging.badge = badgeCount;
         UITabBarItem *myItem = self.tabBarController.tabBar.items[0];
-        myItem.badgeValue = [NSString stringWithFormat:@"%ld", (long)badging.badge];
+        if (badgeCount == 0) {
+            myItem.badgeValue = nil;
+        } else {
+            myItem.badgeValue = [NSString stringWithFormat:@"%ld", (long)badgeCount];
+        }
     }
 }
-
 
 // Override to customize what kind of query to perform on the class. The default is to query for
 // all objects ordered by createdAt descending.
