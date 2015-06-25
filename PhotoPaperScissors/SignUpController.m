@@ -154,7 +154,7 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
         }
         self.isLoggedIn = YES;
         
-        UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"io.ajuhasz.rpp.icloud"];
+        UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
         keychain.synchronizable = YES;
         keychain[@"username"] = user.username;
         keychain[@"password"] = user.password;
@@ -216,7 +216,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 }
                 [current saveInBackground];
             }
-            UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"io.ajuhasz.rpp.icloud"];
+            UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
             keychain.synchronizable = YES;
             keychain[@"username"] = user.username;
             keychain[@"password"] = user.password;

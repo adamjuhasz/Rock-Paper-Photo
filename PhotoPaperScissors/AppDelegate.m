@@ -60,7 +60,7 @@
     if (currentUser) {
         //[[UIApplication sharedApplication] registerForRemoteNotifications];
     } else {
-        UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"io.ajuhasz.rpp.icloud"];
+        UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
         keychain.synchronizable = YES;
         
         NSString *username = keychain[@"username"];
