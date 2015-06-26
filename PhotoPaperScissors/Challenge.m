@@ -278,16 +278,21 @@ NSMutableDictionary *cachedChallenges;
     }
     
     
-    if (self.otherPlayerIs == Challengee && [roundDictionary objectForKey:@"Challengee"]) {
-        self.whosTurn = noonesTurn;
-    } else {
-        self.whosTurn = theirTurn;
+    if (self.otherPlayerIs == Challengee) {
+        if ([roundDictionary objectForKey:@"Challengee"]) {
+            //everyone's photo is in
+            self.whosTurn = noonesTurn;
+        } else {
+            self.whosTurn = theirTurn;
+        }
     }
     
-    if (self.otherPlayerIs == Challenger && [roundDictionary objectForKey:@"Challenger"]) {
-        self.whosTurn = noonesTurn;
-    } else {
-        self.whosTurn = theirTurn;
+    if (self.otherPlayerIs == Challenger) {
+        if ([roundDictionary objectForKey:@"Challenger"]) {
+            self.whosTurn = noonesTurn;
+        } else {
+            self.whosTurn = theirTurn;
+        }
     }
     
     [file saveInBackground];
@@ -342,7 +347,7 @@ NSMutableDictionary *cachedChallenges;
     if ([self imageForPlayer:self.playerIAm forRound:self.currentRoundNumber] &&
         [self imageForPlayer:self.otherPlayerIs forRound:self.currentRoundNumber] &&
         (self.currentRoundNumber+1 <= self.maxRounds)) {
-            self.whosTurn = myTurn;
+            self.whosTurn = noonesTurn;
     }
     
     if (self.currentRoundNumber == self.maxRounds) {
@@ -364,10 +369,9 @@ NSMutableDictionary *cachedChallenges;
     [self.parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *PF_NULLABLE_S error){
         if (error){
             [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"saveInBackgroundWithBlock" withError:error];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
             return;
         }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
         
         //PUSH
         PFUser *otherUser = self.competitor;

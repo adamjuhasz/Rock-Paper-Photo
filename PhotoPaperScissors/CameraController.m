@@ -285,8 +285,6 @@
     [self.theChallenge save];
     
     [self performSegueWithIdentifier:@"showPhotos" sender:nil];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:self.theChallenge];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

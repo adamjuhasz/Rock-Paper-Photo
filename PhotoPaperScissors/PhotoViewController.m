@@ -145,7 +145,7 @@
     NSLog(@"size: %@, frame: %@", NSStringFromCGSize(imageSize), NSStringFromCGRect(self.embededPhotos.frame));
     
     for (int i=0; i<aChallenge.currentRoundNumber; i++) {
-        if (i == (aChallenge.maxRounds - 1) && aChallenge.whosTurn == myTurn) {
+        if (i == (aChallenge.currentRoundNumber - 1) && aChallenge.whosTurn == myTurn) {
             break;
         }
         int roundNumber = i+1;
@@ -187,7 +187,8 @@
         }
         
         if (myImage || theirImage) {
-            if (roundNumber == aChallenge.maxRounds ) {
+            if (roundNumber == aChallenge.maxRounds
+                && (myImage && theirImage)) {
                 UIButton *shareToTwitter = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
                 [shareToTwitter setImage:[UIImage imageNamed:@"twitter"] forState:UIControlStateNormal];
                 [shareToTwitter addTarget:self action:@selector(sendToShareSheet) forControlEvents:UIControlEventTouchUpInside];

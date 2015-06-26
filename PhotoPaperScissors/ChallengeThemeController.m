@@ -49,14 +49,6 @@
     
     // The number of objects to show per page
     self.objectsPerPage = 25;
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"userLoggedIn" object:nil queue:nil usingBlock:^(NSNotification *note) {
-        [self loadObjects];
-    }];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"updateChallanges" object:nil queue:nil usingBlock:^(NSNotification *note) {
-        [self loadObjects];
-    }];
 }
 
 - (void)didReceiveMemoryWarning {
