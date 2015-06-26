@@ -145,6 +145,9 @@
     NSLog(@"size: %@, frame: %@", NSStringFromCGSize(imageSize), NSStringFromCGRect(self.embededPhotos.frame));
     
     for (int i=0; i<aChallenge.currentRoundNumber; i++) {
+        if (i == (aChallenge.maxRounds - 1) && aChallenge.whosTurn == myTurn) {
+            break;
+        }
         int roundNumber = i+1;
         UIImage *myImage = [aChallenge imageForPlayer:aChallenge.playerIAm forRound:roundNumber];
         UIImage *theirImage = [aChallenge imageForPlayer:aChallenge.otherPlayerIs forRound:roundNumber];

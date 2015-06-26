@@ -376,10 +376,11 @@ NSMutableDictionary *cachedChallenges;
         }
         PFQuery *userQuery = [PFInstallation query];
         [userQuery whereKey:@"user" equalTo:otherUser];
-        NSMutableDictionary *data = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     @"alert", @"A new round has started",
-                                     @"badge", @"Increment",
-                                     nil];
+        
+        NSMutableDictionary *data = [NSMutableDictionary dictionary];
+        [data setObject:@"A new round has started" forKey:@"alert"];
+        [data setObject:@"Increment" forKey:@"badge"];
+        
         if (self.currentRoundNumber == 1 && self.playerIAm == Challenger) {
             [data setObject:@"You've been challanged!" forKey:@"alert"];
         }
