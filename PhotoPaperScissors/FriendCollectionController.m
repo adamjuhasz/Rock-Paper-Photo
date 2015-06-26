@@ -74,13 +74,7 @@ static NSString * const FindFriendsTutorialString = @"io.ajuhasz.friends.find";
                                             style:UIBarButtonItemStyleDone
                                            target:self
                                            action:@selector(showSheet)];
-    UIBarButtonItem *search = [[UIBarButtonItem alloc] initWithTitle:@"Search"
-                                              style:UIBarButtonItemStyleDone
-                                             target:self
-                                             action:@selector(showSheet)];
-    search.enabled = NO;
     self.navigationItem.rightBarButtonItems = @[find];
-    self.navigationItem.leftBarButtonItems = @[search];
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"FriendCollectionCell" bundle:nil] forCellWithReuseIdentifier:@"friendlies"];
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;

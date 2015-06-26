@@ -265,7 +265,8 @@
 
 - (void)cameraController:(id<FastttCameraInterface>)cameraController didFinishNormalizingCapturedImage:(FastttCapturedImage *)capturedImage
 {
-    self.takenPhoto = capturedImage.scaledImage;
+    UIImage *scaledImage = capturedImage.scaledImage;
+    self.takenPhoto = scaledImage;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
                                                                               style:self.editButtonItem.style
                                                                              target:self
@@ -277,7 +278,9 @@
 - (void)sendToServer
 {
     UIImage *templated = [self.cameraContainer imageByRenderingView];
+    templated = [templated cropToSize:CGSizeMake(floorf(templated.size.width), floorf(templated.size.height))];
     UIImage *drawnOnImage = [self.jotViewController drawOnImage:templated];
+    drawnOnImage = [drawnOnImage cropToSize:CGSizeMake(floorf(templated.size.width), floorf(templated.size.height)-1)];
     [self.theChallenge setImage:drawnOnImage ForPlayer:self.theChallenge.playerIAm forRound:self.theChallenge.currentRoundNumber];
     [self.theChallenge save];
     
