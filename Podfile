@@ -8,6 +8,7 @@ def import_pods
   pod 'ParseUI', :path => '../ParseUI-iOS'
 
   pod 'FastttCamera'
+  pod 'ReactiveCocoa','~> 2.5'
   pod 'ReactiveTableViewBinding'
 
   pod 'ClusterPrePermissions', :git => 'https://github.com/adamjuhasz/ClusterPrePermissions.git'

@@ -18,7 +18,6 @@
 		2E18C5661B363C6900F621B2 /* FriendCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C5651B363C6900F621B2 /* FriendCollectionCell.m */; };
 		2E18C5681B363C8900F621B2 /* FriendCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E18C5671B363C8900F621B2 /* FriendCollectionCell.xib */; };
 		2E18C56B1B363E2C00F621B2 /* FriendCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C56A1B363E2C00F621B2 /* FriendCollectionController.m */; };
-		2E62E0C41B3CBEC100265978 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E62E0C31B3CBEC100265978 /* CloudKit.framework */; };
 		2E62E0C61B3DAC8C00265978 /* Bariol_Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E62E0C51B3DAC5700265978 /* Bariol_Regular.otf */; };
 		2E62E0D01B3DACEC00265978 /* Montserrat-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E62E0C81B3DACEC00265978 /* Montserrat-Black.otf */; };
 		2E62E0D11B3DACEC00265978 /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E62E0C91B3DACEC00265978 /* Montserrat-Bold.otf */; };
@@ -104,7 +103,6 @@
 		2E18C5671B363C8900F621B2 /* FriendCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCollectionCell.xib; sourceTree = "<group>"; };
 		2E18C5691B363E2C00F621B2 /* FriendCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCollectionController.h; sourceTree = "<group>"; };
 		2E18C56A1B363E2C00F621B2 /* FriendCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCollectionController.m; sourceTree = "<group>"; };
-		2E62E0C31B3CBEC100265978 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		2E62E0C51B3DAC5700265978 /* Bariol_Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Regular.otf; sourceTree = "<group>"; };
 		2E62E0C81B3DACEC00265978 /* Montserrat-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Black.otf"; sourceTree = "<group>"; };
 		2E62E0C91B3DACEC00265978 /* Montserrat-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.otf"; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 		2E83BB421B3532E3003A6FF0 /* ChallengeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChallengeCell.xib; sourceTree = "<group>"; };
 		2EB77FB51B38A6CB00E3484A /* CEMovieMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEMovieMaker.h; sourceTree = "<group>"; };
 		2EB77FB61B38A6CB00E3484A /* CEMovieMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEMovieMaker.m; sourceTree = "<group>"; };
-		2EB77FB81B39F7F700E3484A /* PhotoPaperScissors.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PhotoPaperScissors.entitlements; sourceTree = "<group>"; };
 		2EC7CA3E1B32A86900FCA38A /* PastChallengesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PastChallengesController.h; sourceTree = "<group>"; };
 		2EC7CA3F1B32A86900FCA38A /* PastChallengesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PastChallengesController.m; sourceTree = "<group>"; };
 		2EC7CA411B32B09E00FCA38A /* ChallengeThemeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengeThemeController.h; sourceTree = "<group>"; };
@@ -196,7 +193,6 @@
 				2E6EFFF91B31EA26006FEFC4 /* Fabric.framework in Frameworks */,
 				2E8242C21B2FBBEB00746842 /* Accounts.framework in Frameworks */,
 				2E8242C01B2FBBE400746842 /* libsqlite3.dylib in Frameworks */,
-				2E62E0C41B3CBEC100265978 /* CloudKit.framework in Frameworks */,
 				2E8242BE1B2FBBDB00746842 /* libz.dylib in Frameworks */,
 				2E8242BC1B2FBBD400746842 /* SystemConfiguration.framework in Frameworks */,
 				2E8242B81B2FBBC600746842 /* Security.framework in Frameworks */,
@@ -246,7 +242,6 @@
 		2E116E261B2E985800A0D77F /* PhotoPaperScissors */ = {
 			isa = PBXGroup;
 			children = (
-				2EB77FB81B39F7F700E3484A /* PhotoPaperScissors.entitlements */,
 				2E116E2B1B2E985800A0D77F /* AppDelegate.h */,
 				2E116E2C1B2E985800A0D77F /* AppDelegate.m */,
 				2E6EFF611B2FFF5C006FEFC4 /* Challenge.h */,
@@ -391,7 +386,6 @@
 		FC324F0128DAA72F4142E76B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2E62E0C31B3CBEC100265978 /* CloudKit.framework */,
 				2E18C5621B361B2700F621B2 /* MessageUI.framework */,
 				2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */,
 				2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */,
@@ -484,7 +478,7 @@
 								enabled = 0;
 							};
 							com.apple.iCloud = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -782,7 +776,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = PhotoPaperScissors/PhotoPaperScissors.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -804,7 +798,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = PhotoPaperScissors/PhotoPaperScissors.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (

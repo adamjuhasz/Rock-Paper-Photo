@@ -148,8 +148,9 @@
             handler(UIBackgroundModeNoData);
         }
     }];*/
-    
-    completionHandler(UIBackgroundFetchResultNoData);
+    if (completionHandler) {
+        completionHandler(UIBackgroundFetchResultNoData);
+    }
 }
 
 - (BOOL)application:(UIApplication *)application

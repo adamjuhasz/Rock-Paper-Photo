@@ -38,7 +38,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>543</string>
+	<string>550</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -55,9 +55,10 @@
 				<key>KitInfo</key>
 				<dict>
 					<key>consumerKey</key>
-					<string>6dmMN0Ae8vPfDtCANWACpmqhU</string>
+					<string>IN4eSYWqZm54nTHUcGcfdeEJG</string>
 					<key>consumerSecret</key>
-					<string>Cz3BdxkHZaPqOtEslsH7PnD5Vw6NP46dEGb6OxwzvZ0oPO00pm</string>
+					<string>Om1hNCXgL3mWoo9VyOHR7L0rCnrkAHJ6QVdJMzSUEm62mhe4bY
+Om1hNCXgL3mWoo9VyOHR7L0rCnrkAHJ6QVdJMzSUEm62mhe4bY</string>
 				</dict>
 				<key>KitName</key>
 				<string>Digits</string>
@@ -93,5 +94,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

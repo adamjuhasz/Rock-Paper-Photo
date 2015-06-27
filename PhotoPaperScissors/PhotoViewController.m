@@ -290,6 +290,8 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    
     self.embededPhotos.contentOffset = CGPointMake(0, 0);
     [UIView animateWithDuration:1.0 animations:^{
         self.embededPhotos.contentOffset = CGPointMake(self.embededPhotos.contentSize.width-self.embededPhotos.bounds.size.width, 0);

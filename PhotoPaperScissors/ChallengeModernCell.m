@@ -8,6 +8,7 @@
 
 #import "ChallengeModernCell.h"
 #import <Colours/Colours.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation ChallengeModernCell
 
@@ -80,18 +81,28 @@
 {
     self.opponentImageView.file = challenge.competitor[@"image"];
     [self.opponentImageView loadInBackground];
+    
     self.competitorNameLabel.text = challenge.competitor[@"nickname"];
-    
     self.challengeNameLabel.text = challenge.challengeName;
-    self.roundIndicatorLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)challenge.currentRoundNumber];
-    if (challenge.challengeComplete) {
-        self.roundIndicatorLabel.text = @"C";
-    }
     
-    if (challenge.challengeComplete) {
+    //these can change due to user action
+    [[RACObserve(challenge, whosTurn) takeUntil:self.rac_prepareForReuseSignal] subscribeNext:^(id x) {
+        [self configureTurnStyle:challenge];
+    }];
+    
+    [[RACObserve(challenge, currentRoundNumber) takeUntil:self.rac_prepareForReuseSignal] subscribeNext:^(NSNumber *roundNumber) {
+        _roundIndicatorLabel.text = [NSString stringWithFormat:@"%@", roundNumber];
+    }];
+    
+}
+
+- (void)configureTurnStyle:(Challenge*)theChallenge
+{
+    if (theChallenge.challengeComplete) {
         //challenge complete
+        self.roundIndicatorLabel.text = @"C";
         self.roundIndictorHolder.hidden = YES;
-    } else if (challenge.whosTurn == myTurn || challenge.whosTurn == noonesTurn) {
+    } else if (theChallenge.whosTurn == myTurn || theChallenge.whosTurn == noonesTurn) {
         //waiting for my turn
         self.roundIndictorHolder.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     } else {
