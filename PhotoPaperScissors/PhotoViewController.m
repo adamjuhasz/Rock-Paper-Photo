@@ -28,6 +28,7 @@
 
 @interface PhotoViewController () <MFMessageComposeViewControllerDelegate, FBSDKSharingDelegate>
 
+@property BOOL hiddenComponents;
 @property (strong) CEMovieMaker *movieMaker;
 
 @end
@@ -77,6 +78,8 @@
         [self loadChallenge:aChallenge];
     }];
     
+    self.view.clipsToBounds = NO;
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" "
                                                                              style:self.navigationItem.backBarButtonItem.style
                                                                             target:nil
@@ -86,6 +89,9 @@
     self.embededPhotos.pagingEnabled = YES;
     self.embededPhotos.bounces = NO;
     [self.view addSubview:self.embededPhotos];
+    
+    UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleButtons:)];
+    [self.embededPhotos addGestureRecognizer:tapper];
 }
 
 - (void)loadChallenge:(Challenge*)aChallenge
@@ -187,6 +193,7 @@
         }
         
         if (myImage || theirImage) {
+            self.hiddenComponents = NO;
             if (roundNumber == aChallenge.maxRounds
                 && (myImage && theirImage)) {
                 UIButton *shareToTwitter = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
@@ -388,7 +395,7 @@
         }];
     } else {
         UIAlertView *alerting = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                           message:@"You must have the facebook client installed to upload video"
+                                                           message:@"You must have the Facebook app installed to upload video"
                                                           delegate:nil
                                                  cancelButtonTitle:@"OK"
                                                  otherButtonTitles:nil];
@@ -404,36 +411,43 @@
     dispatch_group_t group = dispatch_group_create();
     
     dispatch_group_enter(group);
-    [self createVideoFrom:images withCompletetion:^(NSError *error, NSURL *fileURL) {
-        if (fileURL) {
-            ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-            [al writeVideoAtPathToSavedPhotosAlbum:fileURL completionBlock:^(NSURL *assetURL, NSError *error) {
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self createVideoFrom:images withCompletetion:^(NSError *error, NSURL *fileURL) {
+            if (fileURL) {
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+                    [al writeVideoAtPathToSavedPhotosAlbum:fileURL completionBlock:^(NSURL *assetURL, NSError *error) {
+                        dispatch_group_leave(group);
+                        if (error) {
+                            NSLog(@"Error %@", error);
+                            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeVideoAtPathToSavedPhotosAlbum" withError:error];
+                            groupError = error;
+                            return;
+                        }
+                    }];
+                });
+            } else {
                 dispatch_group_leave(group);
-                if (error) {
-                    NSLog(@"Error %@", error);
-                    [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
-                    groupError = error;
-                    return;
-                }
-            }];
-        } else {
-            dispatch_group_leave(group);
-        }
-    }];
+            }
+        }];
+    });
     
-    NSData *gifData = [self createAnimatedGiFrom:images];
-    
-    ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
     dispatch_group_enter(group);
-    [al writeImageDataToSavedPhotosAlbum:gifData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
-        dispatch_group_leave(group);
-        if (error) {
-            NSLog(@"Error %@", error);
-            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
-            groupError = error;
-            return;
-        }
-    }];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData *gifData = [self createAnimatedGiFrom:images];
+        
+        ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+        [al writeImageDataToSavedPhotosAlbum:gifData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+            dispatch_group_leave(group);
+            if (error) {
+                NSLog(@"Error %@", error);
+                [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
+                groupError = error;
+                return;
+            }
+        }];
+    });
+    
     
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         if (completionBlock) {
@@ -644,6 +658,22 @@
                 completionBlock([NSError errorWithDomain:@"eek" code:1 userInfo:nil], nil);
             }
         }
+    }];
+}
+
+- (IBAction)toggleButtons:(id)sender
+{
+    self.hiddenComponents = !self.hiddenComponents;
+    
+    self.navigationController.navigationBar.userInteractionEnabled = !self.hiddenComponents;
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:self.hiddenComponents withAnimation:UIStatusBarAnimationSlide];
+    [UIView animateWithDuration:0.35 animations:^{
+        for (UIView *indicator in photoRoundIndicatorViews) {
+            indicator.alpha = self.hiddenComponents ? 0.0 : 1.0;
+        }
+        self.navigationController.navigationBar.alpha = self.hiddenComponents ? 0.0 : 1.0;
+        self.view.frame = CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height);
     }];
 }
 

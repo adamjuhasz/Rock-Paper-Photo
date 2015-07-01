@@ -18,6 +18,8 @@
 		2E18C5661B363C6900F621B2 /* FriendCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C5651B363C6900F621B2 /* FriendCollectionCell.m */; };
 		2E18C5681B363C8900F621B2 /* FriendCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E18C5671B363C8900F621B2 /* FriendCollectionCell.xib */; };
 		2E18C56B1B363E2C00F621B2 /* FriendCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18C56A1B363E2C00F621B2 /* FriendCollectionController.m */; };
+		2E2032191B432DD10083729A /* ChallengeThemeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2032181B432DD10083729A /* ChallengeThemeCell.m */; };
+		2E20321B1B432DE70083729A /* ChallengeThemeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E20321A1B432DE70083729A /* ChallengeThemeCell.xib */; };
 		2E62E0C61B3DAC8C00265978 /* Bariol_Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E62E0C51B3DAC5700265978 /* Bariol_Regular.otf */; };
 		2E62E0D01B3DACEC00265978 /* Montserrat-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E62E0C81B3DACEC00265978 /* Montserrat-Black.otf */; };
 		2E62E0D11B3DACEC00265978 /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E62E0C91B3DACEC00265978 /* Montserrat-Bold.otf */; };
@@ -27,7 +29,6 @@
 		2E62E0D51B3DACEC00265978 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E62E0CD1B3DACEC00265978 /* Montserrat-SemiBold.otf */; };
 		2E62E0D61B3DACEC00265978 /* Montserrat-UltraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2E62E0CE1B3DACEC00265978 /* Montserrat-UltraLight.otf */; };
 		2E62E0D71B3DACEC00265978 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E62E0CF1B3DACEC00265978 /* SIL Open Font License.txt */; };
-		2E6EFF541B2FD1F9006FEFC4 /* UserListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */; };
 		2E6EFF5A1B2FDFC9006FEFC4 /* CameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */; };
 		2E6EFF5D1B2FEBDF006FEFC4 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF5C1B2FEBDF006FEFC4 /* PhotoViewController.m */; };
 		2E6EFF631B2FFF5C006FEFC4 /* Challenge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFF621B2FFF5C006FEFC4 /* Challenge.m */; };
@@ -38,10 +39,11 @@
 		2E6EFFEB1B30EE66006FEFC4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6EFFEA1B30EE66006FEFC4 /* CoreVideo.framework */; };
 		2E6EFFED1B30EE7F006FEFC4 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6EFFEC1B30EE7F006FEFC4 /* CoreMedia.framework */; };
 		2E6EFFEF1B30EEA6006FEFC4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6EFFEE1B30EEA6006FEFC4 /* AVFoundation.framework */; };
-		2E6EFFF21B30F415006FEFC4 /* PushPermissionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFFF11B30F415006FEFC4 /* PushPermissionController.m */; };
 		2E6EFFF51B3118E0006FEFC4 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EFFF41B3118E0006FEFC4 /* ProfileViewController.m */; };
 		2E6EFFF91B31EA26006FEFC4 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6EFFF71B31EA26006FEFC4 /* Fabric.framework */; };
 		2E6EFFFA1B31EA26006FEFC4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6EFFF81B31EA26006FEFC4 /* Crashlytics.framework */; };
+		2E6F6B101B449A93009130A5 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6F6B0F1B449A93009130A5 /* IntroViewController.m */; };
+		2E6F6B121B449EEB009130A5 /* intro.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2E6F6B111B449EEB009130A5 /* intro.jpg */; };
 		2E75B7F11B37837F00CA8EE4 /* ChallengeModernCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E75B7F01B37837F00CA8EE4 /* ChallengeModernCell.xib */; };
 		2E75B7F41B3783AC00CA8EE4 /* ChallengeModernCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E75B7F31B3783AC00CA8EE4 /* ChallengeModernCell.m */; };
 		2E7E069E1B32079D00A796CE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E7E069D1B32079D00A796CE /* LaunchScreen.xib */; };
@@ -103,6 +105,9 @@
 		2E18C5671B363C8900F621B2 /* FriendCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCollectionCell.xib; sourceTree = "<group>"; };
 		2E18C5691B363E2C00F621B2 /* FriendCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCollectionController.h; sourceTree = "<group>"; };
 		2E18C56A1B363E2C00F621B2 /* FriendCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCollectionController.m; sourceTree = "<group>"; };
+		2E2032171B432DD10083729A /* ChallengeThemeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengeThemeCell.h; sourceTree = "<group>"; };
+		2E2032181B432DD10083729A /* ChallengeThemeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengeThemeCell.m; sourceTree = "<group>"; };
+		2E20321A1B432DE70083729A /* ChallengeThemeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChallengeThemeCell.xib; sourceTree = "<group>"; };
 		2E62E0C51B3DAC5700265978 /* Bariol_Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Regular.otf; sourceTree = "<group>"; };
 		2E62E0C81B3DACEC00265978 /* Montserrat-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Black.otf"; sourceTree = "<group>"; };
 		2E62E0C91B3DACEC00265978 /* Montserrat-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.otf"; sourceTree = "<group>"; };
@@ -112,8 +117,6 @@
 		2E62E0CD1B3DACEC00265978 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
 		2E62E0CE1B3DACEC00265978 /* Montserrat-UltraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-UltraLight.otf"; sourceTree = "<group>"; };
 		2E62E0CF1B3DACEC00265978 /* SIL Open Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SIL Open Font License.txt"; sourceTree = "<group>"; };
-		2E6EFF521B2FD1F9006FEFC4 /* UserListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListController.h; path = ../UserListController.h; sourceTree = "<group>"; };
-		2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListController.m; path = ../UserListController.m; sourceTree = "<group>"; };
 		2E6EFF581B2FDFC9006FEFC4 /* CameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraController.h; sourceTree = "<group>"; };
 		2E6EFF591B2FDFC9006FEFC4 /* CameraController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraController.m; sourceTree = "<group>"; };
 		2E6EFF5B1B2FEBDF006FEFC4 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
@@ -130,12 +133,13 @@
 		2E6EFFEA1B30EE66006FEFC4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		2E6EFFEC1B30EE7F006FEFC4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		2E6EFFEE1B30EEA6006FEFC4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		2E6EFFF01B30F415006FEFC4 /* PushPermissionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushPermissionController.h; sourceTree = "<group>"; };
-		2E6EFFF11B30F415006FEFC4 /* PushPermissionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushPermissionController.m; sourceTree = "<group>"; };
 		2E6EFFF31B3118E0006FEFC4 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		2E6EFFF41B3118E0006FEFC4 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		2E6EFFF71B31EA26006FEFC4 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		2E6EFFF81B31EA26006FEFC4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		2E6F6B0E1B449A93009130A5 /* IntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController.h; sourceTree = "<group>"; };
+		2E6F6B0F1B449A93009130A5 /* IntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
+		2E6F6B111B449EEB009130A5 /* intro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = intro.jpg; sourceTree = "<group>"; };
 		2E75B7F01B37837F00CA8EE4 /* ChallengeModernCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChallengeModernCell.xib; sourceTree = "<group>"; };
 		2E75B7F21B3783AC00CA8EE4 /* ChallengeModernCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengeModernCell.h; sourceTree = "<group>"; };
 		2E75B7F31B3783AC00CA8EE4 /* ChallengeModernCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengeModernCell.m; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 		2EC7CA481B33D95600FCA38A /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
 		2EC7CA4B1B34921600FCA38A /* PFUser+findFacebookFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFUser+findFacebookFriends.h"; sourceTree = "<group>"; };
 		2EC7CA4C1B34921600FCA38A /* PFUser+findFacebookFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFUser+findFacebookFriends.m"; sourceTree = "<group>"; };
+		2ED808CD1B3E36D500C28AA6 /* PhotoPaperScissors.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PhotoPaperScissors.entitlements; sourceTree = "<group>"; };
 		2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DigitsKit.framework; sourceTree = "<group>"; };
 		2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DigitsKitResources.bundle; path = DigitsKit.framework/Versions/A/Resources/DigitsKitResources.bundle; sourceTree = "<group>"; };
 		2EF6C22C1B34EA9600616F17 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
@@ -242,6 +247,7 @@
 		2E116E261B2E985800A0D77F /* PhotoPaperScissors */ = {
 			isa = PBXGroup;
 			children = (
+				2ED808CD1B3E36D500C28AA6 /* PhotoPaperScissors.entitlements */,
 				2E116E2B1B2E985800A0D77F /* AppDelegate.h */,
 				2E116E2C1B2E985800A0D77F /* AppDelegate.m */,
 				2E6EFF611B2FFF5C006FEFC4 /* Challenge.h */,
@@ -252,13 +258,9 @@
 				2E116E2F1B2E985800A0D77F /* MainTabBarController.m */,
 				2EC7CA4A1B33E3BD00FCA38A /* Profile */,
 				2E116E311B2E985800A0D77F /* Main.storyboard */,
-				2E6EFFF01B30F415006FEFC4 /* PushPermissionController.h */,
-				2E6EFFF11B30F415006FEFC4 /* PushPermissionController.m */,
 				2E7E06A31B32752800A796CE /* Friend Page */,
 				2E7E06A21B32750B00A796CE /* Challenge Page */,
 				2EF6C2291B349CAC00616F17 /* Challenges */,
-				2E6EFF521B2FD1F9006FEFC4 /* UserListController.h */,
-				2E6EFF531B2FD1F9006FEFC4 /* UserListController.m */,
 				2E7E069D1B32079D00A796CE /* LaunchScreen.xib */,
 				2E116E341B2E985800A0D77F /* Images.xcassets */,
 				2E116E271B2E985800A0D77F /* Supporting Files */,
@@ -275,6 +277,7 @@
 		2E116E271B2E985800A0D77F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2E6F6B111B449EEB009130A5 /* intro.jpg */,
 				2E62E0C71B3DACEC00265978 /* montserrat */,
 				2E62E0C51B3DAC5700265978 /* Bariol_Regular.otf */,
 				2E116E281B2E985800A0D77F /* Info.plist */,
@@ -327,6 +330,9 @@
 				2EC7CA3F1B32A86900FCA38A /* PastChallengesController.m */,
 				2EC7CA411B32B09E00FCA38A /* ChallengeThemeController.h */,
 				2EC7CA421B32B09E00FCA38A /* ChallengeThemeController.m */,
+				2E2032171B432DD10083729A /* ChallengeThemeCell.h */,
+				2E2032181B432DD10083729A /* ChallengeThemeCell.m */,
+				2E20321A1B432DE70083729A /* ChallengeThemeCell.xib */,
 				2E75B7F21B3783AC00CA8EE4 /* ChallengeModernCell.h */,
 				2E75B7F31B3783AC00CA8EE4 /* ChallengeModernCell.m */,
 				2E75B7F01B37837F00CA8EE4 /* ChallengeModernCell.xib */,
@@ -355,6 +361,8 @@
 				2EC7CA481B33D95600FCA38A /* UIImage+fixOrientation.m */,
 				2E6EFFF31B3118E0006FEFC4 /* ProfileViewController.h */,
 				2E6EFFF41B3118E0006FEFC4 /* ProfileViewController.m */,
+				2E6F6B0E1B449A93009130A5 /* IntroViewController.h */,
+				2E6F6B0F1B449A93009130A5 /* IntroViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -478,7 +486,7 @@
 								enabled = 0;
 							};
 							com.apple.iCloud = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -520,9 +528,11 @@
 				2E75B7F11B37837F00CA8EE4 /* ChallengeModernCell.xib in Resources */,
 				2E62E0C61B3DAC8C00265978 /* Bariol_Regular.otf in Resources */,
 				2E62E0D41B3DACEC00265978 /* Montserrat-Regular.otf in Resources */,
+				2E6F6B121B449EEB009130A5 /* intro.jpg in Resources */,
 				2E62E0D01B3DACEC00265978 /* Montserrat-Black.otf in Resources */,
 				2E62E0D11B3DACEC00265978 /* Montserrat-Bold.otf in Resources */,
 				2E116E331B2E985800A0D77F /* Main.storyboard in Resources */,
+				2E20321B1B432DE70083729A /* ChallengeThemeCell.xib in Resources */,
 				2E62E0D71B3DACEC00265978 /* SIL Open Font License.txt in Resources */,
 				2E7E069E1B32079D00A796CE /* LaunchScreen.xib in Resources */,
 				2E116E351B2E985800A0D77F /* Images.xcassets in Resources */,
@@ -645,14 +655,14 @@
 				2E6EFF5D1B2FEBDF006FEFC4 /* PhotoViewController.m in Sources */,
 				2E116E301B2E985800A0D77F /* MainTabBarController.m in Sources */,
 				2EC7CA491B33D95600FCA38A /* UIImage+fixOrientation.m in Sources */,
-				2E6EFF541B2FD1F9006FEFC4 /* UserListController.m in Sources */,
 				2EB77FB71B38A6CB00E3484A /* CEMovieMaker.m in Sources */,
 				2E6EFF661B301586006FEFC4 /* ChallengeCell.m in Sources */,
 				2EC7CA461B32BAF400FCA38A /* ChallengeTheme.m in Sources */,
 				2E116E2D1B2E985800A0D77F /* AppDelegate.m in Sources */,
-				2E6EFFF21B30F415006FEFC4 /* PushPermissionController.m in Sources */,
 				2EC7CA431B32B09E00FCA38A /* ChallengeThemeController.m in Sources */,
 				2E6EFF691B3015E8006FEFC4 /* CurrentChallengesController.m in Sources */,
+				2E6F6B101B449A93009130A5 /* IntroViewController.m in Sources */,
+				2E2032191B432DD10083729A /* ChallengeThemeCell.m in Sources */,
 				2E116E2A1B2E985800A0D77F /* main.m in Sources */,
 				2E6EFFF51B3118E0006FEFC4 /* ProfileViewController.m in Sources */,
 				2E7E06A11B321F3700A796CE /* SignUpController.m in Sources */,
@@ -776,7 +786,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = PhotoPaperScissors/PhotoPaperScissors.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -798,7 +808,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = PhotoPaperScissors/PhotoPaperScissors.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (

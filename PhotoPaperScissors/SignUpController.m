@@ -114,6 +114,7 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
                                                              tutorial.title = @"Welcome to Rock Paper Photo!\nTo start please choose a nickname.";
                                                              tutorial.successMessage = @"That's a great name";
                                                              tutorial.speechSynthesisesDisabled = NO;
+                                                             tutorial.respectsSilentSwitch = YES;
     }];
     
     [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpPhotoTutorialString
@@ -124,6 +125,7 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
                                                              tutorial.successMessage = @"You look great.";
                                                              tutorial.speechSynthesisesDisabled = NO;
                                                              tutorial.dependentTutorialIdentifiers = @[SignUpNicknameTutorialString];
+                                                             tutorial.respectsSilentSwitch = YES;
                                                          }];
     
     [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpCompleteTutorialString
@@ -133,6 +135,7 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
                                                              tutorial.title = @"You're all done!\nIf you're ready, click sign up.";
                                                              tutorial.speechSynthesisesDisabled = NO;
                                                              tutorial.dependentTutorialIdentifiers = @[SignUpNicknameTutorialString, SignUpPhotoTutorialString];
+                                                             tutorial.respectsSilentSwitch = YES;
                                                          }];
 
 }
