@@ -236,6 +236,12 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                     PFFile *file = [PFFile fileWithName:@"profile.jpg" data:UIImageJPEGRepresentation(self.profileImage, 0.9)];
                     current[@"image"] = file;
                 }
+                if ([PFUser currentUser] && [FBSDKProfile currentProfile]) {
+                    PFUser *currentUser = [PFUser currentUser];
+                    FBSDKProfile *currentFBUser = [FBSDKProfile currentProfile];
+                    currentUser[@"FBID"] = currentFBUser.userID;
+                    currentUser[@"FacebookName"] = currentFBUser.name;
+                }
                 [current saveInBackground];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -247,6 +253,12 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         } else {
             self.newUser = NO;
             NSLog(@"User logged in through Facebook!");
+            if ([PFUser currentUser] && [FBSDKProfile currentProfile]) {
+                PFUser *currentUser = [PFUser currentUser];
+                FBSDKProfile *currentFBUser = [FBSDKProfile currentProfile];
+                currentUser[@"FBID"] = currentFBUser.userID;
+                currentUser[@"FacebookName"] = currentFBUser.name;
+            }
             [self dismissViewControllerAnimated:YES completion:nil];
         }
         
@@ -305,6 +317,13 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FBSDKProfileDidChangeNotification object:nil];
     
     FBSDKProfile *currentFBProfile = [FBSDKProfile currentProfile];
+    
+    if ([PFUser currentUser] && [FBSDKProfile currentProfile]) {
+        PFUser *currentUser = [PFUser currentUser];
+        FBSDKProfile *currentFBUser = [FBSDKProfile currentProfile];
+        currentUser[@"FBID"] = currentFBUser.userID;
+        currentUser[@"FacebookName"] = currentFBUser.name;
+    }
     
     if (self.nickname.text.length == 0) {
         if ([PFUser currentUser]) {
