@@ -372,7 +372,7 @@ NSMutableDictionary *cachedChallenges;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
             return;
         }
-        
+        /*
         //PUSH
         PFUser *otherUser = self.competitor;
         if ([otherUser.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
@@ -401,6 +401,7 @@ NSMutableDictionary *cachedChallenges;
                 return;
             }
         }];
+        */
     }];
 }
 

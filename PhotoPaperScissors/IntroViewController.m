@@ -15,6 +15,7 @@
     UIImage *introImage;
     UIImageView *introImageView;
     UIButton *getStarted;
+    BOOL alreadyPresenting;
 }
 
 @end
@@ -25,7 +26,8 @@
     [super viewDidLoad];
     
     
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    alreadyPresenting = NO;
     
     introImage = [UIImage imageNamed:@"intro"];
     if (introImage == nil) {
@@ -64,12 +66,8 @@
 
 - (IBAction)getItStarted
 {
-    [self performSegueWithIdentifier:@"makeProfile" sender:self];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

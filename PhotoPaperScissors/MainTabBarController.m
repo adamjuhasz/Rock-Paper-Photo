@@ -71,6 +71,7 @@
     [super viewDidAppear:animated];
     
     if ([PFUser currentUser] == nil) {
+        
         [self performSegueWithIdentifier:@"presentSignUp" sender:self];
     } else {
         NSLog(@"logged in as \"%@\" with username:\"%@\"", [[PFUser currentUser] objectForKey:@"nickname"], [[PFUser currentUser] username]);

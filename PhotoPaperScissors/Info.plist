@@ -38,7 +38,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>618</string>
+	<string>651</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -55,10 +55,9 @@
 				<key>KitInfo</key>
 				<dict>
 					<key>consumerKey</key>
-					<string>IN4eSYWqZm54nTHUcGcfdeEJG</string>
+					<string>r9qVo0a7CxENmzO6b2QSXjDDz</string>
 					<key>consumerSecret</key>
-					<string>Om1hNCXgL3mWoo9VyOHR7L0rCnrkAHJ6QVdJMzSUEm62mhe4bY
-Om1hNCXgL3mWoo9VyOHR7L0rCnrkAHJ6QVdJMzSUEm62mhe4bY</string>
+					<string>LW58LljF2FfXfMLDFzewSGc42KR0dDMQn3ff0pvfTLFH2Mf57c</string>
 				</dict>
 				<key>KitName</key>
 				<string>Digits</string>

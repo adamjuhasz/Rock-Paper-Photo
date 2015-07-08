@@ -13,6 +13,8 @@
 #import <Colours/Colours.h>
 #import <Flow/FLWTutorialController.h>
 #import <Flow/FLWTapGesture.h>
+#import <ClusterPrePermissions/ClusterPrePermissions.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import "FriendCollectionCell.h"
 #import "ChallengeThemeController.h"
@@ -105,6 +107,7 @@ static NSString * const FindFriendsTutorialString = @"io.ajuhasz.friends.find";
 {
     [super objectsDidLoad:error];
     
+    [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:FindFriendsTutorialString];
     if (self.objects.count == 0) {
         [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:FindFriendsTutorialString];
         [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:FindFriendsTutorialString
@@ -231,6 +234,34 @@ static NSString * const FindFriendsTutorialString = @"io.ajuhasz.friends.find";
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    
+    ClusterPrePermissions *permission = [ClusterPrePermissions sharedPermissions];
+    [permission showPushNotificationPermissionsWithType:UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge
+                                                  title:@"Want to know when your friends join?"
+                                                message:@"Want us to let you know when a friend of yours joins?"
+                                        denyButtonTitle:@"Not now"
+                                       grantButtonTitle:@"Yes!"
+                                      completionHandler:^(BOOL hasPermission, ClusterDialogResult userDialogResult, ClusterDialogResult systemDialogResult) {
+                                          if (hasPermission) {
+                                              [FBSDKAppEvents logEvent:@"permission"
+                                                            parameters:@{FBSDKAppEventParameterNameContentType: @"notifications",
+                                                                         FBSDKAppEventParameterNameSuccess: [NSNumber numberWithBool:YES]}];
+                                              return;
+                                          }
+                                          if (userDialogResult == ClusterDialogResultDenied) {
+                                              [FBSDKAppEvents logEvent:@"permission"
+                                                            parameters:@{FBSDKAppEventParameterNameContentType: @"notifications",
+                                                                         FBSDKAppEventParameterNameSuccess: [NSNumber numberWithBool:NO],
+                                                                         @"source": @"userDialog"}];
+                                          }
+                                          if (systemDialogResult == ClusterDialogResultDenied) {
+                                              [FBSDKAppEvents logEvent:@"permission"
+                                                            parameters:@{FBSDKAppEventParameterNameContentType: @"notifications",
+                                                                         FBSDKAppEventParameterNameSuccess: [NSNumber numberWithBool:NO],
+                                                                         @"source": @"systemDialog"}];
+                                          }
+                                      }];
+    
     if (buttonIndex == 0) {
         [PFUser findFacebookFriends];
         return;
@@ -267,19 +298,25 @@ static NSString * const FindFriendsTutorialString = @"io.ajuhasz.friends.find";
         if (error) {
             NSLog(@"Error with startContactsUploadWithTitle: %@", error);
             [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"startContactsUploadWithTitle" withError:error];
+            [self alertToDigitsCount:0];
             return;
         }
+        
         
         [friendFinder lookupContactMatchesWithCursor:nil completion:^(NSArray *matches, NSString *nextCursor, NSError *error) {
             if (error) {
                 NSLog(@"Error with lookupContactMatchesWithCurso: %@", error);
                 [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"lookupContactMatchesWithCursor" withError:error];
+                [self alertToDigitsCount:0];
                 return;
             }
             
-            NSLog(@"matches: %@", matches);
+            NSMutableArray *digitIds = [NSMutableArray array];
+            for (DGTUser *user in matches) {
+                [digitIds addObject:user.userID];
+            }
             PFQuery *userQuery = [PFUser query];
-            [userQuery whereKey:@"DigitID" containedIn:matches];
+            [userQuery whereKey:@"DigitID" containedIn:digitIds];
             [PFUser AJMakeFriendsWithUsersWithQuery:userQuery
                                      withCompletion:^(NSNumber *count) {
                                          [self alertToDigitsCount:count.integerValue];
@@ -290,7 +327,7 @@ static NSString * const FindFriendsTutorialString = @"io.ajuhasz.friends.find";
 
 - (void)alertToDigitsCount:(NSInteger)count
 {
-    NSString *string = [NSString stringWithFormat:@"Found %ld new friends through Facebook", (long)count];
+    NSString *string = [NSString stringWithFormat:@"Found %ld new friends in your contacts", (long)count];
     UIAlertView *alerting = [[UIAlertView alloc] initWithTitle:@"Contacts"
                                                        message:string
                                                       delegate:self
@@ -309,11 +346,11 @@ static NSString * const FindFriendsTutorialString = @"io.ajuhasz.friends.find";
         }
         
         MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
-        NSString *mesageString = [NSString stringWithFormat:@"Try out Rock Paper Photos! %@", @"http://appstore.link"];
+        NSString *mesageString = [NSString stringWithFormat:@"Try out Rock Paper Photos! %@", @"http://rockpaperphoto.me"];
         [messageController setBody:mesageString];
         
         messageController.messageComposeDelegate = self;
-        [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:messageController animated:YES completion:nil];
+        [self.tabBarController presentViewController:messageController animated:YES completion:nil];
     }
 }
 

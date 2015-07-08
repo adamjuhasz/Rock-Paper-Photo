@@ -45,7 +45,9 @@
                 return;
             }
             
+            NSMutableArray *newFriends = [NSMutableArray array];
             int friendsAdded = 0;
+            PFRelation *friends = [[PFUser currentUser] relationForKey:@"friends"];
             for (PFUser *user in usersMatchingCondition) {
                 BOOL friendsAlready = NO;
                 for (PFObject *friendship in existingFriendships) {
@@ -63,8 +65,13 @@
                 }
                 
                 [PFUser AJMakeFriendshipWith:user];
+                [newFriends addObject:user];
+                [friends addObject:user];
                 friendsAdded++;
             }
+            
+            [PFUser AJSendPushToUsers:newFriends];
+            [[PFUser currentUser] saveEventually:nil];
             
             if (completionBlock) {
                 completionBlock(@(friendsAdded));
@@ -85,12 +92,11 @@
     friendhsip[@"friendsWithId"] = theOtherUser.objectId;
     [friendhsip saveInBackgroundWithBlock:^(BOOL succeeded, NSError *PF_NULLABLE_S error){
         if (error) {
-            NSLog(@"Error with friendship creatio: %@", error);
+            NSLog(@"Error with friendship creation: %@", error);
             [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"saveInBackgroundWithBlock" withError:error];
             return;
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:@"newFriendsip" object:friendhsip];
-        [PFUser AJSendPushToUser:user];
     }];
     
 }
@@ -99,9 +105,8 @@
 {
     PFQuery *userQuery = [PFInstallation query];
     [userQuery whereKey:@"user" equalTo:user];
-    NSString *alert = [NSString stringWithFormat:@"Your Facebook friend %@(%@)) found you and has friended you",
-                       [[PFUser currentUser] objectForKey:@"nickname"],
-                       [[PFUser currentUser] objectForKey:@"FacebookName"]];
+    NSString *alert = [NSString stringWithFormat:@"Your friend %@ found you",
+                       [[PFUser currentUser] objectForKey:@"nickname"]];
     NSMutableDictionary *data = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                  @"alert", alert,
                                  nil];
@@ -115,6 +120,31 @@
             return;
         }
     }];
+}
+
++ (void)AJSendPushToUsers:(NSArray*)users
+{
+    PFQuery *userQuery = [PFInstallation query];
+    [userQuery whereKey:@"user" containedIn:users];
+
+    NSString *alert = [NSString stringWithFormat:@"Your friend %@ found you",
+                       [[PFUser currentUser] objectForKey:@"nickname"]];
+    NSMutableDictionary *data = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                 alert, @"alert",
+                                 @"friend", @"type",
+                                 [[PFUser currentUser] objectId], @"userid",
+                                 nil];
+    PFPush *push = [[PFPush alloc] init];
+    [push setData:data];
+    [push setQuery:userQuery];
+    [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError * __nullable error) {
+        if (error) {
+            NSLog(@"Error with push: %@", error);
+            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"sendPushInBackgroundWithBlock" withError:error];
+            return;
+        }
+    }];
+
 }
 
 @end

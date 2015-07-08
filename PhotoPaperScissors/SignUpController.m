@@ -30,6 +30,7 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
 
 @property BOOL isLoggedIn;
 @property BOOL newUser;
+@property BOOL shownIntro;
 
 @end
 
@@ -43,6 +44,7 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     self.profileImageView.layer.cornerRadius = self.profileImageView.bounds.size.width/2.0;
     self.isLoggedIn = NO;
     self.newUser = YES;
+    self.shownIntro = NO;
 
     CGFloat increaseRatio = 0.15;
     UIColor *baseColor = [UIColor colorFromHexString:@"#6F70FF"];
@@ -72,12 +74,12 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     
     RACSignal *signUpActiveSignal = [RACSignal combineLatest:@[validNickname, validPhoto]
                       reduce:^id(NSNumber *usernameValid, NSNumber *photoValid) {
-                          return @([usernameValid boolValue] && [photoValid boolValue]);
+                          return @((self.nickname.text.length > 0) && [photoValid boolValue]);
                       }];
     
     RACSignal *dismissSignal = [RACSignal combineLatest:@[validNickname, validPhoto, validSignup]
                                                       reduce:^id(NSNumber *usernameValid, NSNumber *photoValid, NSNumber *loggedIn) {
-                                                          return @([usernameValid boolValue] && [photoValid boolValue] && [loggedIn boolValue]);
+                                                          return @((self.nickname.text.length > 0) && [photoValid boolValue] && [loggedIn boolValue]);
                                                       }];
 
     self.nickname.delegate = self;
@@ -94,50 +96,62 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     }];
     
     [dismissSignal subscribeNext:^(NSNumber *readyToDismiss) {
-        if ([readyToDismiss boolValue]) {
-            //
+        NSLog(@"dismiss signal changed with name:%@ photo:%@ loggedIn:%@ final: %@", self.nickname.text, self.profileImage, self.isLoggedIn ? @"YES" : @"NO", readyToDismiss);
+        if ([readyToDismiss boolValue] == YES) {
+            [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpNicknameTutorialString];
+            [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpPhotoTutorialString];
+            [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpCompleteTutorialString];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
     
     [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpNicknameTutorialString];
     [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpPhotoTutorialString];
     [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpCompleteTutorialString];
-    
-    __weak typeof(self) weakSelf = self;
-    [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpNicknameTutorialString
-                                                                afterDelay:2.0
-                                                             withPredicate:^BOOL{
-                                                                 __strong typeof(self) strongSelf = weakSelf;
-                                                                 return strongSelf.nickname.text.length == 0;
-                                                             }
-                                                         constructionBlock:^(id<FLWTutorial> tutorial) {
-                                                             tutorial.title = @"Welcome to Rock Paper Photo!\nTo start please choose a nickname.";
-                                                             tutorial.successMessage = @"That's a great name";
-                                                             tutorial.speechSynthesisesDisabled = NO;
-                                                             tutorial.respectsSilentSwitch = YES;
-    }];
-    
-    [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpPhotoTutorialString
-                                                                afterDelay:2.0
-                                                             withPredicate:NULL
-                                                         constructionBlock:^(id<FLWTutorial> tutorial) {
-                                                             tutorial.title = @"Now let's pick a photo from your library or take a new photo.";
-                                                             tutorial.successMessage = @"You look great.";
-                                                             tutorial.speechSynthesisesDisabled = NO;
-                                                             tutorial.dependentTutorialIdentifiers = @[SignUpNicknameTutorialString];
-                                                             tutorial.respectsSilentSwitch = YES;
-                                                         }];
-    
-    [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpCompleteTutorialString
-                                                                afterDelay:2.0
-                                                             withPredicate:NULL
-                                                         constructionBlock:^(id<FLWTutorial> tutorial) {
-                                                             tutorial.title = @"You're all done!\nIf you're ready, click sign up.";
-                                                             tutorial.speechSynthesisesDisabled = NO;
-                                                             tutorial.dependentTutorialIdentifiers = @[SignUpNicknameTutorialString, SignUpPhotoTutorialString];
-                                                             tutorial.respectsSilentSwitch = YES;
-                                                         }];
+}
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.shownIntro == NO) {
+        self.shownIntro = YES;
+        [self performSegueWithIdentifier:@"showIntro" sender:self];
+    } else {
+        __weak typeof(self) weakSelf = self;
+        [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpNicknameTutorialString
+                                                                    afterDelay:2.0
+                                                                 withPredicate:^BOOL{
+                                                                     __strong typeof(self) strongSelf = weakSelf;
+                                                                     return strongSelf.nickname.text.length == 0;
+                                                                 }
+                                                             constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                                 tutorial.title = @"Welcome to Rock Paper Photo!\nTo start please choose a nickname.";
+                                                                 tutorial.successMessage = @"That's a great name";
+                                                                 tutorial.speechSynthesisesDisabled = NO;
+                                                                 tutorial.respectsSilentSwitch = YES;
+                                                             }];
+        
+        [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpPhotoTutorialString
+                                                                    afterDelay:2.0
+                                                                 withPredicate:NULL
+                                                             constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                                 tutorial.title = @"Now let's pick a photo from your library or take a new photo.";
+                                                                 tutorial.successMessage = @"You look great.";
+                                                                 tutorial.speechSynthesisesDisabled = NO;
+                                                                 tutorial.dependentTutorialIdentifiers = @[SignUpNicknameTutorialString];
+                                                                 tutorial.respectsSilentSwitch = YES;
+                                                             }];
+        
+        [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:SignUpCompleteTutorialString
+                                                                    afterDelay:2.0
+                                                                 withPredicate:NULL
+                                                             constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                                 tutorial.title = @"You're all done!\nIf you're ready, click sign up.";
+                                                                 tutorial.speechSynthesisesDisabled = NO;
+                                                                 tutorial.dependentTutorialIdentifiers = @[SignUpNicknameTutorialString, SignUpPhotoTutorialString];
+                                                                 tutorial.respectsSilentSwitch = YES;
+                                                             }];
+    }
 }
 
 - (IBAction)signUp:(id)sender
@@ -156,18 +170,18 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
             [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"signUpInBackgroundWithBlock" withError:error];
             return;
         }
-        self.isLoggedIn = YES;
-        
 
         [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration
                       parameters:[NSDictionary dictionaryWithObject:@"RPP" forKey:FBSDKAppEventParameterNameRegistrationMethod]];
 
-        UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
-        keychain.synchronizable = YES;
-        keychain[@"username"] = user.username;
-        keychain[@"password"] = user.password;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
+            keychain.synchronizable = YES;
+            keychain[@"username"] = user.username;
+            keychain[@"password"] = user.password;
+        });
 
-        [self dismissViewControllerAnimated:YES completion:nil];
+        self.isLoggedIn = YES;
     }];
 }
 
@@ -224,14 +238,12 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 }
                 [current saveInBackground];
             }
-            UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
-            keychain.synchronizable = YES;
-            keychain[@"username"] = user.username;
-            keychain[@"password"] = user.password;
-            
-            if (self.nickname.text.length > 0 && self.profileImage != nil) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
+                keychain.synchronizable = YES;
+                keychain[@"username"] = user.username;
+                keychain[@"password"] = user.password;
+            });
         } else {
             self.newUser = NO;
             NSLog(@"User logged in through Facebook!");
