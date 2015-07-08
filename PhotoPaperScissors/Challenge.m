@@ -53,7 +53,7 @@ NSMutableDictionary *cachedChallenges;
         self.photoSent = NO;
         self.challengeComplete = NO;
         
-        NSNumber *maxRounds = [[PFConfig currentConfig] objectForKey:@"maxRounds"];
+        NSNumber *maxRounds = nil; //[[PFConfig currentConfig] objectForKey:@"maxRounds"];
         if (maxRounds == nil) {
             maxRounds = @(3);
         }
@@ -340,6 +340,26 @@ NSMutableDictionary *cachedChallenges;
 
 - (void)save
 {
+    [self syncWithParseObject];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
+    
+    [self.parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *PF_NULLABLE_S error){
+        if (error){
+            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"saveInBackgroundWithBlock" withError:error];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
+            return;
+        }
+        [self syncWithParseObject];
+    }];
+}
+
+- (void)syncWithParseObject
+{
+    if (self.currentRoundNumber != [self.parseObject[@"roundNumber"] unsignedIntegerValue]) {
+        self.currentRoundNumber = [self.parseObject[@"roundNumber"] unsignedIntegerValue];
+    }
+    
     if ([self imageForPlayer:self.playerIAm forRound:self.currentRoundNumber]) {
         self.photoSent = YES;
     }
@@ -347,7 +367,7 @@ NSMutableDictionary *cachedChallenges;
     if ([self imageForPlayer:self.playerIAm forRound:self.currentRoundNumber] &&
         [self imageForPlayer:self.otherPlayerIs forRound:self.currentRoundNumber] &&
         (self.currentRoundNumber+1 <= self.maxRounds)) {
-            self.whosTurn = noonesTurn;
+        self.whosTurn = noonesTurn;
     }
     
     if (self.currentRoundNumber == self.maxRounds) {
@@ -363,46 +383,6 @@ NSMutableDictionary *cachedChallenges;
         self.challengeComplete = YES;
         self.whosTurn = noonesTurn;
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
-    
-    [self.parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *PF_NULLABLE_S error){
-        if (error){
-            [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"saveInBackgroundWithBlock" withError:error];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
-            return;
-        }
-        /*
-        //PUSH
-        PFUser *otherUser = self.competitor;
-        if ([otherUser.objectId isEqualToString:[[PFUser currentUser] objectId]]) {
-            
-        }
-        PFQuery *userQuery = [PFInstallation query];
-        [userQuery whereKey:@"user" equalTo:otherUser];
-        
-        NSMutableDictionary *data = [NSMutableDictionary dictionary];
-        [data setObject:@"A new round has started" forKey:@"alert"];
-        [data setObject:@"Increment" forKey:@"badge"];
-        
-        if (self.currentRoundNumber == 1 && self.playerIAm == Challenger) {
-            [data setObject:@"You've been challanged!" forKey:@"alert"];
-        }
-        if (self.currentRoundNumber == self.maxRounds && [self imageForPlayer:self.otherPlayerIs forRound:self.currentRoundNumber]) {
-            [data setObject:@"Challenge complete!" forKey:@"alert"];
-        }
-        PFPush *push = [[PFPush alloc] init];
-        [push setData:data];
-        [push setQuery:userQuery];
-        [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError * __nullable error) {
-            if (error) {
-                NSLog(@"Error with push: %@", error);
-                [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"sendPushInBackgroundWithBlock" withError:error];
-                return;
-            }
-        }];
-        */
-    }];
 }
 
 @end

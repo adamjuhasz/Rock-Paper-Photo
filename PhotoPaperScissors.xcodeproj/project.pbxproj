@@ -171,7 +171,6 @@
 		2EC7CA481B33D95600FCA38A /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
 		2EC7CA4B1B34921600FCA38A /* PFUser+findFacebookFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFUser+findFacebookFriends.h"; sourceTree = "<group>"; };
 		2EC7CA4C1B34921600FCA38A /* PFUser+findFacebookFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFUser+findFacebookFriends.m"; sourceTree = "<group>"; };
-		2ED808CD1B3E36D500C28AA6 /* PhotoPaperScissors.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PhotoPaperScissors.entitlements; sourceTree = "<group>"; };
 		2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DigitsKit.framework; sourceTree = "<group>"; };
 		2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DigitsKitResources.bundle; path = DigitsKit.framework/Versions/A/Resources/DigitsKitResources.bundle; sourceTree = "<group>"; };
 		2EF6C22C1B34EA9600616F17 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
@@ -247,7 +246,6 @@
 		2E116E261B2E985800A0D77F /* PhotoPaperScissors */ = {
 			isa = PBXGroup;
 			children = (
-				2ED808CD1B3E36D500C28AA6 /* PhotoPaperScissors.entitlements */,
 				2E116E2B1B2E985800A0D77F /* AppDelegate.h */,
 				2E116E2C1B2E985800A0D77F /* AppDelegate.m */,
 				2E6EFF611B2FFF5C006FEFC4 /* Challenge.h */,
@@ -486,7 +484,7 @@
 								enabled = 0;
 							};
 							com.apple.iCloud = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -786,7 +784,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = PhotoPaperScissors/PhotoPaperScissors.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -808,7 +805,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = PhotoPaperScissors/PhotoPaperScissors.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (

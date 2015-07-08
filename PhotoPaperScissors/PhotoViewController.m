@@ -255,8 +255,8 @@
     
     if (aChallenge.whosTurn == myTurn) {
         //show previous round
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Play Round"
-                                                                                  style:self.editButtonItem.style
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Play"
+                                                                                  style:UIBarButtonItemStyleDone
                                                                                  target:self
                                                                                  action:@selector(showCamera:)];
         return;
@@ -275,8 +275,8 @@
     
     if (aChallenge.whosTurn == noonesTurn && aChallenge.currentRoundNumber < aChallenge.maxRounds) {
             //Current round is complete
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next Round"
-                                                                                      style:self.editButtonItem.style
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Play"
+                                                                                      style:UIBarButtonItemStyleDone
                                                                                      target:self
                                                                                      action:@selector(nextRound:)];
         return;
@@ -322,10 +322,7 @@
 }
 
 - (IBAction)nextRound:(id)sender
-{
-    self.theChallenge.currentRoundNumber += 1;
-    [self.theChallenge save];
-    
+{    
     [self showCamera:sender];
 }
 
@@ -529,7 +526,7 @@
 {
     NSMutableArray *images = [NSMutableArray array];
     
-    NSArray *size = [[PFConfig currentConfig] objectForKey:@"SizeOfExportGif"];
+    NSArray *size = nil; //[[PFConfig currentConfig] objectForKey:@"SizeOfExportGif"];
     if (size == nil || size.count != 2) {
         size = @[@(470), @(836)];
     }

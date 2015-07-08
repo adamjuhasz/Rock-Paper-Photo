@@ -42,11 +42,11 @@
     
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    [PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
+    /*[PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
         if (error) {
             NSLog(@"Failed to fetch. Using Cached Config.");
         }
-    }];
+    }];*/
 
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     [FBSDKAppEvents activateApp];
@@ -65,7 +65,7 @@
     PFUser *currentUser = [PFUser currentUser];
     if (currentUser) {
         //[[UIApplication sharedApplication] registerForRemoteNotifications];
-        [PFConfig getConfigInBackground];
+        //[PFConfig getConfigInBackground];
     } else {
         UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
         keychain.synchronizable = YES;
