@@ -408,10 +408,10 @@
     dispatch_group_t group = dispatch_group_create();
     
     dispatch_group_enter(group);
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self createVideoFrom:images withCompletetion:^(NSError *error, NSURL *fileURL) {
             if (fileURL) {
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                dispatch_async(dispatch_get_main_queue(), ^{
                     ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
                     [al writeVideoAtPathToSavedPhotosAlbum:fileURL completionBlock:^(NSURL *assetURL, NSError *error) {
                         dispatch_group_leave(group);
@@ -429,24 +429,27 @@
         }];
     });
     
+    
     dispatch_group_enter(group);
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSData *gifData = [self createAnimatedGiFrom:images];
-        
-        ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-        [al writeImageDataToSavedPhotosAlbum:gifData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
-            dispatch_group_leave(group);
-            if (error) {
-                NSLog(@"Error %@", error);
-                [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
-                groupError = error;
-                return;
-            }
-        }];
+        NSLog(@"gif done");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+            [al writeImageDataToSavedPhotosAlbum:gifData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+                dispatch_group_leave(group);
+                if (error) {
+                    NSLog(@"Error %@", error);
+                    [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"writeImageDataToSavedPhotosAlbum" withError:error];
+                    groupError = error;
+                    return;
+                }
+            }];
+        });
     });
     
     
-    dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         if (completionBlock) {
             completionBlock(groupError);
         }
@@ -489,8 +492,6 @@
 
 - (NSData*)createAnimatedGiFrom:(NSArray*)images
 {
-    
-    
     NSDictionary *fileProperties = @{
                                      (__bridge id)kCGImagePropertyGIFDictionary: @{
                                              (__bridge id)kCGImagePropertyGIFLoopCount: @0, // 0 means loop forever

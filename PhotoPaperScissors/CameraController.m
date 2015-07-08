@@ -91,7 +91,28 @@
             self.imagePreview.hidden = NO;
         } else {
             self.imagePreview.hidden = YES;
+            self.navigationItem.rightBarButtonItem = nil;
         }
+    }];
+    
+    [RACObserve(self.jotViewController, state) subscribeNext:^(NSNumber *state) {
+        if (self.takenPhoto == nil) {
+            return;
+        }
+        
+        switch (_jotViewController.state) {
+            case JotViewStateEditingText:
+                self.navigationItem.rightBarButtonItem = nil;
+                break;
+                
+            default:
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
+                                                                                          style:UIBarButtonItemStyleDone
+                                                                                         target:self
+                                                                                         action:@selector(sendToServer)];
+                break;
+        }
+        
     }];
     
     [[RACObserve(self, theChallenge) filter:^BOOL(id value) {
@@ -328,17 +349,24 @@
     
     viewToScale.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 0.8, 0.8);
     
-    self.jotViewController.drawingColor = colorToBe;
-    self.jotViewController.textColor = colorToBe;
+    switch (self.jotViewController.state) {
+        case JotViewStateDefault:
+        case JotViewStateDrawing:
+            self.jotViewController.drawingColor = colorToBe;
+            break;
+            
+        case JotViewStateEditingText:
+        case JotViewStateText:
+            self.jotViewController.drawingColor = colorToBe;
+            self.jotViewController.textColor = colorToBe;
+            break;
+    }
 }
 
 - (IBAction)switchToDrawing:(id)sender
 {
     self.jotViewController.state = JotViewStateDrawing;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
-                                                                              style:self.editButtonItem.style
-                                                                             target:self
-                                                                             action:@selector(sendToServer)];
+
     NSDictionary *attributesBig = @{
                                  NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Medium" size:20]
                                  };
@@ -358,10 +386,7 @@
 - (IBAction)switchToTexting:(id)sender
 {
     self.jotViewController.state = JotViewStateEditingText;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done"
-                                                                              style:self.editButtonItem.style
-                                                                             target:self
-                                                                             action:@selector(switchToDrawing:)];
+
     NSDictionary *attributesBig = @{
                                     NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Medium" size:20]
                                     };
