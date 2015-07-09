@@ -11,7 +11,7 @@
 
 @implementation PFUser (MakeFriendships)
 
-+ (void)AJMakeFriendsWithUsersWithQuery:(PFQuery*)query withCompletion:(void (^)(NSNumber*))completionBlock
++ (void)AJMakeFriendsWithUsersWithQuery:(PFQuery*)query source:(NSString*)source withCompletion:(void (^)(NSNumber*))completionBlock
 {
     [query findObjectsInBackgroundWithBlock:^(NSArray *PF_NULLABLE_S usersMatchingCondition, NSError *PF_NULLABLE_S error){
         if (error) {
@@ -64,7 +64,7 @@
                     continue;
                 }
                 
-                [PFUser AJMakeFriendshipWith:user];
+                [PFUser AJMakeFriendshipWith:user source:source];
                 [newFriends addObject:user];
                 [friends addObject:user];
                 friendsAdded++;
@@ -80,7 +80,7 @@
     }];
 }
 
-+ (void)AJMakeFriendshipWith:(PFUser*)user
++ (void)AJMakeFriendshipWith:(PFUser*)user source:(NSString*)source
 {
     PFObject *friendhsip = [PFObject objectWithClassName:@"Relationship"];
     friendhsip[@"createdBy"] = [PFUser currentUser];
@@ -90,6 +90,7 @@
     PFUser *theOtherUser = (PFUser*)user;
     friendhsip[@"friendsWith"] = theOtherUser;
     friendhsip[@"friendsWithId"] = theOtherUser.objectId;
+    friendhsip[@"source"] = source;
     [friendhsip saveInBackgroundWithBlock:^(BOOL succeeded, NSError *PF_NULLABLE_S error){
         if (error) {
             NSLog(@"Error with friendship creation: %@", error);

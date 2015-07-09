@@ -90,6 +90,7 @@ AJFaceBookDelegate *AJAlertDelegate;
         PFQuery *userQuery = [PFUser query];
         [userQuery whereKey:@"FBID" containedIn:array];
         [PFUser AJMakeFriendsWithUsersWithQuery:userQuery
+                                         source:@"facebook"
                                  withCompletion:^(NSNumber *count) {
                                      [PFUser AJDisplayFacebookAlertWithCount:count.integerValue];
         }];

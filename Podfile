@@ -3,7 +3,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 
 def import_pods
-  pod 'NYXImagesKit'
+  pod 'NYXImagesKit', '2.3'
   pod 'ParseFacebookUtilsV4'
   pod 'ParseUI', :path => '../ParseUI-iOS'
 

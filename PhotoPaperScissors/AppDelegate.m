@@ -67,8 +67,8 @@
         //[[UIApplication sharedApplication] registerForRemoteNotifications];
         //[PFConfig getConfigInBackground];
     } else {
+#ifndef DEBUG
         UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
-        keychain.synchronizable = YES;
         
         NSString *username = keychain[@"username"];
         NSString *password = keychain[@"password"];
@@ -80,6 +80,7 @@
                 [keychain removeItemForKey:@"password"];
             }
         }
+#endif
     }
     
     return YES;

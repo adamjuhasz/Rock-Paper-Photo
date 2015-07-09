@@ -529,7 +529,7 @@
     
     NSArray *size = nil; //[[PFConfig currentConfig] objectForKey:@"SizeOfExportGif"];
     if (size == nil || size.count != 2) {
-        size = @[@(470), @(836)];
+        size = @[@(480), @(854)];
     }
     CGFloat width = [size[0] floatValue];
     CGFloat height = [size[1] floatValue];

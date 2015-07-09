@@ -15,6 +15,7 @@
 @property IBOutlet UIImageView *profileImageView;
 @property IBOutlet UITextField *nickname;
 @property IBOutlet UIButton *signUp;
+@property IBOutlet UIButton *facebookSignUp;
 
 @property IBOutlet UIView *takePhotoBackground;
 @property IBOutlet UIView *photoLibraryBackground;

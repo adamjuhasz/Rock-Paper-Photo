@@ -16,7 +16,7 @@
 -(UIImage*)cropToSize:(CGSize)newSize usingMode:(NYXCropMode)cropMode
 {
 	const CGSize size = self.size;
-	CGFloat x, y;
+	int x, y;
 	switch (cropMode)
 	{
 		case NYXCropModeTopLeft:

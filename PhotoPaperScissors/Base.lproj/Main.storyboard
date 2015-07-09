@@ -219,6 +219,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="facebookSignUp" destination="0r9-Yj-zfL" id="Zl4-Sq-zTm"/>
                         <outlet property="facebookSignUpBackground" destination="5ke-Ej-6od" id="B5o-ac-Thc"/>
                         <outlet property="nickname" destination="50l-F1-Myi" id="igV-O9-YWs"/>
                         <outlet property="nicknameLine" destination="b3m-2e-c4I" id="OVY-pG-YKe"/>

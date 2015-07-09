@@ -31,6 +31,7 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
 @property BOOL isLoggedIn;
 @property BOOL newUser;
 @property BOOL shownIntro;
+@property BOOL attemptingSignUp;
 
 @end
 
@@ -45,6 +46,7 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     self.isLoggedIn = NO;
     self.newUser = YES;
     self.shownIntro = NO;
+    self.attemptingSignUp = NO;
 
     CGFloat increaseRatio = 0.15;
     UIColor *baseColor = [UIColor colorFromHexString:@"#6F70FF"];
@@ -68,13 +70,17 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
         return @(image != nil);
     }];
     
+    RACSignal *signupInPrograss = [RACObserve(self, attemptingSignUp) map:^id(NSNumber *attempting) {
+        return @([attempting boolValue]);
+    }];
+    
     RACSignal *validSignup = [RACObserve(self, isLoggedIn) map:^id(NSNumber *loggedIn) {
         return loggedIn;
     }];
     
-    RACSignal *signUpActiveSignal = [RACSignal combineLatest:@[validNickname, validPhoto]
-                      reduce:^id(NSNumber *usernameValid, NSNumber *photoValid) {
-                          return @((self.nickname.text.length > 0) && [photoValid boolValue]);
+    RACSignal *signUpActiveSignal = [RACSignal combineLatest:@[validNickname, validPhoto, signupInPrograss]
+                      reduce:^id(NSNumber *usernameValid, NSNumber *photoValid, NSNumber *attempting) {
+                          return @((self.nickname.text.length > 0) && [photoValid boolValue] && ![attempting boolValue]);
                       }];
     
     RACSignal *dismissSignal = [RACSignal combineLatest:@[validNickname, validPhoto, validSignup]
@@ -92,11 +98,22 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
         } else {
             [self.signUp setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
         }
-        
+    }];
+    
+    [signupInPrograss subscribeNext:^(NSNumber *attempting) {
+        BOOL isActive = !attempting.boolValue;
+        self.facebookSignUp.enabled = isActive;
+        if (isActive) {
+            [self.facebookSignUp setTitleColor:[UIColor colorWithWhite:1.0 alpha:1.0] forState:UIControlStateNormal];
+        } else {
+            [self.facebookSignUp setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
+        }
+        self.nickname.userInteractionEnabled = isActive;
+        self.profileImageView.userInteractionEnabled = isActive;
     }];
     
     [dismissSignal subscribeNext:^(NSNumber *readyToDismiss) {
-        NSLog(@"dismiss signal changed with name:%@ photo:%@ loggedIn:%@ final: %@", self.nickname.text, self.profileImage, self.isLoggedIn ? @"YES" : @"NO", readyToDismiss);
+        //NSLog(@"dismiss signal changed with name:%@ photo:%@ loggedIn:%@ final: %@", self.nickname.text, self.profileImage, self.isLoggedIn ? @"YES" : @"NO", readyToDismiss);
         if ([readyToDismiss boolValue] == YES) {
             [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpNicknameTutorialString];
             [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpPhotoTutorialString];
@@ -154,8 +171,10 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     }
 }
 
-- (IBAction)signUp:(id)sender
+- (IBAction)signUp:(UIButton*)sender
 {
+    self.attemptingSignUp = YES;
+    
     [FBSDKAppEvents logEvent:@"SignUpStart"];
     PFUser *user = [PFUser user];
     user.username = [self randomStringWithLength:30];
@@ -165,6 +184,7 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     user[@"nickname"] = self.nickname.text;
     
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        self.attemptingSignUp = NO;
         if (error) {
             NSLog(@"%@", error);
             [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"signUpInBackgroundWithBlock" withError:error];
@@ -176,7 +196,6 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
 
         dispatch_async(dispatch_get_main_queue(), ^{
             UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
-            keychain.synchronizable = YES;
             keychain[@"username"] = user.username;
             keychain[@"password"] = user.password;
         });
@@ -187,9 +206,8 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
 
 NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
--(NSString *) randomStringWithLength: (int) len {
-    
-    NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
+-(NSString *) randomStringWithLength:(int)len {
+    NSMutableString *randomString = [NSMutableString stringWithCapacity:len];
     [randomString appendString:@"Gen"];
     
     for (int i=0; i<len; i++) {
@@ -201,14 +219,15 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     
 - (IBAction)signUpWithFaceBook:(id)sender
 {
-    self.nickname.userInteractionEnabled = NO;
-    self.profileImageView.userInteractionEnabled = NO;
+    self.attemptingSignUp = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookProfileUpdated) name:FBSDKProfileDidChangeNotification object:nil];
     
     NSArray *permissions = @[@"public_profile", @"user_friends"];
     
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
+        self.attemptingSignUp = NO;
+        
         if (error) {
             [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"logInInBackgroundWithReadPermissions" withError:error];
             return;
@@ -246,7 +265,6 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
-                keychain.synchronizable = YES;
                 keychain[@"username"] = user.username;
                 keychain[@"password"] = user.password;
             });

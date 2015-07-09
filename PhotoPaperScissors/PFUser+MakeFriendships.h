@@ -10,6 +10,6 @@
 
 @interface PFUser (MakeFriendships)
 
-+ (void)AJMakeFriendsWithUsersWithQuery:(PFQuery*)query withCompletion:(void (^)(NSNumber*))completionBlock;
++ (void)AJMakeFriendsWithUsersWithQuery:(PFQuery*)query source:(NSString*)source withCompletion:(void (^)(NSNumber*))completionBlock;
 
 @end

@@ -318,6 +318,7 @@ static NSString * const FindFriendsTutorialString = @"io.ajuhasz.friends.find";
             PFQuery *userQuery = [PFUser query];
             [userQuery whereKey:@"DigitID" containedIn:digitIds];
             [PFUser AJMakeFriendsWithUsersWithQuery:userQuery
+                                     source:@"digits"
                                      withCompletion:^(NSNumber *count) {
                                          [self alertToDigitsCount:count.integerValue];
                                      }];
