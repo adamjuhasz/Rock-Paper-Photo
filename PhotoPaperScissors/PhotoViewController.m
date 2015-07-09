@@ -150,6 +150,19 @@
     CGSize imageSize = CGSizeMake(self.embededPhotos.bounds.size.width, ceilf(self.embededPhotos.bounds.size.height/2.0));
     NSLog(@"size: %@, frame: %@", NSStringFromCGSize(imageSize), NSStringFromCGRect(self.embededPhotos.frame));
     
+    CGPoint offset = CGPointMake(0, 0);
+    
+    if (aChallenge.theme.coverphoto) {
+        UIImageView *coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0+offset.x, 0+offset.y, self.embededPhotos.bounds.size.width, self.embededPhotos.bounds.size.height)];
+        coverImageView.image = aChallenge.theme.coverphoto;
+        coverImageView.backgroundColor = [UIColor blackColor];
+        coverImageView.contentMode = UIViewContentModeScaleAspectFill;
+        coverImageView.clipsToBounds = YES;
+        [self.embededPhotos addSubview:coverImageView];
+        [photoImageViews addObject:coverImageView];
+        offset.x = CGRectGetMaxX(coverImageView.frame);
+    }
+    
     for (int i=0; i<aChallenge.currentRoundNumber; i++) {
         if (i == (aChallenge.currentRoundNumber - 1) && aChallenge.whosTurn == myTurn) {
             break;
@@ -162,7 +175,7 @@
             if (CGSizeEqualToSize(myImage.size, imageSize) == NO) {
                 NSLog(@"two sized different: myImage=%@ and %@", NSStringFromCGSize(myImage.size), NSStringFromCGSize(imageSize));
             }
-            UIImageView *myImageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*imageSize.width, 0, imageSize.width, imageSize.height)];
+            UIImageView *myImageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*imageSize.width+offset.x, 0, imageSize.width, imageSize.height)];
             myImageView.backgroundColor = [UIColor blackColor];
             myImageView.contentMode = UIViewContentModeScaleAspectFill;
             myImageView.image = myImage;
@@ -179,7 +192,7 @@
             if (CGSizeEqualToSize(theirImage.size, imageSize) == NO) {
                 NSLog(@"two sized different: theirIamge=%@ and %@", NSStringFromCGSize(theirImage.size), NSStringFromCGSize(imageSize));
             }
-            UIImageView *theirImageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*imageSize.width, imageSize.height-1, imageSize.width, imageSize.height)];
+            UIImageView *theirImageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*imageSize.width+offset.x, imageSize.height-1, imageSize.width, imageSize.height)];
             theirImageView.backgroundColor = [UIColor blackColor];
             theirImageView.contentMode = UIViewContentModeScaleAspectFill;
             theirImageView.image = theirImage;
@@ -202,7 +215,7 @@
                 shareToTwitter.backgroundColor = [UIColor blackColor];
                 shareToTwitter.clipsToBounds = YES;
                 shareToTwitter.layer.cornerRadius = shareToTwitter.bounds.size.width/2.0;
-                shareToTwitter.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.8), self.embededPhotos.bounds.size.height/2.0);
+                shareToTwitter.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.8) + offset.x, self.embededPhotos.bounds.size.height/2.0);
                 [self.embededPhotos addSubview:shareToTwitter];
                 [photoRoundIndicatorViews addObject:shareToTwitter];
                 
@@ -212,7 +225,7 @@
                 shareToSMS.backgroundColor = [UIColor blackColor];
                 shareToSMS.clipsToBounds = YES;
                 shareToSMS.layer.cornerRadius = shareToSMS.bounds.size.width/2.0;
-                shareToSMS.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.6), self.embededPhotos.bounds.size.height/2.0);
+                shareToSMS.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.6) + offset.x, self.embededPhotos.bounds.size.height/2.0);
                 [self.embededPhotos addSubview:shareToSMS];
                 [photoRoundIndicatorViews addObject:shareToSMS];
                 
@@ -222,7 +235,7 @@
                 shareToFB.backgroundColor = [UIColor blackColor];
                 shareToFB.clipsToBounds = YES;
                 shareToFB.layer.cornerRadius = shareToFB.bounds.size.width/2.0;
-                shareToFB.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.4), self.embededPhotos.bounds.size.height/2.0);
+                shareToFB.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.4) + offset.x, self.embededPhotos.bounds.size.height/2.0);
                 [self.embededPhotos addSubview:shareToFB];
                 [photoRoundIndicatorViews addObject:shareToFB];
                 
@@ -232,7 +245,7 @@
                 shareToCameraRoll.backgroundColor = [UIColor blackColor];
                 shareToCameraRoll.clipsToBounds = YES;
                 shareToCameraRoll.layer.cornerRadius = shareToCameraRoll.bounds.size.width/2.0;
-                shareToCameraRoll.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.2), self.embededPhotos.bounds.size.height/2.0);
+                shareToCameraRoll.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.2) + offset.x, self.embededPhotos.bounds.size.height/2.0);
                 [self.embededPhotos addSubview:shareToCameraRoll];
                 [photoRoundIndicatorViews addObject:shareToCameraRoll];
             } else {
@@ -240,7 +253,7 @@
                 roundIndicator.backgroundColor = [UIColor blackColor];
                 roundIndicator.clipsToBounds = YES;
                 roundIndicator.layer.cornerRadius = roundIndicator.bounds.size.width/2.0;
-                roundIndicator.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.5), self.embededPhotos.bounds.size.height/2.0);
+                roundIndicator.center = CGPointMake(self.embededPhotos.bounds.size.width * (i+0.5) + offset.x, self.embededPhotos.bounds.size.height/2.0);
                 [self.embededPhotos addSubview:roundIndicator];
                 [photoRoundIndicatorViews addObject:roundIndicator];
                 
