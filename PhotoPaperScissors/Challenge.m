@@ -251,7 +251,7 @@ NSMutableDictionary *cachedChallenges;
             return;
         }
         
-        NSLog(@"File for round %ld uploaded", roundNumber);
+        NSLog(@"File for round %ld uploaded", (unsigned long)roundNumber);
     }];
     
     NSMutableDictionary *roundDictionary = [self.imageRounds objectAtIndex:roundNumber-1];

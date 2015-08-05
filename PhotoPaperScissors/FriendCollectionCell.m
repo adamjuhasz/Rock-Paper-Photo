@@ -56,6 +56,7 @@
 
 - (void)prepareForReuse
 {
+    self.profileImageView.file = nil;
     self.profileImageView.image = nil;
     self.nickname.text = @"";
 }

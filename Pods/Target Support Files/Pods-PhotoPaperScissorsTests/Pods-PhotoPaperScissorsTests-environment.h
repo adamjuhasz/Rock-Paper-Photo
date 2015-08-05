@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_AFDropdownNotification 1
 #define COCOAPODS_VERSION_PATCH_AFDropdownNotification 0
 
+// AppInvites
+#define COCOAPODS_POD_AVAILABLE_AppInvites
+#define COCOAPODS_VERSION_MAJOR_AppInvites 1
+#define COCOAPODS_VERSION_MINOR_AppInvites 0
+#define COCOAPODS_VERSION_PATCH_AppInvites 1
+
 // Bolts
 #define COCOAPODS_POD_AVAILABLE_Bolts
 #define COCOAPODS_VERSION_MAJOR_Bolts 1
@@ -89,6 +95,84 @@
 #define COCOAPODS_VERSION_MAJOR_Flow 1
 #define COCOAPODS_VERSION_MINOR_Flow 6
 #define COCOAPODS_VERSION_PATCH_Flow 3
+
+// GPPCore
+#define COCOAPODS_POD_AVAILABLE_GPPCore
+#define COCOAPODS_VERSION_MAJOR_GPPCore 1
+#define COCOAPODS_VERSION_MINOR_GPPCore 8
+#define COCOAPODS_VERSION_PATCH_GPPCore 0
+
+// Google/AppInvite
+#define COCOAPODS_POD_AVAILABLE_Google_AppInvite
+#define COCOAPODS_VERSION_MAJOR_Google_AppInvite 1
+#define COCOAPODS_VERSION_MINOR_Google_AppInvite 0
+#define COCOAPODS_VERSION_PATCH_Google_AppInvite 7
+
+// Google/Core
+#define COCOAPODS_POD_AVAILABLE_Google_Core
+#define COCOAPODS_VERSION_MAJOR_Google_Core 1
+#define COCOAPODS_VERSION_MINOR_Google_Core 0
+#define COCOAPODS_VERSION_PATCH_Google_Core 7
+
+// Google/SignIn
+#define COCOAPODS_POD_AVAILABLE_Google_SignIn
+#define COCOAPODS_VERSION_MAJOR_Google_SignIn 1
+#define COCOAPODS_VERSION_MINOR_Google_SignIn 0
+#define COCOAPODS_VERSION_PATCH_Google_SignIn 7
+
+// GoogleAppUtilities
+#define COCOAPODS_POD_AVAILABLE_GoogleAppUtilities
+#define COCOAPODS_VERSION_MAJOR_GoogleAppUtilities 1
+#define COCOAPODS_VERSION_MINOR_GoogleAppUtilities 0
+#define COCOAPODS_VERSION_PATCH_GoogleAppUtilities 0
+
+// GoogleAuthUtilities
+#define COCOAPODS_POD_AVAILABLE_GoogleAuthUtilities
+#define COCOAPODS_VERSION_MAJOR_GoogleAuthUtilities 1
+#define COCOAPODS_VERSION_MINOR_GoogleAuthUtilities 0
+#define COCOAPODS_VERSION_PATCH_GoogleAuthUtilities 1
+
+// GoogleInterchangeUtilities
+#define COCOAPODS_POD_AVAILABLE_GoogleInterchangeUtilities
+#define COCOAPODS_VERSION_MAJOR_GoogleInterchangeUtilities 1
+#define COCOAPODS_VERSION_MINOR_GoogleInterchangeUtilities 0
+#define COCOAPODS_VERSION_PATCH_GoogleInterchangeUtilities 0
+
+// GoogleNetworkingUtilities
+#define COCOAPODS_POD_AVAILABLE_GoogleNetworkingUtilities
+#define COCOAPODS_VERSION_MAJOR_GoogleNetworkingUtilities 1
+#define COCOAPODS_VERSION_MINOR_GoogleNetworkingUtilities 0
+#define COCOAPODS_VERSION_PATCH_GoogleNetworkingUtilities 0
+
+// GoogleParsingUtilities
+#define COCOAPODS_POD_AVAILABLE_GoogleParsingUtilities
+#define COCOAPODS_VERSION_MAJOR_GoogleParsingUtilities 1
+#define COCOAPODS_VERSION_MINOR_GoogleParsingUtilities 0
+#define COCOAPODS_VERSION_PATCH_GoogleParsingUtilities 0
+
+// GooglePlusUtilities
+#define COCOAPODS_POD_AVAILABLE_GooglePlusUtilities
+#define COCOAPODS_VERSION_MAJOR_GooglePlusUtilities 1
+#define COCOAPODS_VERSION_MINOR_GooglePlusUtilities 0
+#define COCOAPODS_VERSION_PATCH_GooglePlusUtilities 0
+
+// GoogleSignIn
+#define COCOAPODS_POD_AVAILABLE_GoogleSignIn
+#define COCOAPODS_VERSION_MAJOR_GoogleSignIn 2
+#define COCOAPODS_VERSION_MINOR_GoogleSignIn 2
+#define COCOAPODS_VERSION_PATCH_GoogleSignIn 0
+
+// GoogleSymbolUtilities
+#define COCOAPODS_POD_AVAILABLE_GoogleSymbolUtilities
+#define COCOAPODS_VERSION_MAJOR_GoogleSymbolUtilities 1
+#define COCOAPODS_VERSION_MINOR_GoogleSymbolUtilities 0
+#define COCOAPODS_VERSION_PATCH_GoogleSymbolUtilities 0
+
+// GoogleUtilities
+#define COCOAPODS_POD_AVAILABLE_GoogleUtilities
+#define COCOAPODS_VERSION_MAJOR_GoogleUtilities 1
+#define COCOAPODS_VERSION_MINOR_GoogleUtilities 0
+#define COCOAPODS_VERSION_PATCH_GoogleUtilities 1
 
 // JazzHands
 #define COCOAPODS_POD_AVAILABLE_JazzHands

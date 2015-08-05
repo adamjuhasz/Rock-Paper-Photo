@@ -10,6 +10,8 @@
 #import "Challenge.h"
 #import "CameraController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <Crashlytics/Answers.h>
+#import <FBSDKCoreKit/FBSDKAppEvents.h>
 #import "ChallengeThemeCell.h"
 
 @interface ChallengeThemeController ()
@@ -226,6 +228,7 @@
     
     PFObject *object = [self.objects objectAtIndex:indexPath.row];
     self.selectedTheme = object;
+    
     [self performSegueWithIdentifier:@"showCamera" sender:object];
 }
 
@@ -236,7 +239,8 @@
         
         ChallengeTheme *theme = [ChallengeTheme challengeThemeForParseObject:self.selectedTheme];
         
-        [FBSDKAppEvents logEvent:@"challengeThemeChoose"
+        [Answers logCustomEventWithName:@"Select challenge theme" customAttributes:@{@"name": theme.name}];
+        [FBSDKAppEvents logEvent:@"Select challenge theme"
                       parameters:@{FBSDKAppEventParameterNameContentID: self.selectedTheme.objectId,
                                    @"name": theme.name}];
         

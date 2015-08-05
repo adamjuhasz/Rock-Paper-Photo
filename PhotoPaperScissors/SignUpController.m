@@ -18,6 +18,7 @@
 #import <UICKeyChainStore/UICKeyChainStore.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Colours/Colours.h>
+#import <Crashlytics/Answers.h>
 
 #import "PFAnalytics+PFAnalytics_TrackError.h"
 #import "UIImage+fixOrientation.h"
@@ -125,6 +126,9 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpNicknameTutorialString];
     [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpPhotoTutorialString];
     [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpCompleteTutorialString];
+    
+    [Answers logCustomEventWithName:@"Sign Up Page Viewed" customAttributes:@{}];
+    [FBSDKAppEvents logEvent:@"SignUpStart"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -175,7 +179,6 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
 {
     self.attemptingSignUp = YES;
     
-    [FBSDKAppEvents logEvent:@"SignUpStart"];
     PFUser *user = [PFUser user];
     user.username = [self randomStringWithLength:30];
     user.password = [self randomStringWithLength:20];
@@ -188,11 +191,13 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
         if (error) {
             NSLog(@"%@", error);
             [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"signUpInBackgroundWithBlock" withError:error];
+            [Answers logSignUpWithMethod:@"button" success:@(NO) customAttributes:@{@"error": error}];
             return;
         }
 
         [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration
                       parameters:[NSDictionary dictionaryWithObject:@"RPP" forKey:FBSDKAppEventParameterNameRegistrationMethod]];
+        [Answers logSignUpWithMethod:@"button" success:@(YES) customAttributes:nil];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"iCloud.io.ajuhasz.rpp.icloud"];
@@ -230,6 +235,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         
         if (error) {
             [PFAnalytics trackErrorIn:NSStringFromSelector(_cmd) withComment:@"logInInBackgroundWithReadPermissions" withError:error];
+            [Answers logSignUpWithMethod:@"facebook" success:@(NO) customAttributes:@{@"error": error}];
             return;
         }
         
@@ -237,6 +243,7 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
             NSLog(@"Uh oh. The user cancelled the Facebook login.");
             self.nickname.userInteractionEnabled = YES;
             self.profileImageView.userInteractionEnabled = YES;
+            [Answers logSignUpWithMethod:@"facebook" success:@(NO) customAttributes:@{@"error": @"cancelled"}];
             return;
         }
         
@@ -245,7 +252,10 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
         [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpCompleteTutorialString];
         
         if (user.isNew) {
-            NSLog(@"User signed up and logged in through Facebook!");
+            [Answers logSignUpWithMethod:@"facebook" success:@(YES) customAttributes:nil];
+            [FBSDKAppEvents logEvent:FBSDKAppEventNameCompletedRegistration
+                          parameters:[NSDictionary dictionaryWithObject:@"facebook" forKey:FBSDKAppEventParameterNameRegistrationMethod]];
+            
             PFUser *current = [PFUser currentUser];
             if (current) {
                 if (self.nickname.text) {
@@ -269,8 +279,11 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
                 keychain[@"password"] = user.password;
             });
         } else {
+            [Answers logLoginWithMethod:@"facebook" success:@(YES) customAttributes:nil];
+            [FBSDKAppEvents logEvent:@"login"
+                          parameters:[NSDictionary dictionaryWithObject:@"facebook" forKey:FBSDKAppEventParameterNameRegistrationMethod]];
+            
             self.newUser = NO;
-            NSLog(@"User logged in through Facebook!");
             if ([PFUser currentUser] && [FBSDKProfile currentProfile]) {
                 PFUser *currentUser = [PFUser currentUser];
                 FBSDKProfile *currentFBUser = [FBSDKProfile currentProfile];
@@ -286,10 +299,17 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 - (IBAction)getNewImage:(id)sender
 {
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            NSForegroundColorAttributeName : [UIColor blackColor],
+                                                            NSFontAttributeName : [UIFont fontWithName:@"Montserrat-Light" size:18.0]
+                                                            }];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor blackColor]];
+    
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePickerController.delegate = (id)self;
-    [self presentViewController:imagePickerController animated:YES completion:nil];
+    [self presentViewController:imagePickerController animated:YES completion:^{
+    }];
 }
 
 - (IBAction)getNewPhoto:(id)sender
@@ -305,7 +325,9 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     }
     
     imagePickerController.delegate = (id)self;
-    [self presentViewController:imagePickerController animated:YES completion:nil];
+    [self presentViewController:imagePickerController animated:YES completion:^{
+        
+    }];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -318,8 +340,27 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     UIImage *normalized = cropped;
     self.profileImage = normalized;
     
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                            NSFontAttributeName : [UIFont fontWithName:@"Montserrat-Light" size:18.0]
+                                                            }];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+    
     [picker dismissViewControllerAnimated:YES completion:^{
         [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:SignUpPhotoTutorialString];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                            NSFontAttributeName : [UIFont fontWithName:@"Montserrat-Light" size:18.0]
+                                                            }];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }];
 }
 

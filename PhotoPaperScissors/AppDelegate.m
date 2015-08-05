@@ -14,6 +14,7 @@
 #import <DigitsKit/DigitsKit.h>
 #import <Crashlytics/Crashlytics.h>
 #import <UICKeyChainStore/UICKeyChainStore.h>
+#import <Crashlytics/Answers.h>
 
 
 @interface AppDelegate ()
@@ -30,23 +31,25 @@
     // https://parse.com/docs/ios_guide#localdatastore/iOS
     //[Parse enableLocalDatastore];
     
-#ifdef DEBUG
-    [Fabric with:@[DigitsKit]];
-#else
     [Fabric with:@[CrashlyticsKit, DigitsKit]];
-#endif
     
     // Initialize Parse.
     [Parse setApplicationId:@"0QyTxtWAQ1ZS8vEGGb3igejidgXHsB5WgAb48ojL"
                   clientKey:@"iwRyJje13olG5OgZpXcXN0Xj4QxYJ4JmgOiEdhoD"];
     
     // [Optional] Track statistics around application opens.
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    /*[PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
-        if (error) {
-            NSLog(@"Failed to fetch. Using Cached Config.");
+    if (application.applicationState != UIApplicationStateBackground) {
+        // Track an app open here if we launch with a push, unless
+        // "content_available" was used to trigger a background push (introduced
+        // in iOS 7). In that case, we skip tracking here to avoid double
+        // counting the app-open.
+        BOOL preBackgroundPush = ![application respondsToSelector:@selector(backgroundRefreshStatus)];
+        BOOL oldPushHandlerOnly = ![self respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+        BOOL noPushPayload = ![launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) {
+            [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
         }
-    }];*/
+    }
 
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     [FBSDKAppEvents activateApp];
@@ -55,8 +58,14 @@
     [PFTwitterUtils initializeWithConsumerKey:@"MswULT6L6nMik6uyIszhgZ6C8"
                                consumerSecret:@"zmrMnAIbt5v6vZHaOb87GxDDjnVM7uZk2luIuXTGVZM1okMzwm"];
     
-    //[[PFUser currentUser] fetch];
+    NSError* configureError;
+    [[GGLContext sharedInstance] configureWithError: &configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
     
+    [GIDSignIn sharedInstance].delegate = self;
+
+    
+    //[[PFUser currentUser] fetch];
     [[UINavigationBar appearance] setTitleTextAttributes: @{
                                                             NSForegroundColorAttributeName : [UIColor whiteColor],
                                                             NSFontAttributeName : [UIFont fontWithName:@"Montserrat-Light" size:18.0]
@@ -78,11 +87,20 @@
             if (errorLoggingIn) {
                 [keychain removeItemForKey:@"username"];
                 [keychain removeItemForKey:@"password"];
+            } else {
+                [FBSDKAppEvents logEvent:@"login"
+                              parameters:[NSDictionary dictionaryWithObject:@"keychain" forKey:FBSDKAppEventParameterNameRegistrationMethod]];
+                [Answers logLoginWithMethod:@"keychain"
+                                    success:@(YES)
+                           customAttributes:nil];
             }
         }
 #endif
     }
     
+    if ([[UIApplication sharedApplication] currentUserNotificationSettings]) {
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
     return YES;
 }
 
@@ -124,11 +142,12 @@
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-
+    NSLog(@"FAILED to register for notifications");
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+    
     if ([userInfo objectForKey:@"badge"]) {
         NSInteger badgeNumber = [[userInfo objectForKey:@"badge"] integerValue];
         [application setApplicationIconBadgeNumber:badgeNumber];
@@ -143,19 +162,63 @@
         [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
     }
     
+    [Answers logCustomEventWithName:@"Open Push" customAttributes:userInfo];
+    
     if (completionHandler) {
         completionHandler(UIBackgroundFetchResultNoData);
     }
 }
 
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    if (application.applicationState == UIApplicationStateInactive) {
+        // The application was just brought from the background to the foreground,
+        // so we consider the app as having been "opened by a push notification."
+        [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+    }
+    if ([userInfo objectForKey:@"badge"]) {
+        NSInteger badgeNumber = [[userInfo objectForKey:@"badge"] integerValue];
+        [application setApplicationIconBadgeNumber:badgeNumber];
+    }
+    
+    if (application.applicationState == UIApplicationStateActive) {
+        //show a notification
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateChallanges" object:nil];
+    }
+    
+    [Answers logCustomEventWithName:@"Open Push" customAttributes:userInfo];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    if  ([[FBSDKApplicationDelegate sharedInstance] application:application
                                                           openURL:url
                                                 sourceApplication:sourceApplication
-                                                       annotation:annotation];
+                                                       annotation:annotation])
+    {
+        return YES;
+    }
+    
+    if ([[GIDSignIn sharedInstance] handleURL:url
+                               sourceApplication:sourceApplication
+                                   annotation:annotation])
+    {
+        return YES;
+    }
+    
+    [Answers logCustomEventWithName:@"Open From URL" customAttributes:@{@"URL": url,
+                                                                        @"Source Application": sourceApplication}];
+    
+    return YES;
+}
+
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    // Perform any operations on signed in user here.
+    [Answers logCustomEventWithName:@"Social Network Connect" customAttributes:@{@"Network": @"Google"}];
+}
+
+- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    // Perform any operations when the user disconnects from app here.
+    // ...
 }
 
 @end

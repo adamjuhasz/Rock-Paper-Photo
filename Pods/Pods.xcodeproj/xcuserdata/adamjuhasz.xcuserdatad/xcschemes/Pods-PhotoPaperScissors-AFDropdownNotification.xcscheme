@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "196009DFB13C7B4DAAD60F74"
+               BlueprintIdentifier = "51BE34BE4703D27E60AE72F0"
                BuildableName = "libPods-PhotoPaperScissors-AFDropdownNotification.a"
                BlueprintName = "Pods-PhotoPaperScissors-AFDropdownNotification"
                ReferencedContainer = "container:Pods.xcodeproj">

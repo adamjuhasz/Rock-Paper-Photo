@@ -14,6 +14,9 @@
 #import <ParseUI/ParseUI.h>
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import <Crashlytics/Answers.h>
+#import <FBSDKCoreKit/FBSDKAppEvents.h>
+#import <Colours/Colours.h>
 
 #import "PhotoViewController.h"
 
@@ -78,6 +81,7 @@
     self.jotViewController.state = JotViewStateDrawing;
     self.jotViewController.drawingColor = self.blackColorSwatch.backgroundColor;
     self.jotViewController.textColor = self.blackColorSwatch.backgroundColor;
+    self.jotViewController.fitOriginalFontSizeToViewWidth = YES;
     
     [self addChildViewController:self.jotViewController];
     self.jotViewController.view.frame = self.cameraContainer.bounds;
@@ -311,6 +315,9 @@
     [self.theChallenge setImage:drawnOnImage ForPlayer:self.theChallenge.playerIAm forRound:self.theChallenge.currentRoundNumber];
     [self.theChallenge save];
     
+    [Answers logCustomEventWithName:@"Send Photo" customAttributes:@{}];
+     [FBSDKAppEvents logEvent:@"Send Photo" parameters:@{}];
+    
     [self performSegueWithIdentifier:@"showPhotos" sender:nil];
 }
 
@@ -361,6 +368,8 @@
             self.jotViewController.textColor = colorToBe;
             break;
     }
+    [Answers logCustomEventWithName:@"Switch color " customAttributes:@{@"color": [colorToBe hexString]}];
+    [FBSDKAppEvents logEvent:@"Switch color" parameters:@{@"color": [colorToBe hexString]}];
 }
 
 - (IBAction)switchToDrawing:(id)sender
@@ -380,7 +389,8 @@
     [self.clearDrawButton setAttributedTitle:[[NSAttributedString alloc] initWithString:[self.clearDrawButton titleForState:UIControlStateNormal] attributes:attributesSmall]
                                      forState:UIControlStateNormal];
     
-    
+    [Answers logCustomEventWithName:@"Switch to drawing mode" customAttributes:nil];
+    [FBSDKAppEvents logEvent:@"Switch to drawing mode" parameters:@{}];
 }
 
 - (IBAction)switchToTexting:(id)sender
@@ -400,6 +410,8 @@
                                      forState:UIControlStateNormal];
     [self.clearDrawButton setAttributedTitle:[[NSAttributedString alloc] initWithString:[self.clearDrawButton titleForState:UIControlStateNormal] attributes:attributesSmall]
                                     forState:UIControlStateNormal];
+    [Answers logCustomEventWithName:@"Switch to text mode" customAttributes:nil];
+    [FBSDKAppEvents logEvent:@"Switch to text mode" parameters:@{}];
 }
 
 - (IBAction)clearDrawing:(id)sender

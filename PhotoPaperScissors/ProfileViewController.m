@@ -36,6 +36,20 @@
         return @(text.length > 0);
     }];
     
+    RACSignal *newPhoto = [RACObserve(self, aNewProfileImage) map:^id(UIImage *newImage) {
+        return @(newImage != nil);
+    }];
+    
+    [[RACSignal merge:@[validNickname, newPhoto]] subscribeNext:^(NSNumber *valid) {
+        if (valid.boolValue) {
+            self.saveButton.enabled = YES;
+            [self.saveButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:1.0] forState:UIControlStateNormal];
+        } else {
+            self.saveButton.enabled = NO;
+            [self.saveButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
+        }
+    }];
+    
     [validNickname subscribeNext:^(NSNumber *signupActive) {
         BOOL isActive = [signupActive boolValue];
         self.saveButton.enabled = isActive;
@@ -57,16 +71,16 @@
     self.nickname.textColor = [UIColor whiteColor];
     
     RAC(self.tabBarBackground,backgroundColor) = RACObserve(self.saveBackground, backgroundColor);
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     
     PFUser *currentUser = [PFUser currentUser];
     self.profileImage.file = currentUser[@"image"];
     [self.profileImage loadInBackground];
     self.nickname.text = currentUser[@"nickname"];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -86,6 +100,9 @@
 - (IBAction)save:(id)sender
 {
     PFUser *currentUser = [PFUser currentUser];
+    if (currentUser == nil)
+        return;
+    
     if ([currentUser[@"nickname"] isEqualToString:self.nickname.text] == NO) {
         currentUser[@"nickname"] = self.nickname.text;
         [FBSDKAppEvents logEvent:@"profileNewNickname"];
@@ -93,16 +110,26 @@
     if (self.aNewProfileImage) {
         PFFile *file = [PFFile fileWithName:@"profile.jpg" data:UIImageJPEGRepresentation(self.aNewProfileImage, 0.9)];
         currentUser[@"image"] = file;
+        [FBSDKAppEvents logEvent:@"profileNewPhoto"];
+        self.aNewProfileImage = nil;
     }
     [currentUser saveInBackground];
 }
 
 - (IBAction)getNewImage:(id)sender
 {
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            NSForegroundColorAttributeName : [UIColor blackColor],
+                                                            NSFontAttributeName : [UIFont fontWithName:@"Montserrat-Light" size:18.0]
+                                                            }];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor blackColor]];
+    
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePickerController.delegate = (id)self;
-    [self presentViewController:imagePickerController animated:YES completion:nil];
+    [self presentViewController:imagePickerController animated:YES completion:^{
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    }];
 
 }
 - (IBAction)getNewPhoto:(id)sender
@@ -124,6 +151,7 @@
     UIImage *scaled = [rotated scaleToSize:CGSizeMake(300, 300) usingMode:NYXResizeModeAspectFill];
     UIImage *cropped = [scaled cropToSize:CGSizeMake(300, 300) usingMode:NYXCropModeBottomCenter];
     UIImage *normalized = cropped;
+    self.profileImage.file = nil;
     self.profileImage.image = normalized;
     self.aNewProfileImage = normalized;
     
@@ -155,8 +183,26 @@
             break;
     }
     
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                            NSFontAttributeName : [UIFont fontWithName:@"Montserrat-Light" size:18.0]
+                                                            }];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+    
     [picker dismissViewControllerAnimated:YES completion:^{
-        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                            NSFontAttributeName : [UIFont fontWithName:@"Montserrat-Light" size:18.0]
+                                                            }];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }];
 }
 

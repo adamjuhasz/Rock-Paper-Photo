@@ -1,5 +1,9 @@
 PODS:
   - AFDropdownNotification (1.1)
+  - AppInvites (1.0.1):
+    - GoogleInterchangeUtilities (~> 1.0)
+    - GooglePlusUtilities (~> 1.0)
+    - GPPCore (~> 1.8)
   - Bolts (1.2.0):
     - Bolts/AppLinks (= 1.2.0)
     - Bolts/Tasks (= 1.2.0)
@@ -25,6 +29,46 @@ PODS:
   - FBSDKShareKit (4.3.0):
     - FBSDKCoreKit
   - Flow (1.6.3)
+  - Google/AppInvite (1.0.7):
+    - AppInvites (~> 1.0)
+    - Google/Core
+    - Google/SignIn
+  - Google/Core (1.0.7):
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.0)
+  - Google/SignIn (1.0.7):
+    - Google/Core
+    - GoogleSignIn (~> 2.0)
+  - GoogleAppUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleAuthUtilities (1.0.1):
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleInterchangeUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleNetworkingUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleParsingUtilities (1.0.0):
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
+  - GooglePlusUtilities (1.0.0):
+    - GoogleParsingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleSignIn (2.2.0):
+    - GoogleAppUtilities (~> 1)
+    - GoogleAuthUtilities (~> 1)
+    - GoogleNetworkingUtilities (~> 1)
+    - GoogleUtilities (~> 1)
+  - GoogleSymbolUtilities (1.0.0)
+  - GoogleUtilities (1.0.1):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GPPCore (1.8.0):
+    - GoogleAppUtilities (~> 1.0)
+    - GoogleAuthUtilities (~> 1.0)
+    - GoogleParsingUtilities (~> 1.0)
+    - GoogleSignIn (~> 2)
+    - GoogleUtilities (~> 1.0)
   - JazzHands (2.0.0)
   - jot (0.1.3):
     - Masonry (~> 0.6.1)
@@ -58,13 +102,14 @@ DEPENDENCIES:
   - FastttCamera
   - FBSDKShareKit
   - Flow
+  - Google/AppInvite
   - JazzHands
   - jot (from `https://github.com/adamjuhasz/jot.git`)
   - NSURLConnection-Blocks
-  - NYXImagesKit
+  - NYXImagesKit (= 2.3)
   - ParseFacebookUtilsV4
   - ParseUI (from `../ParseUI-iOS`)
-  - ReactiveCocoa (~> 2)
+  - ReactiveCocoa (~> 2.5)
   - ReactiveTableViewBinding
   - UICKeyChainStore
 
@@ -91,6 +136,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFDropdownNotification: 4125b132cd03a8d6293e09ce000aeef55ced1364
+  AppInvites: 96be11f61542289c55eb0386e84f2eadd7f08e23
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
   ClusterPrePermissions: f7c18aed36022662a05048fffb44b24b9e796cff
   Colours: 0afd4c3429656880fd4cff350ca3bf0ab86ca348
@@ -99,6 +145,17 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 6bc2f8f2628c3b6d2e346762fff8cb55cfd3a58d
   FBSDKShareKit: 15806d69714de39d5dff2c84645f4cde23f5876e
   Flow: e93229ef5331fd4f61522507a6bbc254ca6310b6
+  Google: 875f5a8ade86dd02e36586e4a54814843938c7f6
+  GoogleAppUtilities: c01c6a5671e9da8b9d690fdaec5959d6c2aac699
+  GoogleAuthUtilities: 049ffd3a297cdffd271451b82fd4e75304f15ef3
+  GoogleInterchangeUtilities: fe088bea8c936218e52324a004d279c4491b9d65
+  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
+  GoogleParsingUtilities: 9158b059542c2314294cda34fb0384d80456e030
+  GooglePlusUtilities: 380340708aa89c1743735273b293d11db5524f6a
+  GoogleSignIn: c45d8d1a873784a3283b4f47f331dc06d8a727b6
+  GoogleSymbolUtilities: a7b0feed1fe667c8d5e647177938d0ecd62d6948
+  GoogleUtilities: e3475cd4d45134221d2f3f3626095a1c49b62041
+  GPPCore: 6d0e6065648220c2b1e8a3faa3b0bbdfae682c46
   JazzHands: 00002e9b1284e7fc1ac6555012e81b8942477242
   jot: 86da410a8bd544860166d5617707f3b2a8f0e4a1
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa

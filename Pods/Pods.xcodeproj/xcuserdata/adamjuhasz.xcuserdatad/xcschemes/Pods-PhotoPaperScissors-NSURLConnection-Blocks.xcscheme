@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "85F140C95567F2F2BB567F3A"
+               BlueprintIdentifier = "E1EADDEA48DB6B9D0E2D163A"
                BuildableName = "libPods-PhotoPaperScissors-NSURLConnection-Blocks.a"
                BlueprintName = "Pods-PhotoPaperScissors-NSURLConnection-Blocks"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -19,6 +19,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <MessageUI/MessageUI.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
+#import <Crashlytics/Answers.h>
 
 #import "PhotoViewController.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
@@ -75,6 +76,13 @@
     [[RACObserve(self, theChallenge) filter:^BOOL(id value) {
         return (value != nil);
     }] subscribeNext:^(Challenge *aChallenge) {
+        [Answers logContentViewWithName:aChallenge.challengeName
+                            contentType:@"challenge"
+                              contentId:aChallenge.parseObject.objectId
+                       customAttributes:
+                          @{ @"round": @(aChallenge.currentRoundNumber),
+                             @"complete": @(aChallenge.challengeComplete)}];
+        
         [self loadChallenge:aChallenge];
     }];
     
@@ -92,6 +100,7 @@
     
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleButtons:)];
     [self.embededPhotos addGestureRecognizer:tapper];
+
 }
 
 - (void)loadChallenge:(Challenge*)aChallenge
@@ -404,6 +413,8 @@
             }
         }];
     } else {
+        [Answers logShareWithMethod:@"facebook" contentName:self.theChallenge.challengeName contentType:@"challenge" contentId:self.theChallenge.parseObject.objectId customAttributes:@{@"success": @(NO)}];
+        
         UIAlertView *alerting = [[UIAlertView alloc] initWithTitle:@"Sorry"
                                                            message:@"You must have the Facebook app installed to upload video"
                                                           delegate:nil
@@ -490,17 +501,31 @@
         return;
     }
     
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            NSForegroundColorAttributeName : [UIColor blackColor],
+                                                            NSFontAttributeName : [UIFont fontWithName:@"Montserrat-Light" size:18.0]
+                                                            }];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor blackColor]];
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
-    [messageController setBody:self.theChallenge.challengeName];
+    [messageController setBody:[NSString stringWithFormat:@"%@ challange with %@ from Rock Paper Photo!", self.theChallenge.challengeName, self.theChallenge.competitor[@"nickname"]]];
     [messageController addAttachmentData:gifData typeIdentifier:@"com.compuserve.gif" filename:@"rpp.gif"];
     
     messageController.messageComposeDelegate = self;
-    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:messageController animated:YES completion:nil];
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:messageController animated:YES completion:^{
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    }];
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
-    [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissViewControllerAnimated:YES completion:nil];
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                            NSFontAttributeName : [UIFont fontWithName:@"Montserrat-Light" size:18.0]
+                                                            }];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissViewControllerAnimated:YES completion:^{
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    }];
 }
 
 - (NSData*)createAnimatedGiFrom:(NSArray*)images
@@ -692,17 +717,17 @@
 
 - (void)sharer:(id<FBSDKSharing>)sharer didCompleteWithResults:(NSDictionary *)results
 {
-    
+    [Answers logShareWithMethod:@"facebook" contentName:self.theChallenge.challengeName contentType:@"challenge" contentId:self.theChallenge.parseObject.objectId customAttributes:@{@"success": @(YES)}];
 }
 
 - (void)sharer:(id<FBSDKSharing>)sharer didFailWithError:(NSError *)error
 {
-    
+    [Answers logShareWithMethod:@"facebook" contentName:self.theChallenge.challengeName contentType:@"challenge" contentId:self.theChallenge.parseObject.objectId customAttributes:@{@"success": @(NO)}];
 }
 
 - (void)sharerDidCancel:(id<FBSDKSharing>)sharer
 {
-    
+    [Answers logShareWithMethod:@"facebook" contentName:self.theChallenge.challengeName contentType:@"challenge" contentId:self.theChallenge.parseObject.objectId customAttributes:@{@"success": @(NO)}];
 }
 
 @end

@@ -10,6 +10,7 @@
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
+#import <Crashlytics/Answers.h>
 
 #import "PFAnalytics+PFAnalytics_TrackError.h"
 #import "PFUser+MakeFriendships.h"
@@ -23,10 +24,11 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
+        [Answers logInviteWithMethod:@"facebook" customAttributes:@{}];
+        
         FBSDKAppInviteContent *content =[[FBSDKAppInviteContent alloc] init];
-        content.appLinkURL = [NSURL URLWithString:@"https://fb.me/1061624507343343"];
-        //optionally set previewImageURL
-        //content.appInvitePreviewImageURL = [NSURL URLWithString:@"https://www.mydomain.com/my_invite_image.jpg"];
+        content.appLinkURL = [NSURL URLWithString:@"https://fb.me/1072099979629129"];
+        content.appInvitePreviewImageURL = [NSURL URLWithString:@"http://rockpaperphoto.me/invite.png"];
         
         // present the dialog. Assumes self implements protocol `FBSDKAppInviteDialogDelegate`
         [FBSDKAppInviteDialog showWithContent:content delegate:self];
@@ -36,6 +38,9 @@
 - (void)appInviteDialog:(FBSDKAppInviteDialog *)appInviteDialog didCompleteWithResults:(NSDictionary *)results
 {
     NSLog(@"appInviteDialog: %@", results);
+    NSMutableDictionary *dict = [results mutableCopy];
+    [dict setObject:@"Find Button" forKey:@"source"];
+    [Answers logCustomEventWithName:@"Facebook Invite" customAttributes:dict];
 }
 
 - (void)appInviteDialog:(FBSDKAppInviteDialog *)appInviteDialog didFailWithError:(NSError *)error

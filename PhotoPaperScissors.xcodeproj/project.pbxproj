@@ -67,6 +67,8 @@
 		2EC7CA461B32BAF400FCA38A /* ChallengeTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA451B32BAF400FCA38A /* ChallengeTheme.m */; };
 		2EC7CA491B33D95600FCA38A /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA481B33D95600FCA38A /* UIImage+fixOrientation.m */; };
 		2EC7CA4D1B34921600FCA38A /* PFUser+findFacebookFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC7CA4C1B34921600FCA38A /* PFUser+findFacebookFriends.m */; };
+		2EE47F211B6FF31300CAFF76 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47F201B6FF31300CAFF76 /* GoogleService-Info.plist */; };
+		2EE47F221B6FF31300CAFF76 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47F201B6FF31300CAFF76 /* GoogleService-Info.plist */; };
 		2EF6C22D1B34EA9600616F17 /* DigitsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */; };
 		2EF6C22E1B34EA9600616F17 /* DigitsKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */; };
 		2EF6C22F1B34EA9600616F17 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF6C22C1B34EA9600616F17 /* TwitterCore.framework */; };
@@ -171,6 +173,7 @@
 		2EC7CA481B33D95600FCA38A /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
 		2EC7CA4B1B34921600FCA38A /* PFUser+findFacebookFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFUser+findFacebookFriends.h"; sourceTree = "<group>"; };
 		2EC7CA4C1B34921600FCA38A /* PFUser+findFacebookFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFUser+findFacebookFriends.m"; sourceTree = "<group>"; };
+		2EE47F201B6FF31300CAFF76 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2EF6C22A1B34EA9600616F17 /* DigitsKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DigitsKit.framework; sourceTree = "<group>"; };
 		2EF6C22B1B34EA9600616F17 /* DigitsKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DigitsKitResources.bundle; path = DigitsKit.framework/Versions/A/Resources/DigitsKitResources.bundle; sourceTree = "<group>"; };
 		2EF6C22C1B34EA9600616F17 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
@@ -275,6 +278,7 @@
 		2E116E271B2E985800A0D77F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2EE47F201B6FF31300CAFF76 /* GoogleService-Info.plist */,
 				2E6F6B111B449EEB009130A5 /* intro.jpg */,
 				2E62E0C71B3DACEC00265978 /* montserrat */,
 				2E62E0C51B3DAC5700265978 /* Bariol_Regular.otf */,
@@ -529,6 +533,7 @@
 				2E6F6B121B449EEB009130A5 /* intro.jpg in Resources */,
 				2E62E0D01B3DACEC00265978 /* Montserrat-Black.otf in Resources */,
 				2E62E0D11B3DACEC00265978 /* Montserrat-Bold.otf in Resources */,
+				2EE47F211B6FF31300CAFF76 /* GoogleService-Info.plist in Resources */,
 				2E116E331B2E985800A0D77F /* Main.storyboard in Resources */,
 				2E20321B1B432DE70083729A /* ChallengeThemeCell.xib in Resources */,
 				2E62E0D71B3DACEC00265978 /* SIL Open Font License.txt in Resources */,
@@ -543,6 +548,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE47F221B6FF31300CAFF76 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -792,7 +798,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PhotoPaperScissors/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -813,7 +819,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PhotoPaperScissors/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

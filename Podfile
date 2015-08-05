@@ -20,6 +20,8 @@ def import_pods
   pod 'FBSDKShareKit'
   pod 'JazzHands'
   pod 'UICKeyChainStore'
+  pod 'Google/AppInvite'
+  pod 'Google/SignIn'
 end
 
 target 'PhotoPaperScissorsTests', :exclusive => true do
