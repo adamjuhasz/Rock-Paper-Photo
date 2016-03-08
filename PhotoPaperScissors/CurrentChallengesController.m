@@ -324,6 +324,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     
+    if (indexPath.row >= self.objects.count) {
+        return;
+    }
+    
     PFObject *object = [self.objects objectAtIndex:indexPath.row];
     Challenge *newChallenge = [Challenge challengeForParseObject:object];
     

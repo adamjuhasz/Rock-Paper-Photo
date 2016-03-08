@@ -20,12 +20,15 @@
 #import <MessageUI/MessageUI.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
 #import <Crashlytics/Answers.h>
+#import <Flow/FLWTutorialController.h>
+#import <Flow/FLWTapGesture.h>
 
 #import "PhotoViewController.h"
 #import "PFAnalytics+PFAnalytics_TrackError.h"
 #import "CEMovieMaker.h"
 
 #define TimePerFrameInSeconds 2.0
+static NSString * const PlayNextRoundTutorialString = @"io.ajuhasz.photoviewwe.playround";
 
 @interface PhotoViewController () <MFMessageComposeViewControllerDelegate, FBSDKSharingDelegate>
 
@@ -281,6 +284,16 @@
                                                                                   style:UIBarButtonItemStyleDone
                                                                                  target:self
                                                                                  action:@selector(showCamera:)];
+        [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:PlayNextRoundTutorialString
+                                                                    afterDelay:1.0
+                                                                 withPredicate:NULL
+                                                             constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                                 tutorial.title = @"Ready to play the next round?";
+                                                                 tutorial.speechSynthesisesDisabled = NO;
+                                                                 tutorial.position = FLWTutorialPositionBottom;
+                                                                 tutorial.gesture =  [[FLWTapGesture alloc] initWithTouchPoint:CGPointMake(self.view.bounds.size.width - 28, 44) inView:self.navigationController.view];
+                                                                 tutorial.respectsSilentSwitch = YES;
+                                                             }];
         return;
     }
     
@@ -296,11 +309,21 @@
     }
     
     if (aChallenge.whosTurn == noonesTurn && aChallenge.currentRoundNumber < aChallenge.maxRounds) {
-            //Current round is complete
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Play"
+        //Current round is complete
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Play"
                                                                                       style:UIBarButtonItemStyleDone
                                                                                      target:self
                                                                                      action:@selector(nextRound:)];
+        [[FLWTutorialController sharedInstance] scheduleTutorialWithIdentifier:PlayNextRoundTutorialString
+                                                                    afterDelay:1.0
+                                                                 withPredicate:NULL
+                                                             constructionBlock:^(id<FLWTutorial> tutorial) {
+                                                                 tutorial.title = @"Ready to play the next round?";
+                                                                 tutorial.speechSynthesisesDisabled = NO;
+                                                                 tutorial.position = FLWTutorialPositionBottom;
+                                                                 tutorial.gesture =  [[FLWTapGesture alloc] initWithTouchPoint:CGPointMake(self.view.bounds.size.width - 28, 44) inView:self.navigationController.view];
+                                                                 tutorial.respectsSilentSwitch = YES;
+                                                             }];
         return;
     }
 
@@ -350,6 +373,7 @@
 
 - (IBAction)showCamera:(id)sender
 {
+    [[FLWTutorialController sharedInstance] completeTutorialWithIdentifier:PlayNextRoundTutorialString];
     [self performSegueWithIdentifier:@"showCamera" sender:self];
 }
 

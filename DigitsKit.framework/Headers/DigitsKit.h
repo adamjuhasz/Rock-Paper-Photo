@@ -24,6 +24,7 @@
 
 #import "DGTContacts.h"
 #import "DGTContactsUploadResult.h"
+#import "DGTCompletionViewController.h"
 #import "DGTErrors.h"
 #import "DGTOAuthSigning.h"
 #import "DGTSessionUpdateDelegate.h"

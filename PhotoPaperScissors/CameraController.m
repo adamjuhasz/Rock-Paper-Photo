@@ -316,7 +316,7 @@
     [self.theChallenge save];
     
     [Answers logCustomEventWithName:@"Send Photo" customAttributes:@{}];
-     [FBSDKAppEvents logEvent:@"Send Photo" parameters:@{}];
+    [FBSDKAppEvents logEvent:@"Send Photo" parameters:@{}];
     
     [self performSegueWithIdentifier:@"showPhotos" sender:nil];
 }

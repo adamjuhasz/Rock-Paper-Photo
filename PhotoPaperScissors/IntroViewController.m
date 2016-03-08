@@ -9,6 +9,8 @@
 #import "IntroViewController.h"
 
 #import <Colours/Colours.h>
+#import <Crashlytics/Answers.h>
+#import <FBSDKCoreKit/FBSDKAppEvents.h>
 
 @interface IntroViewController ()
 {
@@ -16,6 +18,7 @@
     UIImageView *introImageView;
     UIButton *getStarted;
     BOOL alreadyPresenting;
+    NSDate *openDate;
 }
 
 @end
@@ -53,8 +56,20 @@
     [self.mainScroller setContentSize:CGSizeMake(self.mainScroller.bounds.size.width, CGRectGetMaxY(getStarted.frame) + 10)];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [Answers logCustomEventWithName:@"Intro page opened" customAttributes:@{}];
+    [FBSDKAppEvents logEvent:@"Intro page opened"];
+    
+    openDate = [NSDate date];
+}
+
 - (void)viewDidLayoutSubviews
 {
+    [super viewDidLayoutSubviews];
+    
     CGFloat zoomScale = self.mainScroller.bounds.size.width / introImage.size.width;
     introImageView.frame = CGRectMake(0, 0, self.mainScroller.bounds.size.width, introImage.size.height * zoomScale);
     [self.mainScroller setContentSize:introImageView.bounds.size];
@@ -66,6 +81,10 @@
 
 - (IBAction)getItStarted
 {
+    NSDictionary *params = @{@"time open": @(-1* [openDate timeIntervalSinceNow])};
+    [Answers logCustomEventWithName:@"Intro page closed" customAttributes:params];
+    [FBSDKAppEvents logEvent:@"Intro page closed" parameters:params];
+    
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

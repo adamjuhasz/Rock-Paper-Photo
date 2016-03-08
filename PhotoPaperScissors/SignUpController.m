@@ -127,13 +127,14 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpPhotoTutorialString];
     [[FLWTutorialController sharedInstance] resetTutorialWithIdentifier:SignUpCompleteTutorialString];
     
-    [Answers logCustomEventWithName:@"Sign Up Page Viewed" customAttributes:@{}];
-    [FBSDKAppEvents logEvent:@"SignUpStart"];
+    [Answers logCustomEventWithName:@"Sign Up Page Opened" customAttributes:@{}];
+    [FBSDKAppEvents logEvent:@"Sign Up Page Opened"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     if (self.shownIntro == NO) {
         self.shownIntro = YES;
         [self performSegueWithIdentifier:@"showIntro" sender:self];
@@ -186,6 +187,10 @@ static NSString * const SignUpCompleteTutorialString = @"io.ajuhasz.signup.compl
     user[@"image"] = file;
     user[@"nickname"] = self.nickname.text;
     
+    NSDictionary *params = @{@"method": @"button"};
+    [Answers logCustomEventWithName:@"Sign up start" customAttributes:params];
+    [FBSDKAppEvents logEvent:@"Sign up start" parameters:params];
+    
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         self.attemptingSignUp = NO;
         if (error) {
@@ -229,6 +234,10 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookProfileUpdated) name:FBSDKProfileDidChangeNotification object:nil];
     
     NSArray *permissions = @[@"public_profile", @"user_friends"];
+    
+    NSDictionary *params = @{@"method": @"facebook"};
+    [Answers logCustomEventWithName:@"Sign up start" customAttributes:params];
+    [FBSDKAppEvents logEvent:@"Sign up start" parameters:params];
     
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
         self.attemptingSignUp = NO;
@@ -310,6 +319,10 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     imagePickerController.delegate = (id)self;
     [self presentViewController:imagePickerController animated:YES completion:^{
     }];
+    
+    NSDictionary *params = @{@"source": @"library"};
+    [Answers logCustomEventWithName:@"Sign up pick photo" customAttributes:params];
+    [FBSDKAppEvents logEvent:@"Sign up pick photo" parameters:params];
 }
 
 - (IBAction)getNewPhoto:(id)sender
@@ -328,6 +341,10 @@ NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
     [self presentViewController:imagePickerController animated:YES completion:^{
         
     }];
+    
+    NSDictionary *params = @{@"source": @"camera"};
+    [Answers logCustomEventWithName:@"Sign up pick photo" customAttributes:params];
+    [FBSDKAppEvents logEvent:@"Sign up pick photo" parameters:params];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info

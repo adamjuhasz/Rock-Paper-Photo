@@ -3,4 +3,6 @@ framework module DigitsKit {
     
     export *
     module * { export * }
+
+    link framework "AddressBook"
 }
